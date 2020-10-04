@@ -1,0 +1,193 @@
+@charset "UTF-8";
+
+@font-face { font-family: 'TmoneyRoundWindExtraBold'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-07@1.0/TmoneyRoundWindExtraBold.woff') format('woff'); font-weight: normal; font-style: normal; }
+@font-face { font-family: 'CookieRunOTF-Bold'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_twelve@1.0/CookieRunOTF-Bold00.woff') format('woff'); font-weight: normal; font-style: normal; }
+@font-face { font-family: 'ImcreSoojin'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.3/ImcreSoojin.woff') format('woff'); font-weight: normal; font-style: normal; }
+/* font-family: 'NanumSquare', sans-serif; */
+/*
+color: #eb9316; 살짝어두운노랑
+#f0ad4e 밝은노랑
+*/
+a{
+	text-decoration: none !important;
+}
+.font20{
+	font-size: 20px;
+}
+.text-yellow{
+	color: #eb9316;
+}
+.titlediv{
+	margin-bottom: 20px;
+}
+.titleText{
+	font-family: 'ImcreSoojin' !important;
+	font-size: 40px;
+	font-weight: 600;
+}
+.star{
+	font-family: 'TmoneyRoundWindExtraBold';
+}
+.displayCenter{
+	display: flex;
+	justify-content: center;
+}
+.container{
+	margin-top: 128px;
+}
+.box{
+	border: solid 2px #dbdbdb;
+	background: white;
+	width: 500px;
+    margin: 0 auto;	
+    flex-direction: column;
+    align-items: center;
+    padding: 30px 0;
+}
+.input-group{
+	margin: 7px 0;
+	width: 400px;
+}
+.input-group input{
+	height: 50px;
+	border-radius: 5px !important;
+	font-size: 18px;
+}
+#submitBtn{
+	border-radius: 5px;
+	height: 50px;
+    margin-top: 10px;
+    font-size: 20px;
+    font-weight: 600;
+    font-family: 'NanumSquare', sans-serif;
+}
+.orLine{
+	margin: 20px 0 ;
+}
+.line{
+	width: 150px;
+    border-top: solid 3px lightgray;
+    margin-top: 10px;
+}
+.or{
+	margin: 0 20px;
+    font-size: 18px;
+    font-family: 'NanumSquare', sans-serif;
+    color: #626262;
+    font-weight: 550;
+}
+#naver_id_login{
+    margin-top: 10px;
+}
+#naver_id_login a{
+	align-items: center;
+}
+
+#naver_id_login .completeType{
+    background: rgb(30,200, 0);
+    border-radius: 5px;
+    padding: 5px 0;
+}
+#naver_id_login a .naverIDLogin{
+	color: green;
+	font-weight: 600;
+	margin-left: 7px;
+	font-family: 'NanumSquare', sans-serif;
+}
+#fgpw{
+	font-size: 18px;
+	margin-top: 10px;
+	font-family: 'NanumSquare', sans-serif;
+	color: black;
+}
+#fgpw:hover{
+	color: darkgray;
+}
+.box2{
+	margin-top: 20px;
+}
+.goSignup:hover{
+	color: rgb(211, 130, 18);
+}
+.signup a{
+	margin-left: 10px;
+	font-weight: 600;
+}
+input{
+	font-weight: 500;
+}
+
+.signupBottomtext{
+	margin: 20px 0;
+    font-size: 18px;
+    color: gray;
+    text-align: center;
+}
+.naverLoginText{
+	color: white;
+	font-size: 20px;	
+	font-family: 'NanumSquare', sans-serif;
+	font-weight: 600;
+	margin-left: 10px;
+}
+.imageDisplay{
+	height: 100%;
+	align-items: center;
+	margin-right: 5px;
+}
+.inputSuccess{
+	background-image: url(https://www.flaticon.com/svg/static/icons/svg/179/179372.svg);	
+}
+.inputError{
+	background-image: url(https://www.flaticon.com/svg/static/icons/svg/179/179429.svg);
+}
+.inputRefresh{
+	background-image: url(https://www.flaticon.com/svg/static/icons/svg/758/758907.svg);
+}
+.signupImage{
+	background-repeat: no-repeat;
+	background-size: contain;
+	width: 35px;
+	height: 35px;
+	margin: 0 3px;
+}
+.signupInput{
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	border: 1px solid rgba(var(--ca6,219,219,219),1);
+	border-radius: 7px;
+}
+.signupLabel{
+	display: flex;
+	flex-direction: column;
+    margin-bottom: 0;
+}
+.signupLabel:not(.notLabel){
+	width: 100%;
+}
+.signupLabel span{
+    font-size: 13px;
+    color: #696969;
+    display: none;
+    padding: 2px 0 0 8px;
+}
+.signupLabel input{
+	padding: 0;
+    height: 50px;  /* keydown시 30px*/
+    outline: none;
+    border: none;
+    text-overflow: ellipsis;
+    background: none;
+    padding-left: 8px;
+}
+.pwBtn{
+	border: none;
+    /* background: none; */
+    font-size: 14px;
+    margin: 0 2px;
+    outline: none;
+}
+.pwBtn:hover{
+	background: #dbdbdb;
+}

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="mj.project.mapper.MemberMapper">
+  
+  	<resultMap type="mj.project.domain.MemberVO" id="memberMap">
+  		<id property="username" column="username"/>
+  		<result property="username" column="username"/>
+  		<result property="name" column="name"/>
+  		<result property="userid" column="userid"/>
+  		<result property="userpwd" column="userpwd"/>
+  		<collection property="authList" resultMap="authMap"></collection>
+  	</resultMap>
+  	<resultMap type="mj.project.domain.AuthVO" id="authMap">
+  		<result property="username" column="username"/>
+  		<result property="auth" column="auth"/>
+  	</resultMap>
+  	
+  	<select id="read" resultMap="memberMap">
+  		SELECT  m.username, name, userid, userpwd, auth
+  		FROM tbl_member m LEFT OUTER JOIN tbl_member_auth au ON m.username = au.username
+  		WHERE m.username = #{username}
+  	</select>
+  	
+  	<insert id="insert" >
+  		INSERT INTO tbl_member(username, name, userid, userpwd)
+  		VALUES( #{username}, #{name}, #{userid}, #{userpwd})
+  	</insert>
+  	
+  	<insert id="authInsert" parameterType="map">
+  		INSERT INTO tbl_member_auth(username, auth)
+  		VALUES( #{username} , #{auth})
+  	</insert>
+  	
+  </mapper>
