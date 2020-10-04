@@ -9,14 +9,19 @@
 </head>
 <body style="background: rgba(var(--b3f,250,250,250),1);">
 <div class="container">
+	<c:if test="${ not empty error || not empty logout }">
+		<div class="box box2">
+			<div class="signup displayCenter font20" style="color: red;">
+				<c:out value="${ error }" />
+				<c:out value="${ logout }" />
+			</div>
+		</div>
+	</c:if>
 	<div class="box displayCenter">
 		<div class="displayCenter titlediv">
 			<h1 class="titleText">MIN <span class="star text-yellow">★</span> GRAM</h1>
-			<h2>LOGIN</h2>
 		</div>
 		<div>
-		<c:out value="${ error }" />
-		<c:out value="${ logout }" />
 		</div>
 		<form action="/login" method="post" >
 			<input type="hidden" name="${ _csrf.parameterName }" value="${ _csrf.token }" >

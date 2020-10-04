@@ -105,6 +105,7 @@ a{
 }
 .box2{
 	margin-top: 20px;
+	margin-bottom: 20px;
 }
 .goSignup:hover{
 	color: rgb(211, 130, 18);

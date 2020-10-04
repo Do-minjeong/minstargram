@@ -4,7 +4,7 @@
 <html>
 <head>
 <title>Home</title>
-<%@ include file="includes/header.jsp"%>
+<%@ include file="../includes/header.jsp"%>
 <link rel="stylesheet" href="/resources/home.css?As">
 </head>
 <body style="background: rgba(var(--b3f,250,250,250),1);">
@@ -12,7 +12,6 @@
 	<div class="box displayCenter">
 		<div class="displayCenter titlediv">
 			<h1 class="titleText">MIN <span class="star text-yellow">★</span> GRAM</h1>
-			<h2>HOME</h2>
 		</div>
 		<div>
 			<form action="/customLogout" method="post">
