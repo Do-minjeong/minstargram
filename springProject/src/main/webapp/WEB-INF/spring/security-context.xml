@@ -19,7 +19,7 @@
 	<!-- <security:form-login login-page="/login" authentication-success-handler-ref="customLoginSuccess"/> -->
 	<!-- <security:form-login login-page="/customLogin" authentication-success-handler-ref="customLoginSuccess" /> -->
 	<security:form-login login-page="/customLogin" />
-	<security:logout logout-url="/customLogout" invalidate-session="true" delete-cookies="JSESSIONID"/>
+	<security:logout logout-url="/logout" invalidate-session="true" delete-cookies="JSESSIONID, cauth_state"/>
 </security:http>
 
 <security:authentication-manager>

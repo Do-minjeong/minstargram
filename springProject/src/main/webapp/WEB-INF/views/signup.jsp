@@ -23,6 +23,7 @@
 		</div>
 		<form action="/signup" method="post" class="signupForm">
 			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+			<input type="hidden" name="login_type_no" value="1">
 			<div class="input-group signupInput">
 				<label class="signupLabel">
 					<span>휴대폰 번호 또는 이메일 주소</span>

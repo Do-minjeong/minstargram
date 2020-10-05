@@ -13,6 +13,14 @@ public interface MemberMapper {
 	public int selectMemberNo(String username);
 
 	public int authInsert(@Param("auth") String auth,  @Param("member_no") int member_no);
+
+	public int selectUsername(String username);
+
+	public int insertSocial(MemberVO member);
+
+	public int insertSocialId(MemberVO member);
+
+	public int updateUserID(@Param("username") String username, @Param("userid")  String userid);
 	
 }
 

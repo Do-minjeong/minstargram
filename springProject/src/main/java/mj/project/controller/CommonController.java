@@ -1,13 +1,13 @@
 package mj.project.controller;
 
 import java.io.IOException;
-import java.security.Principal;
-import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -39,24 +39,34 @@ public class CommonController {
 	private String apiResult = null;
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String home(HttpServletRequest request, Authentication auth, Model model) {
-		log.info(">>>> session: "+auth);
+	public String home(HttpServletRequest request, HttpSession session, Authentication auth, Model model) {
+		log.info(">>>> auth: "+auth);
+		log.info(">>>> session: "+session.getAttribute("cauth_state"));
 		System.out.println("home 진입");
-		if(auth == null) {
+		if(auth == null && session.getAttribute("cauth_state") == null) {
 			return "redirect:customLogin";
 		}
 		return "users/home";
 	}
 
 	@GetMapping("/signup")
-	public void signup() { }
+	public void signup(HttpSession session, Model model) { 
+		// 네이버 아이디로 인증 url을 생성하기 위해 naverLoginBO 클래스의 getAuthorizationUrl 메소드 호출
+		String naverAuthUrl = naverLoginBO.getAuthorizationUrl(session);
+
+		log.info("회원가입 네이버: "+naverAuthUrl);
+
+		// 네이버
+		model.addAttribute("url", naverAuthUrl);	
+		
+	}
 
 	@PostMapping("/signup")
 	public String signup(MemberVO member) {
 		log.info("========================");
 		log.info("회원가입: "+member);
 		if(member.getName() == null) member.setName("");
-		log.info(">>>");
+		member.setLogin_type_no(1);
 		// 회원가입 성공
 		if(service.signup(member)) {
 			return "successSignup";
@@ -68,6 +78,7 @@ public class CommonController {
 	@RequestMapping("/customLogin")
 	public String loginInput(String error, String logout, Authentication auth, HttpSession session, Model model) {
 		System.out.println("login auth: "+auth);
+		System.out.println("login session: "+session.getAttribute("cauth_state"));
 		if(auth == null) {
 			log.info("error: " + error);
 			log.info("logout: " + logout);
@@ -90,17 +101,40 @@ public class CommonController {
 	}
 
 	@RequestMapping(value="/customLogin/callback", method= {RequestMethod.GET,RequestMethod.POST})
-	public String callback(Model model, @RequestParam String code, @RequestParam String state, HttpSession session) throws IOException{
+	public String callback(Model model, @RequestParam String code, @RequestParam String state, HttpSession session) throws IOException, ParseException{
 		System.out.println("callback 메소드");
 		OAuth2AccessToken oauthToken = naverLoginBO.getAccessToken(session, code, state);
-
 		// 로그인 사용자 정보를 읽어온다.
 		apiResult = naverLoginBO.getUserProfile(oauthToken);
-		System.out.println(naverLoginBO.getUserProfile(oauthToken));
-		model.addAttribute("result", apiResult);
+		session.setAttribute("apiResult", apiResult);
 		System.out.println("result: "+apiResult);
-
-		return "users/home";
+		
+		JSONParser jsonParser = new JSONParser();
+		JSONObject jsonObj = (JSONObject) jsonParser.parse(apiResult);
+		String user_info = String.valueOf(jsonObj.get("response"));
+		jsonObj = (JSONObject) jsonParser.parse(user_info);
+		
+		String username = String.valueOf(jsonObj.get("email"));
+		// 등록된 정보가 있을 경우
+		if(service.usernameCheck(username)) {
+			return "redirect:/";
+		} else {
+			service.signup(new MemberVO(username, String.valueOf(jsonObj.get("name")), String.valueOf(jsonObj.get("id")), 2));
+			model.addAttribute("username", username);
+			return "updateUserID";
+		}
+	}
+	
+	@PostMapping("/updateUserID")
+	public String updateUserID(String username, String userid, Model model) {
+		if(service.updateUserID(username, userid)) {
+			model.addAttribute("id_update", 1);
+			return "users/home";
+		}
+		else {
+			model.addAttribute("id_update", 0);
+			return "updateUserID";
+		}
 	}
 
 	@RequestMapping(value="/successLogin")
@@ -118,9 +152,11 @@ public class CommonController {
 	}
 
 	@PostMapping("/customLogout")
-	public String postLogout() {
+	public String postLogout(HttpSession session) {
 		log.info("post custom logout");
-		return "customLogin";
+		log.info(">> session: "+session.getAttribute("cauth_state"));
+		session.invalidate();
+		return "redirect:customLogin?logout";
 	}
 
 

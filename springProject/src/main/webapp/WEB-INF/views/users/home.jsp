@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <html>
 <head>
 <title>Home</title>
@@ -14,15 +15,15 @@
 			<h1 class="titleText">MIN <span class="star text-yellow">★</span> GRAM</h1>
 		</div>
 		<div>
-			<form action="/customLogout" method="post">
+			<form action="/customLogout" method="POST" >
 				<input type="hidden" name="${ _csrf.parameterName }" value="${ _csrf.token }" >
-				<fieldset>
-					<input type="submit" class="btn btn-lg btn-success" value="Logout"/>
-				</fieldset>
+				<input type="submit" class="btn btn-lg btn-success" value="Logout"/>
 			</form>
 		</div>
 	</div>
 </div>
-
+<script type="text/javascript">
+	var s = ${apiResult}.response.name;
+</script>
 </body>
 </html>

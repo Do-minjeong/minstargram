@@ -17,26 +17,55 @@
   		<result property="auth" column="auth"/>
   	</resultMap>
   	
+  	<!-- 로그인 하기 위한 read SQL -->
   	<select id="read" resultMap="memberMap">
   		SELECT  m.username, name, userid, password, auth
   		FROM members m LEFT OUTER JOIN auths au ON m.member_no = au.member_no
   		WHERE m.username = #{username}
   	</select>
   	
+  	<!-- 일반회원 회원가입시 insert하는 SQL -->
   	<insert id="insert" >
-  		INSERT INTO members(member_no, username, name, userid, password)
-  		VALUES( member_no_seq.nextval, #{username}, #{name}, #{userid}, #{password})
+  		INSERT INTO members(member_no, username, name, userid, password, login_type_no)
+  		VALUES( member_no_seq.NEXTVAL, #{username}, #{name}, #{userid}, #{password}, #{login_type_no})
   	</insert>
   	
+  	<!-- members 테이블의 PK MemberNo 가져오는 SQL -->
   	<select id="selectMemberNo" resultType="int">
   		SELECT member_no
   		FROM members
   		WHERE username = #{username}
   	</select>
   	
+  	<!-- 회원의 권한 INSERT하는 SQL -->
   	<insert id="authInsert" parameterType="map">
   		INSERT INTO auths(auth_no, auth, member_no)
-  		VALUES( auth_no_seq.nextval , #{auth} , #{member_no})
+  		VALUES( auth_no_seq.NEXTVAL , #{auth} , #{member_no})
   	</insert>
+  	
+  	<!-- Username이 중복되는 지 확인하기 위한 SQL -->
+  	<select id="selectUsername" resultType="int">
+  		SELECT COUNT(*)
+  		FROM members
+  		WHERE username = #{username}
+  	</select>
+  	
+  	<!-- 네이버로 회원가입 시 INSERT하는 SQL -->
+  	<insert id="insertSocial">
+  		INSERT INTO members(member_no, username, name, login_type_no)
+  		VALUES (member_no_seq.NEXTVAL, #{username}, #{name}, #{login_type_no})
+  	</insert>
+  	<!-- 네이버로 회원가입시 따로 고유 네이버아이디  INSERT하는 SQL -->
+  	<insert id="insertSocialId">
+  		INSERT INTO social_info
+  		VALUES (social_info_no_seq.NEXTVAL, #{userid}, #{member_no})
+  	</insert>
+  	
+  	<!-- UserID UPDATE하는 SQL -->
+  	<update id="updateUserID" parameterType="map">
+  		UPDATE members
+  		SET userid = #{userid}
+  		WHERE username = #{username}
+  	</update>
   	
   </mapper>
