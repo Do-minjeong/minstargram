@@ -9,7 +9,7 @@
   		<result property="username" column="username"/>
   		<result property="name" column="name"/>
   		<result property="userid" column="userid"/>
-  		<result property="userpwd" column="userpwd"/>
+  		<result property="password" column="password"/>
   		<collection property="authList" resultMap="authMap"></collection>
   	</resultMap>
   	<resultMap type="mj.project.domain.AuthVO" id="authMap">
@@ -18,19 +18,25 @@
   	</resultMap>
   	
   	<select id="read" resultMap="memberMap">
-  		SELECT  m.username, name, userid, userpwd, auth
-  		FROM tbl_member m LEFT OUTER JOIN tbl_member_auth au ON m.username = au.username
+  		SELECT  m.username, name, userid, password, auth
+  		FROM members m LEFT OUTER JOIN auths au ON m.member_no = au.member_no
   		WHERE m.username = #{username}
   	</select>
   	
   	<insert id="insert" >
-  		INSERT INTO tbl_member(username, name, userid, userpwd)
-  		VALUES( #{username}, #{name}, #{userid}, #{userpwd})
+  		INSERT INTO members(member_no, username, name, userid, password)
+  		VALUES( member_no_seq.nextval, #{username}, #{name}, #{userid}, #{password})
   	</insert>
   	
+  	<select id="selectMemberNo" resultType="int">
+  		SELECT member_no
+  		FROM members
+  		WHERE username = #{username}
+  	</select>
+  	
   	<insert id="authInsert" parameterType="map">
-  		INSERT INTO tbl_member_auth(username, auth)
-  		VALUES( #{username} , #{auth})
+  		INSERT INTO auths(auth_no, auth, member_no)
+  		VALUES( auth_no_seq.nextval , #{auth} , #{member_no})
   	</insert>
   	
   </mapper>

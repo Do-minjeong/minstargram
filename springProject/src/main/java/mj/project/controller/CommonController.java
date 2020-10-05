@@ -40,7 +40,7 @@ public class CommonController {
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(HttpServletRequest request, Authentication auth, Model model) {
-		//log.info(">>>> session: "+auth);
+		log.info(">>>> session: "+auth);
 		System.out.println("home 진입");
 		if(auth == null) {
 			return "redirect:customLogin";
@@ -67,6 +67,7 @@ public class CommonController {
 
 	@RequestMapping("/customLogin")
 	public String loginInput(String error, String logout, Authentication auth, HttpSession session, Model model) {
+		System.out.println("login auth: "+auth);
 		if(auth == null) {
 			log.info("error: " + error);
 			log.info("logout: " + logout);

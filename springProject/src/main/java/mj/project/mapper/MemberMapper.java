@@ -9,8 +9,10 @@ public interface MemberMapper {
 	public MemberVO read(String username);
 	
 	public int insert(MemberVO vo);
+	
+	public int selectMemberNo(String username);
 
-	public int authInsert(@Param("username") String username, @Param("auth")String auth);
+	public int authInsert(@Param("auth") String auth,  @Param("member_no") int member_no);
 	
 }
 

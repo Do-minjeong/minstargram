@@ -33,7 +33,7 @@ public class MemberServiceTests {
 		vo.setUsername("minjeong11@naver.com");
 		vo.setName("minjeong11");
 		vo.setUserid("minjeong11");
-		vo.setUserpwd(pwencoder.encode("minjeong11"));
+		vo.setPassword(pwencoder.encode("minjeong11"));
 		
 		boolean answer = service.signup(vo);
 		log.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  "+answer);

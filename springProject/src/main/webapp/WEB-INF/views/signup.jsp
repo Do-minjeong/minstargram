@@ -54,7 +54,7 @@
 			<div class="input-group signupInput">
 				<label class="signupLabel notLabel">
 					<span>비밀번호</span>				
-					<input type="password" name="userpwd" placeholder="비밀번호" required>
+					<input type="password" name="password" placeholder="비밀번호" required>
 				</label>
 				<div class="imageDisplay displayCenter">
 					<!-- INPUT 유효성 검사 후 SPAN태그 추가해서 이미지 삽입 -->

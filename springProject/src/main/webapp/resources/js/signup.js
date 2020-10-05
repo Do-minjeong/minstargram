@@ -42,7 +42,7 @@ $(".signupLabel input").focusout(function(){
 			check = 1;
 		}else if(name == 'userid'){
 			check = idCheck(value);
-		}else if(name == 'userpwd'){
+		}else if(name == 'password'){
 			check = passwordCheck(value);
 		}
 	}else if(value.length == 0 && name != 'userid')	check = 5;
@@ -141,11 +141,11 @@ $(".pwBtn").on("click",function(e){
 	e.preventDefault();
 	if(!pwbtnTog){
 		$(this).html("숨기기");
-		$("input[name=userpwd]").attr("type","text");
+		$("input[name=password]").attr("type","text");
 		pwbtnTog = true;
 	}else{
 		$(this).html("비밀번호표시");
-		$("input[name=userpwd]").attr("type","password");		
+		$("input[name=password]").attr("type","password");		
 		pwbtnTog = false;
 	}
 });
