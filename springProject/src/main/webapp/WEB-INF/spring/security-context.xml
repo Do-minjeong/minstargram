@@ -11,15 +11,13 @@
 <bean id="customAccessDenied" class="mj.project.security.CustomAccessDeniedHandler"></bean>
 <!-- <bean id="customPasswordEncoder" class="mj.project.security.CustomNoOpPasswordEncoder"></bean> -->
 <security:http>
-	<security:intercept-url pattern="/users/**" access="hasAnyRole('ROLE_ADMIN, ROLE_USER')" />
 	<security:intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')" />
-	<security:intercept-url pattern="/**" access="permitAll"/>
 	<security:access-denied-handler ref="customAccessDenied"/>
 	
 	<!-- <security:form-login login-page="/login" authentication-success-handler-ref="customLoginSuccess"/> -->
 	<!-- <security:form-login login-page="/customLogin" authentication-success-handler-ref="customLoginSuccess" /> -->
 	<security:form-login login-page="/customLogin" />
-	<security:logout logout-url="/logout" invalidate-session="true" delete-cookies="JSESSIONID, cauth_state"/>
+	<security:logout logout-url="/customLogout" invalidate-session="true" delete-cookies="JSESSIONID, cauth_state"/>
 </security:http>
 
 <security:authentication-manager>

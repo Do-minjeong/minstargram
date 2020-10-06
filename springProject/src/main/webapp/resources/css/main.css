@@ -1,0 +1,23 @@
+@charset "UTF-8";
+
+.box-setting{
+	background-color: white;
+	border: solid 2px #dbdbdb;
+	border-radius: 5px;
+}
+.total-block{
+	margin: 0 18%;
+	padding: 50px 30px;
+}
+.right-block{
+	width: 800px;
+}
+.left-block{
+	width: 
+}
+.livebox{
+	height: 170px;
+	margin-bottom: 40px;
+}
+.article{
+}

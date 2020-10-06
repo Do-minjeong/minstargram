@@ -1,6 +1,5 @@
 package mj.project.service;
 
-import org.json.simple.parser.ParseException;
 
 import mj.project.domain.MemberVO;
 

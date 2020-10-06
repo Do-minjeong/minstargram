@@ -38,15 +38,15 @@ public class CommonController {
 	private NaverLoginBO naverLoginBO;
 	private String apiResult = null;
 
-	@RequestMapping(value = "/", method = RequestMethod.GET)
+	@RequestMapping(value = {"/", "/home"}, method = RequestMethod.GET)
 	public String home(HttpServletRequest request, HttpSession session, Authentication auth, Model model) {
 		log.info(">>>> auth: "+auth);
-		log.info(">>>> session: "+session.getAttribute("cauth_state"));
+		log.info(">>>> session: "+session.getAttribute("apiResult"));
 		System.out.println("home 진입");
-		if(auth == null && session.getAttribute("cauth_state") == null) {
+		if(auth == null && session.getAttribute("apiResult") == null) {
 			return "redirect:customLogin";
 		}
-		return "users/home";
+		return "home";
 	}
 
 	@GetMapping("/signup")
@@ -72,14 +72,14 @@ public class CommonController {
 			return "successSignup";
 		}
 
-		return "users/home";
+		return "home";
 	}
 
 	@RequestMapping("/customLogin")
 	public String loginInput(String error, String logout, Authentication auth, HttpSession session, Model model) {
 		System.out.println("login auth: "+auth);
-		System.out.println("login session: "+session.getAttribute("cauth_state"));
-		if(auth == null) {
+		System.out.println("login session: "+session.getAttribute("apiResult"));
+		if(auth == null && session.getAttribute("apiResult")==null) {
 			log.info("error: " + error);
 			log.info("logout: " + logout);
 
@@ -95,7 +95,7 @@ public class CommonController {
 			// 네이버
 			model.addAttribute("url", naverAuthUrl);	
 			return "customLogin";
-		} else return "users/home";
+		} else return "home";
 		
 
 	}
@@ -107,7 +107,7 @@ public class CommonController {
 		// 로그인 사용자 정보를 읽어온다.
 		apiResult = naverLoginBO.getUserProfile(oauthToken);
 		session.setAttribute("apiResult", apiResult);
-		System.out.println("result: "+apiResult);
+		//System.out.println("result: "+apiResult);
 		
 		JSONParser jsonParser = new JSONParser();
 		JSONObject jsonObj = (JSONObject) jsonParser.parse(apiResult);
@@ -129,7 +129,7 @@ public class CommonController {
 	public String updateUserID(String username, String userid, Model model) {
 		if(service.updateUserID(username, userid)) {
 			model.addAttribute("id_update", 1);
-			return "users/home";
+			return "home";
 		}
 		else {
 			model.addAttribute("id_update", 0);
@@ -152,9 +152,15 @@ public class CommonController {
 	}
 
 	@PostMapping("/customLogout")
-	public String postLogout(HttpSession session) {
+	public String customLogout() {
 		log.info("post custom logout");
-		log.info(">> session: "+session.getAttribute("cauth_state"));
+		
+		return "redirect:customLogin?logout";
+	}
+	
+	@PostMapping("/socialLogout")
+	public String socialLogout(HttpSession session) {
+		log.info(">> session logout: "+session.getAttribute("apiResult"));
 		session.invalidate();
 		return "redirect:customLogin?logout";
 	}
