@@ -15,4 +15,7 @@ public class MainController {
 	public void mainHome() {
 		log.info("/main/mainHome controller 접속");
 	}
+	
+	@GetMapping("/write")
+	public void getWrite() { }
 }

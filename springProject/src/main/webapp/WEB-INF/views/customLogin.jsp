@@ -40,7 +40,7 @@
 		</div>
 		<div id="naver_id_login" class="input-group" >
 			<a href="${url}" class="displayCenter iconType">
-				<img alt="" src="https://t1.daumcdn.net/cfile/tistory/99117C3F5D04CEE519" width="30px"><span class="font20 naverIDLogin">네이버 아이디로 로그인</span>
+				<img alt="" src="https://t1.daumcdn.net/cfile/tistory/99117C3F5D04CEE519" width="20px"><span class="font20 naverIDLogin">네이버 아이디로 로그인</span>
 			</a>
 		</div>
 		<div class="input-group">

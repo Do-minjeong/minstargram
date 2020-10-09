@@ -11,18 +11,22 @@ color: #eb9316; 살짝어두운노랑
 a{
 	text-decoration: none !important;
 }
+body{
+	display: flex;
+    align-items: center;
+}
 .font20{
-	font-size: 20px;
+	font-size: 16px;
 }
 .text-yellow{
 	color: #eb9316;
 }
 .titlediv{
-	margin-bottom: 20px;
+	margin-bottom: 5px;
 }
 .titleText{
 	font-family: 'ImcreSoojin' !important;
-	font-size: 40px;
+	font-size: 35px;
 	font-weight: 600;
 }
 .star{
@@ -33,12 +37,12 @@ a{
 	justify-content: center;
 }
 .container{
-	margin-top: 128px;
+	margin-top: 30px;
 }
 .box{
 	border: solid 2px #dbdbdb;
 	background: white;
-	width: 500px;
+	width: 350px;
     margin: 0 auto;	
     flex-direction: column;
     align-items: center;
@@ -46,32 +50,34 @@ a{
 }
 .input-group{
 	margin: 7px 0;
-	width: 400px;
+	width: 270px;
 }
 .input-group input{
-	height: 50px;
+	height: 38px;
 	border-radius: 5px !important;
-	font-size: 18px;
+	font-size: 14px;
 }
 #submitBtn{
 	border-radius: 5px;
-	height: 50px;
+	height: 38px;
     margin-top: 10px;
-    font-size: 20px;
+    font-size: 17px;
     font-weight: 600;
     font-family: 'NanumSquare', sans-serif;
 }
 .orLine{
+	width: 100%;
 	margin: 20px 0 ;
 }
 .line{
-	width: 150px;
+	width: 100%;
     border-top: solid 3px lightgray;
     margin-top: 10px;
 }
 .or{
-	margin: 0 20px;
-    font-size: 18px;
+	margin: 0 15px;
+	width: 70px;
+    font-size: 14px;
     font-family: 'NanumSquare', sans-serif;
     color: #626262;
     font-weight: 550;
@@ -95,7 +101,7 @@ a{
 	font-family: 'NanumSquare', sans-serif;
 }
 #fgpw{
-	font-size: 18px;
+	font-size: 14px;
 	margin-top: 10px;
 	font-family: 'NanumSquare', sans-serif;
 	color: black;
@@ -120,13 +126,13 @@ input{
 
 .signupBottomtext{
 	margin: 20px 0;
-    font-size: 18px;
+    font-size: 14px;
     color: gray;
     text-align: center;
 }
 .naverLoginText{
 	color: white;
-	font-size: 20px;	
+	font-size: 16px;	
 	font-family: 'NanumSquare', sans-serif;
 	font-weight: 600;
 	margin-left: 10px;
@@ -148,8 +154,8 @@ input{
 .signupImage{
 	background-repeat: no-repeat;
 	background-size: contain;
-	width: 35px;
-	height: 35px;
+	width: 25px;
+	height: 25px;
 	margin: 0 3px;
 }
 .signupInput{
@@ -168,14 +174,14 @@ input{
 	width: 100%;
 }
 .signupLabel span{
-    font-size: 13px;
+    font-size: 10px;
     color: #696969;
     display: none;
     padding: 2px 0 0 8px;
 }
 .signupLabel input{
 	padding: 0;
-    height: 50px;  /* keydown시 30px*/
+    height: 38px;  /* keydown시 30px*/
     outline: none;
     border: none;
     text-overflow: ellipsis;
@@ -185,7 +191,7 @@ input{
 .pwBtn{
 	border: none;
     /* background: none; */
-    font-size: 14px;
+    font-size: 10px;
     margin: 0 2px;
     outline: none;
 }

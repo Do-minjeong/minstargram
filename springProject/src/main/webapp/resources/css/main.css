@@ -23,19 +23,49 @@
 .left-block{
 	max-width: 290px;
 	width: 100%;
-	background: yellow;
 	height: 300px;
+	border: solid 2px yellow;
 }
 .livebox{
 	height: 120px;
+	padding: 16px 0;
 	margin-bottom: 30px;
 }
+.live-list{
+	list-style: none;
+	padding-left: 10px;
+	display: flex;
+}
+.live-list li{
+	display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 80px;
+    padding: 0 5px;
+}
+.canvas{
+	border-radius: 50%;
+	border: solid 2px rgb(235,147,22);
+	align-items: center;
+}
 .live-canvas{
-	
-	
+	width: 65px;
+	height: 65px;
 }
 .live-profile-pic{
-	
+	width: 55px;
+	height: 55px;
+	border-radius: 50%;
+	overflow: hidden;
+}
+.live-profile-pic img{
+	width: 100%;
+	height: 100%;
+}
+.live-id{
+	font-size: 12px;
+    font-weight: 550;
+    margin-top: 5px;
 }
 .article{
 	margin-bottom: 40px;
@@ -52,12 +82,9 @@
 	display: flex;
 	align-items: center;
 }
-.canvas{
+.aticle-canvas{
 	width: 45px;
 	height: 42px;
-	border-radius: 50%;
-	border: solid 2px rgb(235,147,22);
-	align-items: center;
 }
 .profile-pic{
 	border-radius: 50%;
@@ -139,10 +166,25 @@
 	height: 20px;
 	padding: 0;
 }
-.comment-form button[type='submit']{
-	color: #0095f6;
+.comment-form button{
+	color: #eb9316;
 	width: 30px;
 	padding: 0;
 	font-weight: 550;
+	font-size: 15px;
 }
+.comment-form button:disabled{
+	color: rgba( 235, 147, 22, 0.5);
+}
+
+/*  ***** ******************************************** */
+.write-btn{
+	background: #eb9316;
+	color: white;
+	width: 100%;
+	height: 40px;
+	border-radius: 5px;
+}
+
+
 

@@ -8,23 +8,41 @@
 <%@ include file="../includes/header.jsp"%>
 <%@ include file="includes/header.jsp"%>
 </head>
-<body style="background: rgba(var(--b3f,250,250,250),1);">
-
+<body>
 <div class="total-block displayCenter">
 	<div class="right-block">
 		<div class="livebox box-setting">
-				<div class="live-canvas displayCenter">
-					<div class="live-profile-pic">
-						<img alt="" src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSw1gQ3kuXFIpGaAuXc_QyaPBaSpbQQXhs1FA&usqp=CAU">
-					</div>
-				</div>
+			<div class="live-profile-box">
+				<ul class="live-list">
+					<li>
+						<button class="btnNone">
+							<div class="canvas live-canvas displayCenter">
+								<div class="live-profile-pic">
+									<img alt="" src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSw1gQ3kuXFIpGaAuXc_QyaPBaSpbQQXhs1FA&usqp=CAU">
+								</div>
+							</div>
+							<div class="live-id">domjjang</div>
+						</button>
+					</li>
+					<li>
+						<button class="btnNone">
+							<div class="canvas live-canvas displayCenter">
+								<div class="live-profile-pic">
+									<img alt="" src="https://pgnqdrjultom1827145.cdn.ntruss.com/img/ac/d9/acd9e51301a4b61d17e6ce3fe8660dd0166a7aaf0fde2da09196e5ce019ce311_v1.jpg">
+								</div>
+							</div>
+							<div class="live-id">minjeong97</div>
+						</button>
+					</li>
+				</ul>
 			</div>
-		<div class="articlebox">
+		</div>
+	<div class="articlebox">
 			<div class="articles">
 				<article class="article box-setting">
 					<header>
 						<div class="article-header">
-							<div class="canvas displayCenter">
+							<div class="aticle-canvas canvas displayCenter">
 								<div class="profile-pic">
 									<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSw1gQ3kuXFIpGaAuXc_QyaPBaSpbQQXhs1FA&usqp=CAU">
 								</div>
@@ -66,7 +84,7 @@
 							<div class="comment-input">
 								<form action="" class="comment-form displayCenter">
 									<textarea wrap="virtual" cols="38" class="btnNone" placeholder="댓글 달기.."></textarea>
-									<button type="submit" class="btnNone">게시</button>
+									<button type="submit" class="btnNone" disabled>게시</button>
 								</form>
 							</div>
 						</div>
@@ -81,11 +99,11 @@
 	
 	</div>
 	<div class="left-block">
-	
+		<div>
+			<button class="write-btn btnNone" onclick="location.href='/main/write'">글쓰기</button>
+		</div>
 	</div>
-
-
 </div>
-
+<script type="text/javascript" src="/resources/js/mainHome.js"></script>
 </body>
 </html>

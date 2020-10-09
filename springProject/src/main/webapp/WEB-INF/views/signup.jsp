@@ -15,7 +15,7 @@
 		</div>
 		<div id="naver_id_login" class="input-group" >
 			<a href="${url}" class="displayCenter completeType">
-				<img alt="" src="/resources/images/naver_ID_login_icon_TYPE.png" height="40px"><span class="naverLoginText">네이버 아이디로 로그인</span>
+				<img alt="" src="/resources/images/naver_ID_login_icon_TYPE.png" height="30px"><span class="naverLoginText">네이버 아이디로 로그인</span>
 			</a>
 		</div>
 		<div class="orLine displayCenter">
@@ -71,7 +71,7 @@
 				<span class="regexError" style="color: red;"></span>
 			</div>
 			<div class="input-group signupBottomtext">
-				<span>가입하면 Minstargram의 <b>약관</b>, <b>데이터 정책</b> 및<br><b>쿠키 정책</b>에 동의하게 됩니다.</span>
+				<span>가입하면 Minstargram의 <b>약관</b>, <b>데이터 정책</b><br>및 <b>쿠키 정책</b>에 동의하게 됩니다.</span>
 			</div>
 		</form>
 	</div>
