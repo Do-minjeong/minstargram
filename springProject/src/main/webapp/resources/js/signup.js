@@ -8,13 +8,11 @@ var id_regex = /^[A-Za-z0-9_\\.]{1,}$/;
 $(".signupLabel input").keyup(function(key){
 	var val = this.value;
 	if(val.length==0){
-		console.log("if");
 		$(this).parent().next().children(".signupImage:not(.inputRefresh)").remove();
 		$(this).prev().hide(100);
-		$(this).css("height","50px");
+		$(this).css("height","38px");
 		inputTog = false;
 	}else if(!inputTog && val.length>0){
-		console.log("else");
 		$(this).prev().show(100);
 		$(this).css("height","30px");
 		inputTog = true;

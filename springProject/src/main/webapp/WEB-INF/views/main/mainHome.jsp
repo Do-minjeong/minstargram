@@ -9,6 +9,9 @@
 <%@ include file="includes/header.jsp"%>
 </head>
 <body>
+<script type="text/javascript">
+	$("img[alt='home']").attr("src","https://www.flaticon.com/svg/static/icons/svg/1946/1946436.svg")
+</script>
 <div class="total-block displayCenter">
 	<div class="right-block">
 		<div class="livebox box-setting">
@@ -100,7 +103,7 @@
 	</div>
 	<div class="left-block">
 		<div>
-			<button class="write-btn btnNone" onclick="location.href='/main/write'">글쓰기</button>
+			<button class="write-btn btnNone btn-warning" onclick="location.href='/main/write'">글쓰기</button>
 		</div>
 	</div>
 </div>

@@ -7,7 +7,9 @@
 <div class="header-container">
 	<div class="header">
 		<div>
-			<h1 class="titleText">MIN <span class="star">★</span> GRAM</h1>
+			<button class="btnNone" onclick="location.href='/main/mainHome'">
+				<h1 class="titleText">MIN <span class="star">★</span> GRAM</h1>
+			</button>
 		</div>
 		<div class="searchbox displayCenter">
 			<img alt="searchImg" src="https://www.flaticon.com/svg/static/icons/svg/25/25313.svg" >

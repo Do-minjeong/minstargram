@@ -44,13 +44,13 @@ body{
 	width: 200px;
 	height: 30px;
 	background-color: rgba(var(--b3f,250,250,250),1);
-	font-size: 16px;
+	font-size: 14px;
 	align-items: center;
 }
 img[alt='searchImg']{
 	margin-right: 5px;
 	margin-bottom: 2px;
-	width: 16px;
+	width: 14px;
 }
 .iconbox{
 	align-items: center;
@@ -61,5 +61,9 @@ img[alt='searchImg']{
 .icon a img{
 	width: 22px;
 }
-
+.btnNone{
+	outline: none;
+	border: none;
+	background: none;
+}
 
