@@ -12,7 +12,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
-import mj.project.domain.AuthVO;
 import mj.project.domain.MemberVO;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -28,7 +27,7 @@ public class MemberMapperTests {
 		MemberVO vo = mapper.read("domjjang@naver.com");
 		
 		log.info(vo);
-		vo.getAuthList().forEach(authVO -> log.info(authVO));
+		//vo.getAuthList().forEach(authVO -> log.info(authVO));
 		
 	}
 

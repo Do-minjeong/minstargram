@@ -11,4 +11,6 @@ public interface MemberService {
 
 	public boolean updateUserID(String username, String userid);
 
+	public boolean userIdCheck(String username);
+
 }

@@ -77,8 +77,8 @@ public class CommonController {
 
 	@RequestMapping("/customLogin")
 	public String loginInput(String error, String logout, Authentication auth, HttpSession session, Model model) {
-		System.out.println("login auth: "+auth);
-		System.out.println("login session: "+session.getAttribute("apiResult"));
+		System.out.println("loginInput 메소드 > login auth: "+auth);
+		System.out.println("loginInput 메소드 > login session: "+session.getAttribute("apiResult"));
 		if(auth == null && session.getAttribute("apiResult")==null) {
 			log.info("error: " + error);
 			log.info("logout: " + logout);
@@ -106,8 +106,8 @@ public class CommonController {
 		OAuth2AccessToken oauthToken = naverLoginBO.getAccessToken(session, code, state);
 		// 로그인 사용자 정보를 읽어온다.
 		apiResult = naverLoginBO.getUserProfile(oauthToken);
-		session.setAttribute("apiResult", apiResult);
-		//System.out.println("result: "+apiResult);
+		//session.setAttribute("apiResult", apiResult);
+		System.out.println("result: "+apiResult);
 		
 		JSONParser jsonParser = new JSONParser();
 		JSONObject jsonObj = (JSONObject) jsonParser.parse(apiResult);
@@ -117,16 +117,21 @@ public class CommonController {
 		String username = String.valueOf(jsonObj.get("email"));
 		// 등록된 정보가 있을 경우
 		if(service.usernameCheck(username)) {
-			return "redirect:/";
-		} else {
-			service.signup(new MemberVO(username, String.valueOf(jsonObj.get("name")), String.valueOf(jsonObj.get("id")), 2));
-			model.addAttribute("username", username);
-			return "updateUserID";
+			System.out.println("등록된 정보가 있다.");
+			if(!service.userIdCheck(username)) {
+				System.out.println("id등록도 완료되었따.");
+				return "redirect:/";
+			} else return "redirect:/updateUserID";
 		}
+		service.signup(new MemberVO(username, String.valueOf(jsonObj.get("name")), "<REGISTER_REQUIRED>", 2, String.valueOf(jsonObj.get("id"))));
+		model.addAttribute("username", username);
+		return "redirect:/updateUserID";
 	}
+	@GetMapping("/updateUserID")
+	public void getUpdateUserId() {}
 	
 	@PostMapping("/updateUserID")
-	public String updateUserID(String username, String userid, Model model) {
+	public String postUpdateUserID(String username, String userid, Model model) {
 		if(service.updateUserID(username, userid)) {
 			model.addAttribute("id_update", 1);
 			return "home";

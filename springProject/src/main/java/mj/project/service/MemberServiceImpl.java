@@ -24,30 +24,20 @@ public class MemberServiceImpl implements MemberService{
 	@Transactional
 	public boolean signup(MemberVO member) {
 		log.info("MemberService signup Method");
-		int insertResult = 0;
 		int typeNo = member.getLogin_type_no();
-		if(typeNo == 1) {
-			String encodepwd = pwencoder.encode(member.getPassword());
-			member.setPassword(encodepwd);
-			insertResult = mapper.insert(member);			
-		}else if (typeNo == 2) {
-			insertResult = mapper.insertSocial(member);
-		}
 		
-		member.setMember_no(mapper.selectMemberNo(member.getUsername()));
-		log.info(">> service signup "+member.getUsername());
+		if(typeNo == 1 && member.getUserid().startsWith("minstarAdmin")) member.setAuth("ROLE_ADMIN");
+		else member.setAuth("ROLE_USER");
 		
-		 if( insertResult == 1) {
-			 if(typeNo == 2) mapper.insertSocialId(member);
-			 
-			 mapper.authInsert("ROLE_USER", member.getMember_no());
-			 
-			 if(member.getUserid().startsWith("minstarAdmin")) mapper.authInsert("ROLE_ADMIN", member.getMember_no());
-			 
-			 return true;
-		 }
-		 
-		return false;
+		int insertResult = mapper.insert(member);
+		
+		if(typeNo == 1) member.setPassword(pwencoder.encode(member.getPassword()));
+		
+		insertResult += mapper.insertDetailInfo(member);
+		
+		log.info(">> service signup : "+member.getUsername());
+		
+		return insertResult == 2? true: false;
 	}
 
 	@Override
@@ -60,6 +50,14 @@ public class MemberServiceImpl implements MemberService{
 	public boolean updateUserID(String username, String userid) {
 		
 		return mapper.updateUserID(username, userid)==1? true: false;
+	}
+
+	@Override
+	public boolean userIdCheck(String username) {
+		String id = mapper.userIdCheck(username);
+		System.out.println("userIdCheck Method : "+id);
+		// ID등록이 필요한가? YES = true
+		return id.startsWith("<REGISTER");
 	}
 
 }

@@ -19,28 +19,42 @@
   	
   	<!-- 로그인 하기 위한 read SQL -->
   	<select id="read" resultMap="memberMap">
-  		SELECT  m.username, name, userid, password, auth
+  		SELECT  m.username, name, userid, auth, password
   		FROM members m LEFT OUTER JOIN auths au ON m.member_no = au.member_no
+  			 JOIN general_members gm ON m.member_no = gm.member_no
   		WHERE m.username = #{username}
   	</select>
   	
-  	<!-- 일반회원 회원가입시 insert하는 SQL -->
-  	<insert id="insert" >
-  		INSERT INTO members(member_no, username, name, userid, password, login_type_no)
-  		VALUES( member_no_seq.NEXTVAL, #{username}, #{name}, #{userid}, #{password}, #{login_type_no})
-  	</insert>
+  	<!-- 회원가입시 공통적으로 insert하는 SQL -->
+  	<update id="insert" >
+  		<selectKey keyProperty="member_no" resultType="int" order="BEFORE">
+  			SELECT member_no_seq.NEXTVAL FROM dual
+  		</selectKey>
+  		{CALL
+  		 DECLARE
+  		 BEGIN
+  			 
+  			 INSERT INTO members(member_no, username, name, userid, login_type_no)
+  		 	 VALUES( #{member_no}, #{username}, #{name}, #{userid}, #{login_type_no});
+  		 	 
+  		 	 INSERT INTO auths(auth_no, auth, member_no)
+  			 VALUES( auth_no_seq.NEXTVAL , #{auth} , #{member_no});
+  		 END
+  		}
+  	</update>
   	
-  	<!-- members 테이블의 PK MemberNo 가져오는 SQL -->
-  	<select id="selectMemberNo" resultType="int">
-  		SELECT member_no
-  		FROM members
-  		WHERE username = #{username}
-  	</select>
-  	
-  	<!-- 회원의 권한 INSERT하는 SQL -->
-  	<insert id="authInsert" parameterType="map">
-  		INSERT INTO auths(auth_no, auth, member_no)
-  		VALUES( auth_no_seq.NEXTVAL , #{auth} , #{member_no})
+  	<!-- 일반회원 가입시 따로 insert 하는 SQL -->
+  	<insert id="insertDetailInfo">
+  		<choose>
+  			<when test="login_type_no==1">
+		  		INSERT INTO general_members(general_no, password, member_no)
+		  		VALUES (general_no_seq.NEXTVAL, #{password}, #{member_no})  		  			
+  			</when>
+  			<when test="login_type_no==2">
+  				INSERT INTO social_members(social_no, social_id, member_no)
+  				VALUES(social_no_seq.NEXTVAL, #{social_id}, #{member_no})
+  			</when>
+  		</choose>
   	</insert>
   	
   	<!-- Username이 중복되는 지 확인하기 위한 SQL -->
@@ -50,22 +64,18 @@
   		WHERE username = #{username}
   	</select>
   	
-  	<!-- 네이버로 회원가입 시 INSERT하는 SQL -->
-  	<insert id="insertSocial">
-  		INSERT INTO members(member_no, username, name, login_type_no)
-  		VALUES (member_no_seq.NEXTVAL, #{username}, #{name}, #{login_type_no})
-  	</insert>
-  	<!-- 네이버로 회원가입시 따로 고유 네이버아이디  INSERT하는 SQL -->
-  	<insert id="insertSocialId">
-  		INSERT INTO social_info
-  		VALUES (social_info_no_seq.NEXTVAL, #{userid}, #{member_no})
-  	</insert>
-  	
   	<!-- UserID UPDATE하는 SQL -->
   	<update id="updateUserID" parameterType="map">
   		UPDATE members
   		SET userid = #{userid}
   		WHERE username = #{username}
   	</update>
+  	
+  	<select id="userIdCheck" resultType="String">
+  		SELECT userid
+  		FROM members
+  		WHERE username = #{username}
+  	</select>
+  	
   	
   </mapper>
