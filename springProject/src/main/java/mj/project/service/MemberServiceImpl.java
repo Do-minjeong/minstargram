@@ -55,9 +55,15 @@ public class MemberServiceImpl implements MemberService{
 	@Override
 	public boolean userIdCheck(String username) {
 		String id = mapper.userIdCheck(username);
-		System.out.println("userIdCheck Method : "+id);
 		// ID등록이 필요한가? YES = true
 		return id.startsWith("<REGISTER");
+	}
+
+	@Override
+	public MemberVO readMemberInfo(String username) {
+		MemberVO vo = mapper.read(username);
+		vo.setPassword("");
+		return vo;
 	}
 
 }

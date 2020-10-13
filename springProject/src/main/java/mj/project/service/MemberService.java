@@ -13,4 +13,6 @@ public interface MemberService {
 
 	public boolean userIdCheck(String username);
 
+	public MemberVO readMemberInfo(String username);
+
 }

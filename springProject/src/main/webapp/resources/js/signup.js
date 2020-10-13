@@ -48,8 +48,8 @@ $(".signupLabel input").focusout(function(){
 	displayIcon(check, this);
 	
 	var successNum = $(".inputSuccess").length;
-	if(successNum==4 || (successNum==3 && $("input[name=name]").val()=='')) $("button[type=submit]").attr("disabled", false);
-	else $("button[type=submit]").attr("disabled", true);
+	if(successNum==4 || (successNum==3 && $("input[name=name]").val()=='')) $("#submitBtn").attr("disabled", false);
+	else $("#submitBtn").attr("disabled", true);
 });
 
 function displayIcon(check, obj){
@@ -148,6 +148,17 @@ $(".pwBtn").on("click",function(e){
 	}
 });
 
+
+$("#updateIdForm").focusout(function(){
+	var val = $("input[name=userid]").val();
+	var check = 0;
+	if(val.length>0){
+		check = idCheck(val);
+		displayIcon(check, this);
+		if(check==1) $("#submitBtn").attr("disabled", false);
+		else $("#submitBtn").attr("disabled", true);
+	}
+});
 
 
 

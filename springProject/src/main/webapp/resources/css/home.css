@@ -140,7 +140,7 @@ input{
 .imageDisplay{
 	height: 100%;
 	align-items: center;
-	margin-right: 5px;
+	/*margin-right: 5px;*/
 }
 .inputSuccess{
 	background-image: url(https://www.flaticon.com/svg/static/icons/svg/179/179372.svg);	

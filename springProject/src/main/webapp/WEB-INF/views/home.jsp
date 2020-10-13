@@ -27,22 +27,22 @@
 <script type="text/javascript">
 	console.log("hello");
 </script>
-<sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_USER')">
+<c:if test="${ g_userInfo ne null }">
 	<script type="text/javascript">
-		//console.log("custom");
+		console.log("custom");
 		$("#logoutForm").attr("action","/customLogout");
-		var ap = '<span><sec:authentication property="principal.username"/> 님</span>';
+		var ap = '${g_userInfo.username}';
 	</script> 
-</sec:authorize>
-<c:if test="${apiResult ne null}">
+</c:if>
+<c:if test="${ s_userInfo ne null }">
 	<script type="text/javascript">
-		//console.log(${apiResult}.response.name);
+		console.log("s_userInfo")
 		$("#logoutForm").attr("action","/socialLogout");
-		var ap = "<span>"+${apiResult}.response.email+" 님</span>";
+		var ap = '${ s_userInfo.username}';
 	</script>
 </c:if>
 <script type="text/javascript">
-		$(".userInfo").append(ap);
+		$(".userInfo").append("<span>"+ap+" 님</span>");
 </script>
 </body>
 </html>

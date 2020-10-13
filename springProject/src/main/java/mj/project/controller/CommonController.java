@@ -10,6 +10,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,13 +39,19 @@ public class CommonController {
 	private NaverLoginBO naverLoginBO;
 	private String apiResult = null;
 
-	@RequestMapping(value = {"/", "/home"}, method = RequestMethod.GET)
+	@RequestMapping(value = {"/", "/home"}, method = {RequestMethod.GET, RequestMethod.POST})
 	public String home(HttpServletRequest request, HttpSession session, Authentication auth, Model model) {
-		log.info(">>>> auth: "+auth);
-		log.info(">>>> session: "+session.getAttribute("apiResult"));
+		log.info(">>>> home Method auth: "+auth);
+		log.info(">>>> home Method session: "+session.getAttribute("s_userInfo"));
 		System.out.println("home 진입");
-		if(auth == null && session.getAttribute("apiResult") == null) {
+		String username = "";
+		if(auth == null && session.getAttribute("s_userInfo") == null) {
 			return "redirect:customLogin";
+		} else if(auth != null && session.getAttribute("s_userInfo")==null) {
+			UserDetails ud = (UserDetails) auth.getPrincipal();
+			username = ud.getUsername();
+			MemberVO vo = service.readMemberInfo(username);
+			session.setAttribute("g_userInfo", vo);
 		}
 		return "home";
 	}
@@ -75,11 +82,12 @@ public class CommonController {
 		return "home";
 	}
 
-	@RequestMapping("/customLogin")
+	@RequestMapping(value="/customLogin", method= {RequestMethod.GET, RequestMethod.POST})
 	public String loginInput(String error, String logout, Authentication auth, HttpSession session, Model model) {
-		System.out.println("loginInput 메소드 > login auth: "+auth);
-		System.out.println("loginInput 메소드 > login session: "+session.getAttribute("apiResult"));
-		if(auth == null && session.getAttribute("apiResult")==null) {
+		String username = "";
+		System.out.println("loginInput 메소드 > login auth: "+ auth);
+		System.out.println("loginInput 메소드 > login session: "+session.getAttribute("s_userInfo"));
+		if(auth == null && session.getAttribute("s_userInfo")==null) {
 			log.info("error: " + error);
 			log.info("logout: " + logout);
 
@@ -95,14 +103,14 @@ public class CommonController {
 			// 네이버
 			model.addAttribute("url", naverAuthUrl);	
 			return "customLogin";
-		} else return "home";
-		
-
+		}
+		return "home";
 	}
-
+	
 	@RequestMapping(value="/customLogin/callback", method= {RequestMethod.GET,RequestMethod.POST})
 	public String callback(Model model, @RequestParam String code, @RequestParam String state, HttpSession session) throws IOException, ParseException{
 		System.out.println("callback 메소드");
+		String url = "";
 		OAuth2AccessToken oauthToken = naverLoginBO.getAccessToken(session, code, state);
 		// 로그인 사용자 정보를 읽어온다.
 		apiResult = naverLoginBO.getUserProfile(oauthToken);
@@ -117,16 +125,22 @@ public class CommonController {
 		String username = String.valueOf(jsonObj.get("email"));
 		// 등록된 정보가 있을 경우
 		if(service.usernameCheck(username)) {
-			System.out.println("등록된 정보가 있다.");
-			if(!service.userIdCheck(username)) {
-				System.out.println("id등록도 완료되었따.");
-				return "redirect:/";
-			} else return "redirect:/updateUserID";
+			if(!service.userIdCheck(username)) 	url = "redirect:/home";
+			else url = updateUserId(username, model);
+		} else {
+			service.signup(new MemberVO(username, String.valueOf(jsonObj.get("name")), "<REGISTER_REQUIRED>", 2, String.valueOf(jsonObj.get("id"))));
+			url = updateUserId(username, model);
 		}
-		service.signup(new MemberVO(username, String.valueOf(jsonObj.get("name")), "<REGISTER_REQUIRED>", 2, String.valueOf(jsonObj.get("id"))));
-		model.addAttribute("username", username);
-		return "redirect:/updateUserID";
+		MemberVO vo = service.readMemberInfo(username);
+		session.setAttribute("s_userInfo", vo);
+		return url;
 	}
+	
+	private String updateUserId(String username, Model model) {
+		model.addAttribute("username",username);		
+		return "updateUserID";
+	}
+
 	@GetMapping("/updateUserID")
 	public void getUpdateUserId() {}
 	
@@ -141,7 +155,7 @@ public class CommonController {
 			return "updateUserID";
 		}
 	}
-
+	
 	@RequestMapping(value="/successLogin")
 	public void successLogin() { }
 
@@ -157,15 +171,17 @@ public class CommonController {
 	}
 
 	@PostMapping("/customLogout")
-	public String customLogout() {
+	public String customLogout(HttpSession session) {
 		log.info("post custom logout");
-		
+		System.out.println("post custom logout");
+		sessionLogout(session);
 		return "redirect:customLogin?logout";
 	}
 	
 	@PostMapping("/socialLogout")
-	public String socialLogout(HttpSession session) {
-		log.info(">> session logout: "+session.getAttribute("apiResult"));
+	public String sessionLogout(HttpSession session) {
+		log.info(">> s_session logout: "+session.getAttribute("s_userInfo"));
+		log.info(">> g_session logout: "+session.getAttribute("g_userInfo"));
 		session.invalidate();
 		return "redirect:customLogin?logout";
 	}

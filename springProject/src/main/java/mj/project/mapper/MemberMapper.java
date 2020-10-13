@@ -6,6 +6,7 @@ import mj.project.domain.MemberVO;
 
 
 public interface MemberMapper {
+	
 	public MemberVO read(String username);
 	
 	public int insert(MemberVO vo);

@@ -6,6 +6,7 @@
   
   	<resultMap type="mj.project.domain.MemberVO" id="memberMap">
   		<id property="username" column="username"/>
+  		<result property="member_no" column="member_no"/>
   		<result property="username" column="username"/>
   		<result property="name" column="name"/>
   		<result property="userid" column="userid"/>
@@ -19,9 +20,9 @@
   	
   	<!-- 로그인 하기 위한 read SQL -->
   	<select id="read" resultMap="memberMap">
-  		SELECT  m.username, name, userid, auth, password
-  		FROM members m LEFT OUTER JOIN auths au ON m.member_no = au.member_no
-  			 JOIN general_members gm ON m.member_no = gm.member_no
+  		SELECT m.member_no, m.username, name, userid, auth, password
+  		FROM members m JOIN auths au ON m.member_no = au.member_no
+  			 LEFT OUTER JOIN general_members gm ON m.member_no = gm.member_no
   		WHERE m.username = #{username}
   	</select>
   	
@@ -67,7 +68,7 @@
   	<!-- UserID UPDATE하는 SQL -->
   	<update id="updateUserID" parameterType="map">
   		UPDATE members
-  		SET userid = #{userid}
+  		SET userid = #{userid}, update_date = sysdate
   		WHERE username = #{username}
   	</update>
   	
