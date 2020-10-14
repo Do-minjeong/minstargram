@@ -31,6 +31,10 @@
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 	
+	<session-config>
+		<session-timeout>50</session-timeout>
+	</session-config>
+	
 	<filter>
 		<filter-name>springSecurityFilterChain</filter-name>
 		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
@@ -54,9 +58,5 @@
 		<filter-name>encodingFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-	
-	<session-config>
-		<session-timeout>30</session-timeout>
-	</session-config>
 	
 </web-app>

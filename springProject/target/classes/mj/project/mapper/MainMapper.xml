@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="mj.project.mapper.MainMapper">
+  
+  <update id="writePost">
+  	<selectKey keyProperty="post_no" resultType="int" order="BEFORE">
+  		SELECT post_no_seq.NEXTVAL FROM dual
+  	</selectKey>
+  	{CALL
+  	 DECLARE
+  	 BEGIN
+  	 	
+  	 	INSERT INTO posts(post_no, contents, member_no)
+  	 	VALUES ( #{post_no}, #{contents}, #{member_no});
+  	 	
+  	 	<foreach collection="attachList" item="list">
+  	 	INSERT INTO photos(photo_no, file_name, file_url, file_size, post_no)
+  	 	VALUES ( photo_no_seq.NEXTVAL, #{list.file_name}, #{list.file_url}, #{list.file_size}, #{post_no});	 	
+  	 	</foreach>
+  	 	
+  	 END }
+  </update>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  </mapper>

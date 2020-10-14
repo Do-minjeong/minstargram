@@ -19,7 +19,7 @@
 			});
 			
 			dropzone.on("sending", function(file, xhr, formData){
-				formData.append("text",$("#write-text").val());
+				formData.append("contents",$("#contents").val());
 			});
 		}, 
 		headers: {
@@ -31,13 +31,13 @@
 		type: "POST",
 		success: function(){
 			console.log("post write 성공");
-			//location.href = '/main/mainHome';
+			location.href = '/main/mainHome';
 		},
 		error: function(e){
 			console.log("dropzone파일 업로드 error");
 			console.log(e);
 			alert("에러가 발생했습니다. 다시 시도해주세요.");
-			//location.reload();
+			location.reload();
 		},
 		acceptedFiles: ".jpeg,.jpg,.png,.gif",
 		uploadMultiple: true,

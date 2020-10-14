@@ -31,7 +31,7 @@
 				<div class="list-style"></div>
 				<label class="write-label">아래에 글을 입력해주세요.</label>
 			</div>
-			<textarea class="form-control rounded-0" id="write-text" rows="10"></textarea>
+			<textarea class="form-control rounded-0" id="contents" rows="10"></textarea>
 		</div>
 		<div style="text-align: right;">
 			<button type="button" class="btn btn-warning" id="upload">작성하기</button>

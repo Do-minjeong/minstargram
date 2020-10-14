@@ -60,8 +60,29 @@
 							</div>
 						</div>
 					</header>
-					<div class="article-imgbox article-section">
-						<div class="article-img"><img  alt="" src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2F20110608_238%2Fdiablo1015_1307526886736MpPBf_JPEG%2F015.JPG&type=sc960_832"></div>					
+					<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+						<ol class="carousel-indicators">
+							<li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+							<li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+						</ol>
+						<!-- <div class="article-imgbox article-section"> -->
+							<div class="carousel-inner">
+								<div class="carousel-item active">
+									<div class="article-img"><img class="d-block w-100" alt="First Slide" src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2F20110608_238%2Fdiablo1015_1307526886736MpPBf_JPEG%2F015.JPG&type=sc960_832"></div>
+								</div>
+								<div class="carousel-item">
+									<div class="article-img"><img class="d-block w-100"  alt="Second Slide" src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/190322-ham-sandwich-horizontal-1553721016.png"></div>							
+								</div>
+							</div>
+							  <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+							    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+							    <span class="sr-only">Previous</span>
+							  </a>
+							  <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+							    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+							    <span class="sr-only">Next</span>
+							  </a>
+						<!-- </div> -->
 					</div>
 					<div class="article-body">
 						<div class="article-iconbox article-section">
@@ -105,6 +126,32 @@
 		<div>
 			<button class="write-btn btnNone btn-warning" onclick="location.href='/main/write'">글쓰기</button>
 		</div>
+		<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+  <ol class="carousel-indicators">
+    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+  </ol>
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img class="d-block w-100" src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2F20110608_238%2Fdiablo1015_1307526886736MpPBf_JPEG%2F015.JPG&type=sc960_832" alt="First slide">
+    </div>
+    <div class="carousel-item">
+      <img class="d-block w-100" src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/190322-ham-sandwich-horizontal-1553721016.png" alt="Second slide">
+    </div>
+    <div class="carousel-item">
+      <img class="d-block w-100" src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/delish-thanksgiving-leftover-sandwich-horizontal-1542326155.jpg?crop=0.846xw:0.634xh;0.153xw,0.0998xh&resize=1200:*" alt="Third slide">
+    </div>
+  </div>
+  <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
+</div>
 	</div>
 </div>
 <script type="text/javascript" src="/resources/js/mainHome.js"></script>
