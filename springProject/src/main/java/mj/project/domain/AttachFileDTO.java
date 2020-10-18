@@ -6,5 +6,6 @@ import lombok.Data;
 public class AttachFileDTO {
 	private String file_name;
 	private String file_url;
+	private String total_url;
 	private long file_size;
 }

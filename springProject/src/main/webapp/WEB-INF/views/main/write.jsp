@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Minstargrma-글쓰기</title>
-<link href="/resources/css/main.css?as" rel="stylesheet">
+<link href="/resources/css/main.css?ads" rel="stylesheet">
 <link href="/resources/dropzone/dropzone.css" rel="stylesheet">
 <script src="/resources/dropzone/dropzone.js" ></script>
 <%@ include file="../includes/header.jsp"%>

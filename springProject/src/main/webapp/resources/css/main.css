@@ -107,8 +107,17 @@
 .article-section{
 	margin-bottom: 5px;
 }
-.article-img img{
-	width: 100%;
+.article-img{
+	min-height: 400px;
+	max-height: 500px; 
+	overflow: hidden;
+	display: flex;
+    justify-content: center;
+    align-items: center;
+    background: black;
+}
+.h-500{
+	height: 500px;
 }
 .article-body .article-section{
 	padding: 0 16px;
@@ -155,8 +164,8 @@
 .comment-input{
 	width: 100%;
 }
-.comment-form textarea{
-	resize: none;
+textarea{
+	resize: none !important;
 	width: 100%;
 	height: 20px;
 	padding: 0;

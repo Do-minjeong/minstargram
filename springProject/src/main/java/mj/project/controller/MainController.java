@@ -12,14 +12,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.context.ServletContextAware;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -33,15 +36,25 @@ import mj.project.service.MainService;
 @Controller
 @Log4j
 @RequestMapping("/main/")
-public class MainController {
+public class MainController implements ServletContextAware{
 	
 	@Setter(onMethod_ = @Autowired)
 	private MainService service;
 	
+	private ServletContext servletContext;
+	
+	@Override
+	public void setServletContext(ServletContext servletContext) {
+		this.servletContext = servletContext;
+	}
+	
 	@GetMapping("/mainHome")
-	public String mainHome(HttpSession session, Authentication auth) {
+	public String mainHome(HttpSession session, Authentication auth, Model model) {
 		log.info("/main/mainHome controller 접속");
 		if(auth==null && session.getAttribute("s_userInfo")==null) return "redirect:/customLogin?logout";
+		// 모든 게시글 가져오기
+		List<PostVO> mainPosts = service.readPosts();
+		model.addAttribute("posts", mainPosts);
 		return "/main/mainHome";
 	}
 	
@@ -62,7 +75,7 @@ public class MainController {
 		vo.setMember_no(member.getMember_no());
 		
 		List<AttachFileDTO> file_list = new ArrayList<AttachFileDTO>();
-		String uploadFolder = "C:\\spring_project\\minstgram_uploadFile";
+		String uploadFolder = servletContext.getRealPath("/resources/uploadImage");
 		String uploadFolderPath = getFolder();
 		File uploadPath = new File(uploadFolder, uploadFolderPath);
 		log.info("upload path: "+uploadPath);
@@ -100,6 +113,7 @@ public class MainController {
 		vo.setAttachList(file_list);
 		log.info(">>" + vo);
 		service.writePost(vo);
+		
 	}
 	
 	
@@ -171,6 +185,8 @@ public class MainController {
 		
 		return str.replace("-", File.separator);
 	}
+
+
 }
 
 

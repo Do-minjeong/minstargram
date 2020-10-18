@@ -23,7 +23,41 @@
   	 END }
   </update>
   
+  <resultMap type="mj.project.domain.PostVO" id="postMap">
+  	<id property="post_no" column="post_no" />
+  	<result property="post_no" column="post_no" />
+  	<result property="contents" column="contents" />
+  	<result property="member_no" column="member_no" />
+  	<result property="reg_date" column="reg_date" />
+  	<result property="userid" column="userid"/>
+  	<collection property="attachList" resultMap="attachMap"></collection>
+  </resultMap>
+  <resultMap type="mj.project.domain.AttachFileDTO" id="attachMap">
+  	<result property="file_name" column="file_name" />
+  	<result property="file_url" column="file_url" />
+  	<result property="total_url" column="total_url" />
+  </resultMap>
   
+  
+  <select id="readPosts" resultMap="postMap">
+  	SELECT p.post_no, contents,
+       CASE 
+        WHEN (sysdate - p.reg_date) BETWEEN 0 AND 1/24
+        THEN trunc((sysdate - p.reg_date)*60*24,0)||'분 전'
+        WHEN (sysdate - p.reg_date) BETWEEN 1/24 AND 1
+        THEN TRUNC((sysdate - p.reg_date)*24) || '시간 전'
+        WHEN (sysdate - p.reg_date) BETWEEN 1 AND 6
+        THEN TRUNC((sysdate - p.reg_date)) || '일 전'
+        WHEN (sysdate - p.reg_date) BETWEEN 6 AND 7
+        THEN '1주 전'
+        ELSE p.reg_date || ''
+       END reg_date ,
+       userid, photo_no, file_name, file_url, 
+       'http://localhost' || REPLACE(SUBSTR(file_url, INSTR(file_url,'\resources')),'\','/') || '/' || file_name as total_url
+	FROM posts p JOIN photos ph ON (p.post_no = ph.post_no)
+             JOIN members m ON (p.member_no = m.member_no)
+	ORDER BY p.reg_date DESC
+  </select>
   
   
   

@@ -38,7 +38,7 @@ public class CommonController {
 	@Setter(onMethod_= @Autowired)
 	private NaverLoginBO naverLoginBO;
 	private String apiResult = null;
-
+	
 	@RequestMapping(value = {"/", "/home"}, method = {RequestMethod.GET, RequestMethod.POST})
 	public String home(HttpServletRequest request, HttpSession session, Authentication auth, Model model) {
 		log.info(">>>> home Method auth: "+auth);

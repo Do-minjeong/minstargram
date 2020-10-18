@@ -10,4 +10,6 @@ public class PostVO {
 	private List<AttachFileDTO> attachList;
 	private String contents;
 	private int member_no;
+	private String reg_date;
+	private String userid;
 }

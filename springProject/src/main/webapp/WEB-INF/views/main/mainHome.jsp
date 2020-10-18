@@ -7,8 +7,18 @@
 <link href="/resources/css/main.css" rel="stylesheet">
 <%@ include file="../includes/header.jsp"%>
 <%@ include file="includes/header.jsp"%>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+		crossorigin="anonymous">
+  </script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+		integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+		crossorigin="anonymous">
+ </script>
 </head>
 <body>
+
 <script type="text/javascript">
 	$("img[alt='home']").attr("src","https://www.flaticon.com/svg/static/icons/svg/1946/1946436.svg")
 </script>
@@ -60,18 +70,26 @@
 							</div>
 						</div>
 					</header>
-					<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+					<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" data-interval="false">
 						<ol class="carousel-indicators">
 							<li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
 							<li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+							<li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+							<li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
 						</ol>
 						<!-- <div class="article-imgbox article-section"> -->
 							<div class="carousel-inner">
 								<div class="carousel-item active">
+									<div class="article-img"><img class="d-block w-100" alt="First Slide" src="http://localhost/resources/uploadImage/2020/10/18/3ac119ea-1cc9-499f-990f-5d3f01a9ae00_jjpc22.jpg"></div>
+								</div>
+								<div class="carousel-item">
 									<div class="article-img"><img class="d-block w-100" alt="First Slide" src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2F20110608_238%2Fdiablo1015_1307526886736MpPBf_JPEG%2F015.JPG&type=sc960_832"></div>
 								</div>
 								<div class="carousel-item">
 									<div class="article-img"><img class="d-block w-100"  alt="Second Slide" src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/190322-ham-sandwich-horizontal-1553721016.png"></div>							
+								</div>
+								<div class="carousel-item">
+									<div class="article-img"><img class="d-block w-100"  alt="Third Slide" src="https://file.mk.co.kr/meet/neds/2020/09/image_readtop_2020_960300_16003052174359460.jpg"></div>							
 								</div>
 							</div>
 							  <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
@@ -114,6 +132,95 @@
 						</div>
 					</div>
 				</article>
+				<c:if test="${ posts ne null }">
+					<c:forEach items="${ posts }" var="post">
+						<article class="article box-setting">
+						<header>
+							<div class="article-header">
+								<div class="aticle-canvas canvas displayCenter">
+									<div class="profile-pic">
+										<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSw1gQ3kuXFIpGaAuXc_QyaPBaSpbQQXhs1FA&usqp=CAU">
+									</div>
+								</div>
+								<div class="smallheader">
+									<div class="article-id"><a href="">${post.userid}</a></div>
+									<button class="btnNone">
+										<div class="morebtn">
+											<img alt="더보기" src="https://www.flaticon.com/svg/static/icons/svg/512/512142.svg">
+										</div>
+									</button>
+								</div>
+							</div>
+						</header>
+						<div id="carouselExampleIndicators${post.post_no}" class="carousel slide" data-ride="carousel" data-interval="false">
+							<ol class="carousel-indicators">
+								<c:forEach items="${ post.attachList }" var="attachList" varStatus="status">
+									<c:if test="${ status.first }">
+										<li data-target="#carouselExampleIndicators${post.post_no}" data-slide-to="0" class="active"></li>							
+									</c:if>
+									<c:if test="${ !status.first }">
+										<li data-target="#carouselExampleIndicators${post.post_no}" data-slide-to="${ status.index }"></li>										
+									</c:if>
+								</c:forEach>
+							</ol>
+							<!-- <div class="article-imgbox article-section"> -->
+								<div class="carousel-inner">
+									<c:forEach items="${ post.attachList }" var="attachList" varStatus="status">
+										<c:if test="${ status.first }">
+											<div class="carousel-item active">
+												<div class="article-img"><img class="d-block w-100" alt="${ post.post_no }-${status.index} Slide" src="${ attachList.total_url }"></div>
+											</div>										
+										</c:if>
+										<c:if test="${ !status.first }">
+											<div class="carousel-item">
+												<div class="article-img"><img class="d-block w-100"  alt="${ post.post_no }-${status.index} Slide" src="${ attachList.total_url }"></div>							
+											</div>
+										</c:if>
+									</c:forEach>
+								</div>
+								  <a class="carousel-control-prev" href="#carouselExampleIndicators${post.post_no}" role="button" data-slide="prev">
+								    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+								    <span class="sr-only">Previous</span>
+								  </a>
+								  <a class="carousel-control-next" href="#carouselExampleIndicators${post.post_no}" role="button" data-slide="next">
+								    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+								    <span class="sr-only">Next</span>
+								  </a>
+							<!-- </div> -->
+						</div>
+						<div class="article-body">
+							<div class="article-iconbox article-section">
+								<div class="article-icon"><img alt="좋아요" src="https://www.flaticon.com/svg/static/icons/svg/1946/1946406.svg"></div>
+								<div class="article-icon"><img alt="댓글" src="https://www.flaticon.com/svg/static/icons/svg/1946/1946412.svg"></div>
+								<div class="article-icon"><img alt="메시지" src="https://www.flaticon.com/svg/static/icons/svg/1946/1946547.svg"></div>
+								<div class="article-icon bookmark"><img alt="북마크" src="https://www.flaticon.com/svg/static/icons/svg/1946/1946422.svg"></div>
+							</div>
+							<div class="article-likes article-section"><button class="likes_info btnNone">좋아요 <span>11</span>개</button></div>
+							<div class="article-contents article-section">
+								<span class="article-id"><a href="">${post.userid}</a></span>
+								<span class="id-contents">
+									<a href="" >#안뇽</a>
+									<a href="" >#덥다할리스</a>
+									<br>
+									${post.contents}
+								</span>
+							</div>
+							<div class="article-time article-section">
+								<span>${post.reg_date}</span>
+							</div>
+							<div class="comment article-section">
+								<div class="comment-input">
+									<form action="" class="comment-form displayCenter">
+										<textarea wrap="virtual" cols="38" class="btnNone" placeholder="댓글 달기.."></textarea>
+										<button type="submit" class="btnNone" disabled>게시</button>
+									</form>
+								</div>
+							</div>
+						</div>
+					</article>
+					</c:forEach>
+				</c:if>
+				
 				<article class="article box-setting">
 					<header></header>
 				</article>
@@ -126,34 +233,13 @@
 		<div>
 			<button class="write-btn btnNone btn-warning" onclick="location.href='/main/write'">글쓰기</button>
 		</div>
-		<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-  <ol class="carousel-indicators">
-    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-  </ol>
-  <div class="carousel-inner">
-    <div class="carousel-item active">
-      <img class="d-block w-100" src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2F20110608_238%2Fdiablo1015_1307526886736MpPBf_JPEG%2F015.JPG&type=sc960_832" alt="First slide">
-    </div>
-    <div class="carousel-item">
-      <img class="d-block w-100" src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/190322-ham-sandwich-horizontal-1553721016.png" alt="Second slide">
-    </div>
-    <div class="carousel-item">
-      <img class="d-block w-100" src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/delish-thanksgiving-leftover-sandwich-horizontal-1542326155.jpg?crop=0.846xw:0.634xh;0.153xw,0.0998xh&resize=1200:*" alt="Third slide">
-    </div>
-  </div>
-  <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-    <span class="sr-only">Previous</span>
-  </a>
-  <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="sr-only">Next</span>
-  </a>
-</div>
 	</div>
 </div>
+
 <script type="text/javascript" src="/resources/js/mainHome.js"></script>
+<script type="text/javascript">
+var posts = '${posts}';
+console.log(posts);
+</script>
 </body>
 </html>
