@@ -71,37 +71,51 @@
 						</div>
 					</header>
 					<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" data-interval="false">
-						<ol class="carousel-indicators">
-							<li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-							<li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-							<li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-							<li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
-						</ol>
-						<!-- <div class="article-imgbox article-section"> -->
+							<ol class="carousel-indicators">
+								<li data-target="#carouselExampleIndicators" data-slide-to="0"
+									class="active"></li>
+								<li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+								<li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+								<li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
+							</ol>
+							<!-- <div class="article-imgbox article-section"> -->
 							<div class="carousel-inner">
-								<div class="carousel-item active">
-									<div class="article-img"><img class="d-block w-100" alt="First Slide" src="http://localhost/resources/uploadImage/2020/10/18/3ac119ea-1cc9-499f-990f-5d3f01a9ae00_jjpc22.jpg"></div>
+								<div class="carousel-item active" >
+									<div class="article-img">
+										<img class="d-block w-100" alt="First Slide"
+											src="http://localhost/resources/uploadImage/2020/10/18/3ac119ea-1cc9-499f-990f-5d3f01a9ae00_jjpc22.jpg">
+									</div>
 								</div>
 								<div class="carousel-item">
-									<div class="article-img"><img class="d-block w-100" alt="First Slide" src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2F20110608_238%2Fdiablo1015_1307526886736MpPBf_JPEG%2F015.JPG&type=sc960_832"></div>
+									<div class="article-img">
+										<img class="d-block w-100" alt="Second Slide"
+											src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2F20110608_238%2Fdiablo1015_1307526886736MpPBf_JPEG%2F015.JPG&type=sc960_832">
+									</div>
 								</div>
 								<div class="carousel-item">
-									<div class="article-img"><img class="d-block w-100"  alt="Second Slide" src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/190322-ham-sandwich-horizontal-1553721016.png"></div>							
+									<div class="article-img">
+										<img class="d-block w-100" alt="Third Slide"
+											src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/190322-ham-sandwich-horizontal-1553721016.png">
+									</div>
 								</div>
 								<div class="carousel-item">
-									<div class="article-img"><img class="d-block w-100"  alt="Third Slide" src="https://file.mk.co.kr/meet/neds/2020/09/image_readtop_2020_960300_16003052174359460.jpg"></div>							
+									<div class="article-img">
+										<img class="d-block w-100" alt="Fourth Slide"
+											src="https://file.mk.co.kr/meet/neds/2020/09/image_readtop_2020_960300_16003052174359460.jpg">
+									</div>
 								</div>
 							</div>
-							  <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-							    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-							    <span class="sr-only">Previous</span>
-							  </a>
-							  <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-							    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-							    <span class="sr-only">Next</span>
-							  </a>
-						<!-- </div> -->
-					</div>
+							<a class="carousel-control-prev"
+								href="#carouselExampleIndicators" role="button"
+								data-slide="prev"> <span class="carousel-control-prev-icon"
+								aria-hidden="true"></span> <span class="sr-only">Previous</span>
+							</a> <a class="carousel-control-next"
+								href="#carouselExampleIndicators" role="button"
+								data-slide="next"> <span class="carousel-control-next-icon"
+								aria-hidden="true"></span> <span class="sr-only">Next</span>
+							</a>
+							<!-- </div> -->
+						</div>
 					<div class="article-body">
 						<div class="article-iconbox article-section">
 							<div class="article-icon"><img alt="좋아요" src="https://www.flaticon.com/svg/static/icons/svg/1946/1946406.svg"></div>
@@ -220,14 +234,8 @@
 					</article>
 					</c:forEach>
 				</c:if>
-				
-				<article class="article box-setting">
-					<header></header>
-				</article>
 			</div>
-		
 		</div>
-	
 	</div>
 	<div class="left-block">
 		<div>
@@ -238,8 +246,8 @@
 
 <script type="text/javascript" src="/resources/js/mainHome.js"></script>
 <script type="text/javascript">
-var posts = '${posts}';
-console.log(posts);
+//var posts = '${posts}';
+//console.log(posts);
 </script>
 </body>
 </html>

@@ -38,12 +38,12 @@
 		<div class="orLine displayCenter">
 			<div class="line"></div><div class="or">또는</div><div class="line"></div>
 		</div>
-		<div id="naver_id_login" class="input-group" >
+		<div id="naver_id_login" class="input-group displayCenter" >
 			<a href="${url}" class="displayCenter iconType">
 				<img alt="" src="https://t1.daumcdn.net/cfile/tistory/99117C3F5D04CEE519" width="20px"><span class="font20 naverIDLogin">네이버 아이디로 로그인</span>
 			</a>
 		</div>
-		<div class="input-group">
+		<div class="input-group displayCenter">
 			<a href=""><span class="displayCenter" id="fgpw">비밀번호를 잊으셨나요?</span></a>
 		</div>
 	</div>

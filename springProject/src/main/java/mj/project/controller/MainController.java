@@ -28,9 +28,10 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
-import mj.project.domain.AttachFileDTO;
+import mj.project.domain.AttachFileVO;
 import mj.project.domain.MemberVO;
 import mj.project.domain.PostVO;
+import mj.project.domain.TagVO;
 import mj.project.service.MainService;
 
 @Controller
@@ -62,11 +63,15 @@ public class MainController implements ServletContextAware{
 	public void getWrite() { 
 		log.info("MainController getWrite");
 	}
+	
 	@PostMapping("/write")
 	public void postWrite(HttpSession session, MultipartFile nfile, MultipartHttpServletRequest request) throws Exception {
 		log.info("MainController postWrite");
 		PostVO vo = new PostVO();
-		vo.setContents(request.getParameter("contents"));
+		String contents = request.getParameter("contents");
+		vo.setContents(contents);
+		
+		List<TagVO> tagvo = tagSplit(contents);
 		
 		MemberVO member = new MemberVO();
 		if(session.getAttribute("g_userInfo")!=null) member = (MemberVO) session.getAttribute("g_userInfo");
@@ -74,7 +79,7 @@ public class MainController implements ServletContextAware{
 		else throw new Exception();
 		vo.setMember_no(member.getMember_no());
 		
-		List<AttachFileDTO> file_list = new ArrayList<AttachFileDTO>();
+		List<AttachFileVO> file_list = new ArrayList<AttachFileVO>();
 		String uploadFolder = servletContext.getRealPath("/resources/uploadImage");
 		String uploadFolderPath = getFolder();
 		File uploadPath = new File(uploadFolder, uploadFolderPath);
@@ -90,7 +95,7 @@ public class MainController implements ServletContextAware{
 			String key = (String) file_ir.next();
 			MultipartFile multipartFile = fileMap.get(key);
 
-			AttachFileDTO attachDTO = new AttachFileDTO();
+			AttachFileVO attachDTO = new AttachFileVO();
 			log.info("------------------------------------------------------");
 			log.info("Upload File Size: " + multipartFile.getSize());
 			log.info("Upload File Name: " + multipartFile.getOriginalFilename());
@@ -116,68 +121,13 @@ public class MainController implements ServletContextAware{
 		
 	}
 	
-	
-/*	
-	@PostMapping("/write")
-	public String postWrite(HttpSession session, MultipartFile[] mpfiles, MultipartHttpServletRequest request) throws Exception {
-		log.info("MainController postWrite");
-		UploadVO vo = new UploadVO();
-		vo.setContents(request.getParameter("contents"));
+
+	private List<TagVO> tagSplit(String contents) {
 		
-		MemberVO member = new MemberVO();
-		if(session.getAttribute("g_userInfo")!=null) member = (MemberVO) session.getAttribute("g_userInfo");
-		else if(session.getAttribute("s_userInfo")!=null)member = (MemberVO) session.getAttribute("s_userInfo");
-		else throw new Exception();
-		vo.setMember_no(member.getMember_no());
 		
-		List<AttachFileDTO> file_list = new ArrayList<AttachFileDTO>();
-		String uploadFolder = "C:\\spring_project\\minstgram_uploadFile";
-		String uploadFolderPath = getFolder();
-		File uploadPath = new File(uploadFolder, uploadFolderPath);
-		log.info("upload path: "+uploadPath);
-		
-		if(!uploadPath.exists()) uploadPath.mkdirs();
-		
-		for (MultipartFile multipartFile : mpfiles) {
-			AttachFileDTO attachDTO = new AttachFileDTO();
-			log.info("------------------------------------------------------");
-			log.info("Upload File Size: " + multipartFile.getSize());
-			log.info("Upload File Name: " + multipartFile.getOriginalFilename());
-			
-			String uploadFileName = multipartFile.getOriginalFilename();
-			// IE의 경우 파일의 전체 경로가 전송되므로 파일이름만 남기는 코드
-			uploadFileName = uploadFileName.substring(uploadFileName.lastIndexOf("\\")+1);
-			log.info("only file name: "+uploadFileName);
-			attachDTO.setFileName(uploadFileName);
-			
-			UUID uuid = UUID.randomUUID();
-			uploadFileName = uuid.toString()+"_"+uploadFileName;
-			
-			try {
-				File saveFile = new File(uploadPath, uploadFileName);
-				multipartFile.transferTo(saveFile);
-				attachDTO.setUuid(uuid.toString());
-				attachDTO.setUploadPath(uploadFolderPath);
-				
-				// 섬네일 생성
-				log.info("Thumnail 생성");
-				FileOutputStream thumbnail = new FileOutputStream(new File(uploadPath, "s_"+uploadFileName));
-				Thumbnailator.createThumbnail(multipartFile.getInputStream(), thumbnail, 100, 100);
-				
-				thumbnail.close();
-				
-				file_list.add(attachDTO);
-			} catch (IllegalStateException | IOException e) {
-				e.printStackTrace();
-			}
-		}
-		vo.setAttachDTO(file_list);
-		System.out.println(">> "+vo);
-		//if(service.writePost(vo)) return "mainHome";
-		
-		return "write";
+		return null;
 	}
-*/
+
 	private String getFolder() {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		Date date = new Date();

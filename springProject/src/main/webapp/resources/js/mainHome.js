@@ -7,17 +7,27 @@ $(".comment-form textarea").keyup(function(key){
 		btn.attr("disabled", false);
 	}
 });
+$(".active").each(function(idx, item){
+	setTimeout(function(){
+		var firstImage = $(item).children().children();
+		var fi_h = firstImage.height();
+		//console.log(fi_h);
+		if(fi_h>500){
+			firstImage.removeClass("w-100");
+			firstImage.addClass("h-500");
+		}
+	}, 650);
+});
+
 
 $(".carousel-control-prev , .carousel-control-next").on("click", function(){
+	var active = $(this).parent().children(".carousel-inner");
 	setTimeout(function(){
-		var img = $(this).parent().children().children(".active").children().children();
-		var img_h = img.height();
-		console.log(img);
-		console.log(img_h);
+		var activeImage = active.children(".active").children().children();
+		var img_h = activeImage.height();
 		if(img_h>500) {
-			img.removeClass("w-100");
-			img.addClass("h-500");
+			activeImage.removeClass("w-100");
+			activeImage.addClass("h-500");
 		}
 	}, 650);
 });	
-
