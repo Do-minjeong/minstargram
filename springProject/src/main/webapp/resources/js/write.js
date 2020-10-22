@@ -19,7 +19,9 @@ var dropzoneUploader = new Dropzone("form#uploader",{
 		});
 
 		dropzone.on("sending", function(file, xhr, formData){
-			formData.append("contents",$("#contents").val());
+			var contents = $("#contents").val();
+			contents = contents.replace(/(?:\r\n|\r|\n)/g, '<br/>');
+			formData.append("contents",contents);
 		});
 	}, 
 	headers: {

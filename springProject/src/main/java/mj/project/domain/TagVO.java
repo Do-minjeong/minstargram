@@ -8,4 +8,7 @@ public class TagVO {
 	private String tag_name;
 	private int post_no;
 	
+	public TagVO(String tag_name) {
+		this.tag_name = tag_name;
+	}
 }

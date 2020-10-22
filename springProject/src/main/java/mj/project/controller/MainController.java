@@ -16,11 +16,15 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.context.ServletContextAware;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,6 +32,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
+import mj.project.common.CommonFunction;
 import mj.project.domain.AttachFileVO;
 import mj.project.domain.MemberVO;
 import mj.project.domain.PostVO;
@@ -44,17 +49,21 @@ public class MainController implements ServletContextAware{
 	
 	private ServletContext servletContext;
 	
+	@Setter(onMethod_ = @Autowired)
+	private CommonFunction cf;
+	
 	@Override
 	public void setServletContext(ServletContext servletContext) {
 		this.servletContext = servletContext;
 	}
 	
 	@GetMapping("/mainHome")
-	public String mainHome(HttpSession session, Authentication auth, Model model) {
+	public String mainHome(HttpSession session, Authentication auth, Model model) throws Exception {
 		log.info("/main/mainHome controller 접속");
 		if(auth==null && session.getAttribute("s_userInfo")==null) return "redirect:/customLogin?logout";
 		// 모든 게시글 가져오기
-		List<PostVO> mainPosts = service.readPosts();
+		MemberVO member = cf.getSession(session);
+		List<PostVO> mainPosts = service.readPosts(member.getMember_no());
 		model.addAttribute("posts", mainPosts);
 		return "/main/mainHome";
 	}
@@ -71,12 +80,9 @@ public class MainController implements ServletContextAware{
 		String contents = request.getParameter("contents");
 		vo.setContents(contents);
 		
-		List<TagVO> tagvo = tagSplit(contents);
 		
-		MemberVO member = new MemberVO();
-		if(session.getAttribute("g_userInfo")!=null) member = (MemberVO) session.getAttribute("g_userInfo");
-		else if(session.getAttribute("s_userInfo")!=null)member = (MemberVO) session.getAttribute("s_userInfo");
-		else throw new Exception();
+		
+		MemberVO member = cf.getSession(session);
 		vo.setMember_no(member.getMember_no());
 		
 		List<AttachFileVO> file_list = new ArrayList<AttachFileVO>();
@@ -117,17 +123,10 @@ public class MainController implements ServletContextAware{
 		}
 		vo.setAttachList(file_list);
 		log.info(">>" + vo);
-		service.writePost(vo);
+		service.postWrite(vo);
 		
 	}
 	
-
-	private List<TagVO> tagSplit(String contents) {
-		
-		
-		return null;
-	}
-
 	private String getFolder() {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		Date date = new Date();
@@ -135,8 +134,7 @@ public class MainController implements ServletContextAware{
 		
 		return str.replace("-", File.separator);
 	}
-
-
+	
 }
 
 

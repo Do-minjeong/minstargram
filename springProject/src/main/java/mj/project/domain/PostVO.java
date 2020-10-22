@@ -14,4 +14,7 @@ public class PostVO {
 	private String userid;
 	
 	private List<TagVO> tagList;
+	
+	private String like_btn;
+	private int like_cnt;
 }

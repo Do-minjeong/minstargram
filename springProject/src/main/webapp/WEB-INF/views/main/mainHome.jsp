@@ -7,10 +7,10 @@
 <link href="/resources/css/main.css" rel="stylesheet">
 <%@ include file="../includes/header.jsp"%>
 <%@ include file="includes/header.jsp"%>
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+<!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
 		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
 		crossorigin="anonymous">
-  </script>
+  </script> -->
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
 		integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
@@ -18,7 +18,7 @@
  </script>
 </head>
 <body>
-
+<input type="hidden" name="${ _csrf.parameterName }" value="${_csrf.token}" id="csrf_token" >
 <script type="text/javascript">
 	$("img[alt='home']").attr("src","https://www.flaticon.com/svg/static/icons/svg/1946/1946436.svg")
 </script>
@@ -51,8 +51,8 @@
 			</div>
 		</div>
 	<div class="articlebox">
-			<div class="articles">
-				<article class="article box-setting">
+			<div class="articles"> 
+				<!-- <article class="article box-setting">
 					<header>
 						<div class="article-header">
 							<div class="aticle-canvas canvas displayCenter">
@@ -78,7 +78,6 @@
 								<li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
 								<li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
 							</ol>
-							<!-- <div class="article-imgbox article-section"> -->
 							<div class="carousel-inner">
 								<div class="carousel-item active" >
 									<div class="article-img">
@@ -114,7 +113,7 @@
 								data-slide="next"> <span class="carousel-control-next-icon"
 								aria-hidden="true"></span> <span class="sr-only">Next</span>
 							</a>
-							<!-- </div> -->
+							</div>
 						</div>
 					<div class="article-body">
 						<div class="article-iconbox article-section">
@@ -144,8 +143,7 @@
 								</form>
 							</div>
 						</div>
-					</div>
-				</article>
+				</article>  -->
 				<c:if test="${ posts ne null }">
 					<c:forEach items="${ posts }" var="post">
 						<article class="article box-setting">
@@ -204,18 +202,22 @@
 						</div>
 						<div class="article-body">
 							<div class="article-iconbox article-section">
-								<div class="article-icon"><img alt="좋아요" src="https://www.flaticon.com/svg/static/icons/svg/1946/1946406.svg"></div>
-								<div class="article-icon"><img alt="댓글" src="https://www.flaticon.com/svg/static/icons/svg/1946/1946412.svg"></div>
-								<div class="article-icon"><img alt="메시지" src="https://www.flaticon.com/svg/static/icons/svg/1946/1946547.svg"></div>
-								<div class="article-icon bookmark"><img alt="북마크" src="https://www.flaticon.com/svg/static/icons/svg/1946/1946422.svg"></div>
+								<button class="article-icon btnNone likebtn" id="likebtn${post.post_no}">
+									<c:if test="${post.like_btn}">
+										<img alt="좋아요" class="red_like" src="https://www.flaticon.com/svg/static/icons/svg/1946/1946346.svg">	
+									</c:if>
+									<c:if test="${!post.like_btn}">
+										<img alt="좋아요" class="white_like" src="https://www.flaticon.com/svg/static/icons/svg/1946/1946406.svg">
+									</c:if>
+								</button>
+								<button class="article-icon btnNone commentbtn" id="commentbtn${post.post_no}"><img alt="댓글" src="https://www.flaticon.com/svg/static/icons/svg/1946/1946412.svg"></button>
+								<button class="article-icon btnNone messagebtn" id="messagebtn${post.post_no}"><img alt="메시지" src="https://www.flaticon.com/svg/static/icons/svg/1946/1946547.svg"></button>
+								<button class="article-icon bookmark btnNone bookmarkbtn" id="bookmarkbtn${post.post_no}"><img alt="북마크" src="https://www.flaticon.com/svg/static/icons/svg/1946/1946422.svg"></button>
 							</div>
-							<div class="article-likes article-section"><button class="likes_info btnNone">좋아요 <span>11</span>개</button></div>
+							<div class="article-likes article-section"><button class="likes_info btnNone">좋아요 <span>${post.like_cnt}</span>개</button></div>
 							<div class="article-contents article-section">
 								<span class="article-id"><a href="">${post.userid}</a></span>
 								<span class="id-contents">
-									<a href="" >#안뇽</a>
-									<a href="" >#덥다할리스</a>
-									<br>
 									${post.contents}
 								</span>
 							</div>
@@ -245,9 +247,5 @@
 </div>
 
 <script type="text/javascript" src="/resources/js/mainHome.js"></script>
-<script type="text/javascript">
-//var posts = '${posts}';
-//console.log(posts);
-</script>
 </body>
 </html>

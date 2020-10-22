@@ -6,8 +6,8 @@ import mj.project.domain.PostVO;
 
 public interface MainService {
 	
-	public void writePost(PostVO vo);
+	public void postWrite(PostVO vo);
 
-	public List<PostVO> readPosts();
+	public List<PostVO> readPosts(int member_no);
 	
 }
