@@ -27,18 +27,30 @@ public class SubController {
 	@Setter(onMethod_ = @Autowired)
 	private CommonFunction cf;
 	
-	
 	@PostMapping(value = "/like/{post_no}", produces = "application/json; charset=utf8")
 	public ResponseEntity<Integer> likeOn(@PathVariable("post_no") String post_no, HttpSession session) throws Exception {
 		MemberVO member = cf.getSession(session);
-		return new ResponseEntity<Integer>(service.likeOn(post_no, member.getMember_no()), HttpStatus.OK);
+		return new ResponseEntity<Integer>(service.likeOnOff(0,post_no, member.getMember_no()), HttpStatus.OK);
 	}
 	
 	@DeleteMapping(value = "/like/{post_no}", produces="application/json; charset=utf-8")
-	public ResponseEntity<Integer> likeOff(@PathVariable("post_no") String post_no, HttpSession session){
-		
-		return new ResponseEntity<Integer>(2, HttpStatus.OK);
+	public ResponseEntity<Integer> likeOff(@PathVariable("post_no") String post_no, HttpSession session) throws Exception{
+		MemberVO member = cf.getSession(session);
+		return new ResponseEntity<Integer>(service.likeOnOff(1,post_no, member.getMember_no()), HttpStatus.OK);
 	}
 	
+	@PostMapping(value="/bookmark/{post_no}", produces="application/json; charset=utf-8")
+	public ResponseEntity<String> bookmarkOn(@PathVariable("post_no")String post_no, HttpSession session) throws Exception{
+		MemberVO member = cf.getSession(session);
+		service.bookmarkOnOff(0, post_no, member.getMember_no());
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+	
+	@DeleteMapping(value="/bookmark/{post_no}", produces="application/json; charset=utf-8")
+	public ResponseEntity<String> bookmarkOff(@PathVariable("post_no")String post_no, HttpSession session) throws Exception{
+		MemberVO member = cf.getSession(session);
+		service.bookmarkOnOff(1, post_no, member.getMember_no());
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
 
 }

@@ -3,22 +3,33 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   <mapper namespace="mj.project.mapper.SubMapper">
-
+	<!-- 좋아요 기능 -->
 	<insert id="likeOn">
 		INSERT INTO post_likes(p_likes_no, post_no, member_no)
 		VALUES (p_likes_no_seq.NEXTVAL, #{post_no}, #{member_no})
 	</insert>
 
+	<delete id="likeOff">
+		DELETE FROM post_likes 
+		WHERE post_no = #{post_no} AND member_no = #{member_no}
+	</delete>
 
+	<select id="likeCount" resultType="Integer">
+		SELECT COUNT(*)
+		FROM post_likes
+		WHERE post_no = #{post_no}
+	</select>
+	
+	<!-- 북마크 기능 -->
+	<insert id="bookmarkOn">
+		INSERT INTO post_bookmarks(p_bookmark_no, member_no, post_no)
+		VALUES (p_bookmark_no_seq.NEXTVAL, #{member_no}, #{post_no})
+	</insert>
 
-
-
-
-
-
-
-
-
+	<delete id="bookmarkOff">
+		DELETE FROM post_bookmarks
+		WHERE post_no = #{post_no} AND member_no = #{member_no}
+	</delete>
 
 
 

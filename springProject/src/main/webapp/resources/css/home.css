@@ -92,7 +92,7 @@ body{
 #naver_id_login .completeType{
     background: rgb(30,200, 0);
     border-radius: 5px;
-    padding: 5px 0;
+    padding: 5px 8px;
 }
 #naver_id_login a .naverIDLogin{
 	color: green;
@@ -132,7 +132,7 @@ input{
 }
 .naverLoginText{
 	color: white;
-	font-size: 16px;	
+	font-size: 14px;	
 	font-family: 'NanumSquare', sans-serif;
 	font-weight: 600;
 	margin-left: 10px;
@@ -171,8 +171,8 @@ input{
     margin-bottom: 0;
 }
 .signupLabel:not(.notLabel){
-	width: 100%;
-}
+	width: 80%;
+} 
 .signupLabel span{
     font-size: 10px;
     color: #696969;

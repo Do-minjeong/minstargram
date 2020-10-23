@@ -143,7 +143,7 @@
 }
 .article-id a{
 	color: black;
-	font-weight: 800;
+	font-weight: 750;
 	margin-right: 5px;
 }
 .id-contents a{
@@ -180,7 +180,19 @@ textarea{
 .comment-form button:disabled{
 	color: rgba( 235, 147, 22, 0.5);
 }
-
+.commentMore a{
+	color: gray;
+	text-decoration: none !important;
+}
+.article-reply{
+	padding-left: 3px;
+}
+.article-contenst{
+	margin: 0;
+}
+.reply-id a{
+	font-weight: 700 !important;
+}
 /*  ***** ******************************************** */
 .write-btn{
 	background: #eb9316 !important;

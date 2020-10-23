@@ -12,9 +12,15 @@ public class PostVO {
 	private int member_no;
 	private String reg_date;
 	private String userid;
+	private String profile_photo;
 	
 	private List<TagVO> tagList;
 	
 	private String like_btn;
 	private int like_cnt;
+	
+	private String bookmark_btn;
+	
+	private int reply_cnt;
+	private List<ReplyVO> replyList;
 }

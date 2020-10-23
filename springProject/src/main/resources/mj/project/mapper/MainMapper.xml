@@ -35,19 +35,27 @@
   	<result property="member_no" column="member_no" />
   	<result property="reg_date" column="reg_date" />
   	<result property="userid" column="userid" />
+  	<result property="profile_photo" column="profile_photo" />
   	<result property="like_btn" column="like_btn" />
   	<result property="like_cnt" column="like_cnt" />
+  	<result property="bookmark_btn" column="bookmark_btn" />
+  	<result property="reply_cnt" column="reply_cnt" />
   	<collection property="attachList" resultMap="attachMap"></collection>
+  	<collection property="replyList" resultMap="replyMap"></collection>
   </resultMap>
   <resultMap type="mj.project.domain.AttachFileVO" id="attachMap">
   	<result property="file_name" column="file_name" />
   	<result property="file_url" column="file_url" />
   	<result property="total_url" column="total_url" />
   </resultMap>
-  
+  <resultMap type="mj.project.domain.ReplyVO" id="replyMap">
+  	<result property="reply_no" column="reply_no" />
+  	<result property="userid" column="r_userid"/>
+  	<result property="contents" column="r_contents" />
+  </resultMap>
   
   <select id="readPosts" resultMap="postMap">
-  	SELECT p.post_no, contents,
+  	SELECT p.post_no, p.contents,
        CASE 
         WHEN (sysdate - p.reg_date) BETWEEN 0 AND 1/24
         THEN trunc((sysdate - p.reg_date)*60*24,0)||'분 전'
@@ -59,17 +67,37 @@
         THEN '1주 전'
         ELSE p.reg_date || ''
        END reg_date ,
-       userid, photo_no, file_name, file_url, 
+       m.userid, profile_photo, photo_no, file_name, file_url, 
        'http://localhost' || REPLACE(SUBSTR(file_url, INSTR(file_url,'\resources')),'\','/') || '/' || file_name as total_url,
        CASE
-       	WHEN mpl.post_no IS NULL
-       	THEN 'false'
+       	WHEN mpl.post_no IS NULL    THEN 'false'
       	ELSE 'true'
-       END like_btn, NVL(like_cnt,0) as like_cnt
+       END like_btn,
+       NVL(like_cnt,0) as like_cnt,
+       CASE
+      	WHEN pb.post_no IS NULL  THEN 'false'
+        ELSE 'true'
+       END bookmark_btn,
+       r.reply_no,
+       r.userid as r_userid,
+       r.contents as r_contents,
+       reply_cnt
 	FROM posts p JOIN photos ph ON (p.post_no = ph.post_no)
              	 JOIN members m ON (p.member_no = m.member_no)
               	 LEFT JOIN (SELECT * FROM post_likes WHERE member_no = #{member_no}) mpl ON(mpl.post_no = p.post_no)
               	 LEFT JOIN (SELECT post_no, COUNT(*)OVER(PARTITION BY POST_NO) as like_cnt FROM post_likes) pl ON(p.post_no = pl.post_no)
+              	 LEFT JOIN (SELECT * FROM post_bookmarks WHERE member_no = 4) pb ON(pb.post_no = p.post_no)
+              	 LEFT JOIN (
+              	 	SELECT *
+                    FROM (
+                    	SELECT post_no, reply_no, userid, contents, COUNT(*)OVER(PARTITION BY post_no) as reply_cnt 
+                          	   , RANK()OVER(PARTITION BY post_no ORDER BY rp.reg_date DESC) as rn, rp.reg_date
+                    	FROM replys rp JOIN members ms ON(rp.member_no = ms.member_no)
+                    	ORDER BY rp.reg_date
+                    )
+                    WHERE rn <![CDATA[<]]> 3
+              	 
+              	 ) r ON(r.post_no = p.post_no )
 	ORDER BY p.reg_date DESC
   </select>
 

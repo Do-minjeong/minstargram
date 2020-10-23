@@ -13,7 +13,7 @@
 		<div class="displayCenter titlediv">
 			<h1 class="titleText">MIN <span class="star text-yellow">★</span> GRAM</h1>
 		</div>
-		<div id="naver_id_login" class="input-group" >
+		<div id="naver_id_login" class="input-group displayCenter" >
 			<a href="${url}" class="displayCenter completeType">
 				<img alt="" src="/resources/images/naver_ID_login_icon_TYPE.png" height="30px"><span class="naverLoginText">네이버 아이디로 로그인</span>
 			</a>
@@ -44,7 +44,7 @@
 				</div>
 			</div>
 			<div class="input-group signupInput">
-				<label class="signupLabel">
+				<label class="signupLabel" style="width: 70%;">
 					<span>사용자이름(ID)</span>
 					<input type="text" name="userid"  placeholder="사용자이름(ID)" required>				
 				</label>
@@ -53,7 +53,7 @@
 				</div>
 			</div>
 			<div class="input-group signupInput">
-				<label class="signupLabel notLabel">
+				<label class="signupLabel notLabel" style="width: 60%;">
 					<span>비밀번호</span>				
 					<input type="password" name="password" placeholder="비밀번호" required>
 				</label>

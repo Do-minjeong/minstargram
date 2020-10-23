@@ -151,7 +151,7 @@
 							<div class="article-header">
 								<div class="aticle-canvas canvas displayCenter">
 									<div class="profile-pic">
-										<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSw1gQ3kuXFIpGaAuXc_QyaPBaSpbQQXhs1FA&usqp=CAU">
+										<img src="${ post.profile_photo }">
 									</div>
 								</div>
 								<div class="smallheader">
@@ -204,22 +204,46 @@
 							<div class="article-iconbox article-section">
 								<button class="article-icon btnNone likebtn" id="likebtn${post.post_no}">
 									<c:if test="${post.like_btn}">
-										<img alt="좋아요" class="red_like" src="https://www.flaticon.com/svg/static/icons/svg/1946/1946346.svg">	
+										<img alt="좋아요" class="on_like" src="https://www.flaticon.com/svg/static/icons/svg/1946/1946346.svg">	
 									</c:if>
 									<c:if test="${!post.like_btn}">
-										<img alt="좋아요" class="white_like" src="https://www.flaticon.com/svg/static/icons/svg/1946/1946406.svg">
+										<img alt="좋아요" class="off_like" src="https://www.flaticon.com/svg/static/icons/svg/1946/1946406.svg">
 									</c:if>
 								</button>
-								<button class="article-icon btnNone commentbtn" id="commentbtn${post.post_no}"><img alt="댓글" src="https://www.flaticon.com/svg/static/icons/svg/1946/1946412.svg"></button>
+								<button class="article-icon btnNone commentbtn" id="commentbtn${post.post_no}">
+									<img alt="댓글" src="https://www.flaticon.com/svg/static/icons/svg/1946/1946412.svg">
+								</button>
 								<button class="article-icon btnNone messagebtn" id="messagebtn${post.post_no}"><img alt="메시지" src="https://www.flaticon.com/svg/static/icons/svg/1946/1946547.svg"></button>
-								<button class="article-icon bookmark btnNone bookmarkbtn" id="bookmarkbtn${post.post_no}"><img alt="북마크" src="https://www.flaticon.com/svg/static/icons/svg/1946/1946422.svg"></button>
+								<button class="article-icon bookmark btnNone bookmarkbtn" id="bookmarkbtn${post.post_no}">
+									<c:if test="${post.bookmark_btn}">
+										<img alt="북마크" class="on_bookmark" src="https://www.flaticon.com/svg/static/icons/svg/1946/1946379.svg">							
+									</c:if>
+									<c:if test="${!post.bookmark_btn}">
+										<img alt="북마크" class="off_bookmark" src="https://www.flaticon.com/svg/static/icons/svg/1946/1946422.svg">
+									</c:if>
+								</button>
 							</div>
-							<div class="article-likes article-section"><button class="likes_info btnNone">좋아요 <span>${post.like_cnt}</span>개</button></div>
+							<div class="article-likes article-section"><button class="likes_info btnNone">좋아요 <span id="likeval${post.post_no}">${post.like_cnt}</span>개</button></div>
 							<div class="article-contents article-section">
 								<span class="article-id"><a href="">${post.userid}</a></span>
 								<span class="id-contents">
-									${post.contents}
+									${post.contents} 
 								</span>
+							</div>
+							<div class="article-reply article-section">
+								<c:if test="${ post.replyList ne null }">
+									<c:if test="${ post.reply_cnt > 2 }">
+										<div class="commentMore"><a href="">댓글  <span>${post.reply_cnt}</span>개 모두 보기</a></div>								
+									</c:if>
+									<div class="replys_box">
+										<c:forEach items="${ post.replyList }" var="reply">
+											<div class="reply">
+												<span class="article-id reply-id"><a href="">${reply.userid}</a></span>
+												<span class="id-contents">${reply.contents}</span>
+											</div>								
+										</c:forEach>
+									</div>
+									</c:if>
 							</div>
 							<div class="article-time article-section">
 								<span>${post.reg_date}</span>

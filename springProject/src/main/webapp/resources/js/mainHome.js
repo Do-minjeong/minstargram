@@ -37,37 +37,63 @@ $(".carousel-control-prev , .carousel-control-next").on("click", function(){
 
 
 
-$(".likebtn").on("click", function(){
+$(".likebtn , .bookmarkbtn").on("click", function(){
 	var btn_id = $(this).attr("id");
+	var btn_name = btn_id.substring(0, btn_id.indexOf("btn"));
 	var post_no = btn_id.substring(btn_id.indexOf("btn")+3, btn_id.length);
 
 	var img = $("#"+btn_id).children();
 	var img_class = img.attr("class");
 	
-	if(img_class.indexOf("red")==0){
-		likeOff(post_no);
-		img.attr("src", "https://www.flaticon.com/svg/static/icons/svg/1946/1946406.svg")
-		img.removeClass("red_like");
-		img.addClass("white_like");
-	} else if(img_class.indexOf("white")==0) {
-		likeOn(post_no);
-		img.attr("src","https://www.flaticon.com/svg/static/icons/svg/1946/1946346.svg");
-		img.removeClass("white_like");
-		img.addClass("red_like");
+	var type = '', imgSrc = '';
+	var rClass = '', aClass = '';
+	// 취소
+	if(img_class.indexOf("on")==0){
+		type = "DELETE";
+		if(btn_name == 'like'){
+			likeOnOff(type, post_no);
+			imgSrc = "https://www.flaticon.com/svg/static/icons/svg/1946/1946406.svg";
+			rClass = "on_"+btn_name;
+			aClass = "off_"+btn_name;
+		} else if(btn_name == 'bookmark'){
+			bookmarkOnOff(type, post_no);
+			imgSrc = "https://www.flaticon.com/svg/static/icons/svg/1946/1946422.svg";
+			rClass = "on_"+btn_name;
+			aClass = "off_"+btn_name;
+		}
+	} else if(img_class.indexOf("off")==0) { // 좋아요 추가
+		type = "POST";
+		if(btn_name == 'like'){
+			likeOnOff(type, post_no);
+			imgSrc = "https://www.flaticon.com/svg/static/icons/svg/1946/1946346.svg";
+			rClass = "off_"+btn_name;
+			aClass = "on_"+btn_name;
+		} else if(btn_name == 'bookmark'){
+			bookmarkOnOff(type, post_no);
+			imgSrc = "https://www.flaticon.com/svg/static/icons/svg/1946/1946379.svg";
+			rClass = "off_"+btn_name;
+			aClass = "on_"+btn_name;
+		}
 	}
+	
+	img.attr("src", imgSrc);
+	img.removeClass(rClass);
+	img.addClass(aClass);
+	
 });
 
 
-function likeOn(post_no){
+function likeOnOff(type, post_no){
 	$.ajax({
-		type : "POST",
+		type : type,
 		url : "/like/"+post_no,
 		contentType : "application/json; charset=utf-8",
 		headers: {
 			'X-CSRF-TOKEN': $("#csrf_token").val()
 		},
 		success : function(data){
-			console.log("like On Success");
+			console.log("like OnOff Success");
+			$("#likeval"+post_no).text(data);
 		},
 		error : function(xhr, status, er){
 			console.log("xhr: "+xhr+" status: "+status);
@@ -76,20 +102,20 @@ function likeOn(post_no){
 	});
 }
 
-function likeOff(){
+function bookmarkOnOff(type, post_no){
 	$.ajax({
-		type : "DELETE",
-		url : "/like/"+post_no,
+		type : type,
+		url : "/bookmark/"+post_no,
 		contentType : "application/json; charset=utf-8",
 		headers: {
 			'X-CSRF-TOKEN': $("#csrf_token").val()
 		},
 		success : function(data){
-			console.log("like OFF Success");
+			console.log("boomark OnOff Success");
 		},
 		error : function(xhr, status, er){
 			console.log("xhr: "+xhr+" status: "+status);
-			console.log("like OFF Error");
+			console.log("boomark On Error");
 		}
 	});
 }

@@ -38,7 +38,7 @@
 				<a href=""><img alt="directmsg" src="https://www.flaticon.com/svg/static/icons/svg/1946/1946406.svg"></a>
 			</div>
 			<div class="icon">
-				<a href=""><img alt="directmsg" src="https://www.flaticon.com/svg/static/icons/svg/1946/1946429.svg"></a>
+				<a href=""><img alt="directmsg" src="https://www.flaticon.com/svg/static/icons/svg/848/848006.svg"></a>
 			</div>
 		</div>
 	</div>
