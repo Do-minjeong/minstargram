@@ -27,22 +27,21 @@
 <script type="text/javascript">
 	console.log("hello");
 </script>
-<c:if test="${ g_userInfo ne null }">
+<c:if test="${ userInfo.login_type_no eq 1 }">
 	<script type="text/javascript">
 		console.log("custom");
 		$("#logoutForm").attr("action","/customLogout");
-		var ap = '${g_userInfo.username}';
 	</script> 
 </c:if>
-<c:if test="${ s_userInfo ne null }">
+<c:if test="${ userInfo.login_type_no eq 2 }">
 	<script type="text/javascript">
 		console.log("s_userInfo")
 		$("#logoutForm").attr("action","/socialLogout");
-		var ap = '${ s_userInfo.username}';
 	</script>
 </c:if>
 <script type="text/javascript">
-		$(".userInfo").append("<span>"+ap+" 님</span>");
+var ap = '${userInfo.username}';
+	$(".userInfo").append("<span>"+ap+" 님</span>");
 </script>
 </body>
 </html>

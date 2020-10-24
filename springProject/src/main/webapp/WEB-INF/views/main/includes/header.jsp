@@ -13,12 +13,13 @@
 			</button>
 		</div>
 		<div>
-			<c:if test="${g_userInfo ne null }">
-				LOGIN: ${g_userInfo.username}					
+			<c:if test="${userInfo.login_type_no eq 1 }">
+				LOGIN:			
 			</c:if>
-			<c:if test="${s_userInfo ne null }">
-				SOCIAL LOGIN: ${s_userInfo.username}
+			<c:if test="${userInfo.login_type_no eq 2 }">
+				SOCIAL LOGIN:
 			</c:if>
+			${ userInfo.username }
 		</div>
 		<div class="searchbox displayCenter">
 			<img alt="searchImg" src="https://www.flaticon.com/svg/static/icons/svg/25/25313.svg" >

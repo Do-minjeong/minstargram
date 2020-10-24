@@ -1,6 +1,5 @@
 package mj.project.service;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -11,11 +10,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.Setter;
+import lombok.extern.log4j.Log4j;
 import mj.project.domain.PostVO;
 import mj.project.domain.TagVO;
 import mj.project.mapper.MainMapper;
 
 @Service
+@Log4j
 public class MainServiceImpl implements MainService{
 	
 	@Setter(onMethod_ = @Autowired)
@@ -30,7 +31,7 @@ public class MainServiceImpl implements MainService{
 	}
 	
 	private List<TagVO> tagSplit(String contents) {
-		System.out.println("contents >>> "+contents);
+		log.info("contents : "+contents);
 		int hashStart = 0, hashEnd = 0;
 		int hashSpace = 0, hashEnter = 0;
 		int maxLength = contents.length();
@@ -70,13 +71,11 @@ public class MainServiceImpl implements MainService{
 			postVO.setContents(contents);
 			post_list2.add(postVO);
 		}
-		
 		return post_list2;
 	}
 
 	private String addTagContents(String contents) {
 		StringBuffer sb = new StringBuffer(contents);
-		System.out.println("addTag  진입");
 		int hashStart = 0, hashEnd = 0;
 		int hashSpace = 0, hashEnter = 0;
 		String hashTag = "";
@@ -93,7 +92,6 @@ public class MainServiceImpl implements MainService{
 			sb = sb.replace(hashStart, hashEnd, newString);
 			hashStart = hashEnd+14;
 		}
-		System.out.println("addTag contents: "+ sb.toString());
 		return sb.toString();
 	}
 

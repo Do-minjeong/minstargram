@@ -26,6 +26,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.context.ServletContextAware;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -42,15 +44,13 @@ import mj.project.service.MainService;
 @Controller
 @Log4j
 @RequestMapping("/main/")
+@SessionAttributes("userInfo")
 public class MainController implements ServletContextAware{
 	
 	@Setter(onMethod_ = @Autowired)
 	private MainService service;
 	
 	private ServletContext servletContext;
-	
-	@Setter(onMethod_ = @Autowired)
-	private CommonFunction cf;
 	
 	@Override
 	public void setServletContext(ServletContext servletContext) {
@@ -60,9 +60,10 @@ public class MainController implements ServletContextAware{
 	@GetMapping("/mainHome")
 	public String mainHome(HttpSession session, Authentication auth, Model model) throws Exception {
 		log.info("/main/mainHome controller 접속");
-		if(auth==null && session.getAttribute("s_userInfo")==null) return "redirect:/customLogin?logout";
+		if(session.getAttribute("userInfo") == null) return "redirect:/customLogin?logout";
 		// 모든 게시글 가져오기
-		MemberVO member = cf.getSession(session);
+		MemberVO member = (MemberVO) session.getAttribute("userInfo");
+		log.info("Login USER : "+member);
 		List<PostVO> mainPosts = service.readPosts(member.getMember_no());
 		model.addAttribute("posts", mainPosts);
 		return "/main/mainHome";
@@ -74,15 +75,12 @@ public class MainController implements ServletContextAware{
 	}
 	
 	@PostMapping("/write")
-	public void postWrite(HttpSession session, MultipartFile nfile, MultipartHttpServletRequest request) throws Exception {
+	public void postWrite(@SessionAttribute("userInfo") MemberVO member, MultipartFile nfile, MultipartHttpServletRequest request) throws Exception {
 		log.info("MainController postWrite");
 		PostVO vo = new PostVO();
 		String contents = request.getParameter("contents");
 		vo.setContents(contents);
 		
-		
-		
-		MemberVO member = cf.getSession(session);
 		vo.setMember_no(member.getMember_no());
 		
 		List<AttachFileVO> file_list = new ArrayList<AttachFileVO>();

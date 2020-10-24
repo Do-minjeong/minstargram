@@ -47,16 +47,18 @@ $(".likebtn , .bookmarkbtn").on("click", function(){
 	
 	var type = '', imgSrc = '';
 	var rClass = '', aClass = '';
+	var url = '', callback = '';
 	// 취소
 	if(img_class.indexOf("on")==0){
 		type = "DELETE";
 		if(btn_name == 'like'){
-			likeOnOff(type, post_no);
+			url = '/like/';
+			callback = likeCallback;
 			imgSrc = "https://www.flaticon.com/svg/static/icons/svg/1946/1946406.svg";
 			rClass = "on_"+btn_name;
 			aClass = "off_"+btn_name;
 		} else if(btn_name == 'bookmark'){
-			bookmarkOnOff(type, post_no);
+			url = '/bookmark/';
 			imgSrc = "https://www.flaticon.com/svg/static/icons/svg/1946/1946422.svg";
 			rClass = "on_"+btn_name;
 			aClass = "off_"+btn_name;
@@ -64,24 +66,84 @@ $(".likebtn , .bookmarkbtn").on("click", function(){
 	} else if(img_class.indexOf("off")==0) { // 좋아요 추가
 		type = "POST";
 		if(btn_name == 'like'){
-			likeOnOff(type, post_no);
+			url = '/like/';
+			callback = likeCallback;
 			imgSrc = "https://www.flaticon.com/svg/static/icons/svg/1946/1946346.svg";
 			rClass = "off_"+btn_name;
 			aClass = "on_"+btn_name;
 		} else if(btn_name == 'bookmark'){
-			bookmarkOnOff(type, post_no);
+			url = '/bookmark/';
 			imgSrc = "https://www.flaticon.com/svg/static/icons/svg/1946/1946379.svg";
 			rClass = "off_"+btn_name;
 			aClass = "on_"+btn_name;
 		}
 	}
-	
+	subAjaxFunc(type, url, post_no, null, "text", btn_name, callback);
 	img.attr("src", imgSrc);
 	img.removeClass(rClass);
 	img.addClass(aClass);
 	
 });
 
+var likeCallback = function(post_no, data){
+	console.log("like callback");
+	$("#likeval"+post_no).text(data);
+}
+
+
+// 댓글달기
+$(".comment-form button[type=submit]").on("click", function(e){
+	e.preventDefault();
+	var tt_id = $(this).prev().attr("id");
+	var params = {
+					r_contents: $("#"+tt_id).val()
+				 };
+	var post_no = tt_id.substring(tt_id.indexOf("cmt")+3, tt_id.length);
+	
+	$("#"+tt_id).val('');
+	subAjaxFunc("POST", "/reply/", post_no, params, "json", "reply post", replyCallback);
+	
+	
+});
+
+var replyCallback = function(post_no, data){
+	console.log('reply Callback method');
+	var str = '<div class="reply"><div class="reply-top">'
+			 + '<span class="article-id reply-id"><a href="">'
+			 + data.userid + '</a></span>'
+			 + '<span class="id-contents"> ' + data.r_contents + '</span></div>'
+			 + '<button class="btnNone replyLikeBtn" id="rlikebtn'+data.reply_no+'">'
+			 + '<img alt="reply_like" src="https://www.flaticon.com/svg/static/icons/svg/2107/2107952.svg">'
+			 + '</button></div>';
+	$("#replybox"+post_no).append(str);	
+}
+
+function subAjaxFunc(type, url, post_no, params, dataType, title, callback){
+	$.ajax({
+		type : type,
+		url : url+post_no,
+		data: JSON.stringify(params),
+		dataType: dataType,
+		contentType : "application/json; charset=utf-8",
+		headers: {
+			'X-CSRF-TOKEN': $("#csrf_token").val()
+		},
+		success : function(data){
+			console.log(title + " Success");
+			console.log(data);
+			if(callback)
+				callback(post_no, data);
+		},
+		error : function(status, error){
+			console.log("status: "+status+"  error: "+error);
+			console.log(title + " Error");
+		}
+	});
+	
+};
+
+
+/*
 
 function likeOnOff(type, post_no){
 	$.ajax({
@@ -118,5 +180,5 @@ function bookmarkOnOff(type, post_no){
 			console.log("boomark On Error");
 		}
 	});
-}
-
+};
+*/

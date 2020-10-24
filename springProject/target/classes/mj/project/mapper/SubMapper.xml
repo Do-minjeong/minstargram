@@ -31,6 +31,13 @@
 		WHERE post_no = #{post_no} AND member_no = #{member_no}
 	</delete>
 
+	<insert id="replyInsert" >
+		<selectKey keyProperty="reply_no" resultType="int" order="BEFORE">
+			SELECT reply_no_seq.NEXTVAL	FROM dual
+		</selectKey>
+		INSERT INTO replys(reply_no, post_no, member_no, r_contents)
+		VALUES (#{reply_no}, #{post_no}, #{member_no}, #{r_contents})
+	</insert>
 
 
   </mapper>

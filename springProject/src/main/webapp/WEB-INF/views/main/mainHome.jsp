@@ -235,11 +235,16 @@
 									<c:if test="${ post.reply_cnt > 2 }">
 										<div class="commentMore"><a href="">댓글  <span>${post.reply_cnt}</span>개 모두 보기</a></div>								
 									</c:if>
-									<div class="replys_box">
+									<div class="replys_box" id="replybox${post.post_no}">
 										<c:forEach items="${ post.replyList }" var="reply">
 											<div class="reply">
-												<span class="article-id reply-id"><a href="">${reply.userid}</a></span>
-												<span class="id-contents">${reply.contents}</span>
+												<div class="reply-top">
+													<span class="article-id reply-id"><a href="">${reply.userid}</a></span>
+													<span class="id-contents">${reply.r_contents}</span>
+												</div>
+												<button class="btnNone replyLikeBtn" id="rlikebtn${reply.reply_no}">
+													<img alt="reply_like" src="https://www.flaticon.com/svg/static/icons/svg/2107/2107952.svg">
+												</button>
 											</div>								
 										</c:forEach>
 									</div>
@@ -251,7 +256,7 @@
 							<div class="comment article-section">
 								<div class="comment-input">
 									<form action="" class="comment-form displayCenter">
-										<textarea wrap="virtual" cols="38" class="btnNone" placeholder="댓글 달기.."></textarea>
+										<textarea id="cmt${post.post_no}" name="r_contents" wrap="virtual" cols="38" class="btnNone" placeholder="댓글 달기.."></textarea>
 										<button type="submit" class="btnNone" disabled>게시</button>
 									</form>
 								</div>

@@ -1,56 +1,69 @@
 package mj.project.controller;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
-import mj.project.common.CommonFunction;
 import mj.project.domain.MemberVO;
+import mj.project.domain.ReplyVO;
 import mj.project.service.SubService;
 
 @RestController
 @Log4j
+@SessionAttributes("userInfo")
 public class SubController {
 	
 	@Setter(onMethod_ = @Autowired)
 	private SubService service;
 	
-	@Setter(onMethod_ = @Autowired)
-	private CommonFunction cf;
-	
 	@PostMapping(value = "/like/{post_no}", produces = "application/json; charset=utf8")
-	public ResponseEntity<Integer> likeOn(@PathVariable("post_no") String post_no, HttpSession session) throws Exception {
-		MemberVO member = cf.getSession(session);
+	public ResponseEntity<Integer> likeOn(@PathVariable("post_no") String post_no, @SessionAttribute("userInfo") MemberVO member) {
+		log.info("like On");
 		return new ResponseEntity<Integer>(service.likeOnOff(0,post_no, member.getMember_no()), HttpStatus.OK);
 	}
 	
 	@DeleteMapping(value = "/like/{post_no}", produces="application/json; charset=utf-8")
-	public ResponseEntity<Integer> likeOff(@PathVariable("post_no") String post_no, HttpSession session) throws Exception{
-		MemberVO member = cf.getSession(session);
+	public ResponseEntity<Integer> likeOff(@PathVariable("post_no") String post_no,  @SessionAttribute("userInfo") MemberVO member) {
+		log.info("like Off");
 		return new ResponseEntity<Integer>(service.likeOnOff(1,post_no, member.getMember_no()), HttpStatus.OK);
 	}
 	
 	@PostMapping(value="/bookmark/{post_no}", produces="application/json; charset=utf-8")
-	public ResponseEntity<String> bookmarkOn(@PathVariable("post_no")String post_no, HttpSession session) throws Exception{
-		MemberVO member = cf.getSession(session);
-		service.bookmarkOnOff(0, post_no, member.getMember_no());
-		return new ResponseEntity<>(HttpStatus.OK);
+	public ResponseEntity<String> bookmarkOn(@PathVariable("post_no") String post_no, @SessionAttribute("userInfo") MemberVO member) {
+		log.info("bookmark On");
+		return service.bookmarkOnOff(0, post_no, member.getMember_no())==1? new ResponseEntity<String>("success", HttpStatus.OK)
+				: new ResponseEntity<String>("error", HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
 	@DeleteMapping(value="/bookmark/{post_no}", produces="application/json; charset=utf-8")
-	public ResponseEntity<String> bookmarkOff(@PathVariable("post_no")String post_no, HttpSession session) throws Exception{
-		MemberVO member = cf.getSession(session);
-		service.bookmarkOnOff(1, post_no, member.getMember_no());
-		return new ResponseEntity<>(HttpStatus.OK);
+	public ResponseEntity<String> bookmarkOff(@PathVariable("post_no") String post_no, @SessionAttribute("userInfo") MemberVO member) {
+		log.info("bookmark Off");
+		return service.bookmarkOnOff(1, post_no, member.getMember_no())==1? new ResponseEntity<String>("success", HttpStatus.OK)
+				: new ResponseEntity<String>("error", HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
+	@PostMapping(value="/reply/{post_no}", produces="application/json; charset=utf-8")
+	public ResponseEntity<ReplyVO> replyPost(@RequestBody ReplyVO vo, @PathVariable("post_no") String post_no, @SessionAttribute("userInfo") MemberVO member){
+		log.info("Reply POST VO: "+vo);
+		
+		vo.setPost_no(post_no);
+		vo.setMember_no(member.getMember_no());
+		vo.setUserid(member.getUserid());
+		
+		service.replyInsert(vo);
+		
+		return new ResponseEntity<ReplyVO>(vo, HttpStatus.OK);
+		
 	}
 
 }

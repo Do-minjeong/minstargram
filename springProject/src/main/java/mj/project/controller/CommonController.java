@@ -42,16 +42,17 @@ public class CommonController {
 	@RequestMapping(value = {"/", "/home"}, method = {RequestMethod.GET, RequestMethod.POST})
 	public String home(HttpServletRequest request, HttpSession session, Authentication auth, Model model) {
 		log.info(">>>> home Method auth: "+auth);
-		log.info(">>>> home Method session: "+session.getAttribute("s_userInfo"));
+		log.info(">>>> home Method session: "+session.getAttribute("userInfo"));
 		System.out.println("home 진입");
 		String username = "";
-		if(auth == null && session.getAttribute("s_userInfo") == null) {
+		if(auth == null && session.getAttribute("userInfo") == null) {
 			return "redirect:customLogin";
-		} else if(auth != null && session.getAttribute("s_userInfo")==null) {
+		} else if(auth != null && session.getAttribute("userInfo")==null) {
 			UserDetails ud = (UserDetails) auth.getPrincipal();
 			username = ud.getUsername();
 			MemberVO vo = service.readMemberInfo(username);
-			session.setAttribute("g_userInfo", vo);
+			vo.setLogin_type_no(1);
+			session.setAttribute("userInfo", vo);
 		}
 		return "home";
 	}
@@ -86,8 +87,8 @@ public class CommonController {
 	public String loginInput(String error, String logout, Authentication auth, HttpSession session, Model model) {
 		String username = "";
 		System.out.println("loginInput 메소드 > login auth: "+ auth);
-		System.out.println("loginInput 메소드 > login session: "+session.getAttribute("s_userInfo"));
-		if(auth == null && session.getAttribute("s_userInfo")==null) {
+		System.out.println("loginInput 메소드 > login session: "+session.getAttribute("userInfo"));
+		if(auth == null && session.getAttribute("userInfo")==null) {
 			log.info("error: " + error);
 			log.info("logout: " + logout);
 
@@ -132,7 +133,8 @@ public class CommonController {
 			url = updateUserId(username, model);
 		}
 		MemberVO vo = service.readMemberInfo(username);
-		session.setAttribute("s_userInfo", vo);
+		vo.setLogin_type_no(2);
+		session.setAttribute("userInfo", vo);
 		return url;
 	}
 	
@@ -180,8 +182,7 @@ public class CommonController {
 	
 	@PostMapping("/socialLogout")
 	public String sessionLogout(HttpSession session) {
-		log.info(">> s_session logout: "+session.getAttribute("s_userInfo"));
-		log.info(">> g_session logout: "+session.getAttribute("g_userInfo"));
+		log.info(">> session logout: "+session.getAttribute("userInfo"));
 		session.invalidate();
 		return "redirect:customLogin?logout";
 	}

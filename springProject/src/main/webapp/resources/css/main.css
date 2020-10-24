@@ -203,7 +203,22 @@ textarea{
 	font-size: 16px;
 	font-weight: 550;
 }
-
+.reply{
+	display: flex;
+    align-items: center;
+    position: relative;
+}
+.reply-top{
+	width: 95%;
+}
+.replyLikeBtn{
+	display: flex;
+    position: absolute;
+    right: 0;
+}
+.replyLikeBtn img{
+	width: 17px;
+}
 
 /*  ***** ******************************************** */
 .writeblock{

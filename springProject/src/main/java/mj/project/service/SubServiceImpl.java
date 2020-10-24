@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.Setter;
+import mj.project.domain.ReplyVO;
 import mj.project.mapper.SubMapper;
 
 @Service
@@ -23,11 +24,16 @@ public class SubServiceImpl implements SubService{
 	}
 
 	@Override
-	public void bookmarkOnOff(int type, String post_no, int member_no) {
+	public int bookmarkOnOff(int type, String post_no, int member_no) {
 		
-		if(type == 0) mapper.bookmarkOn(post_no, member_no);
-		else mapper.bookmarkOff(post_no, member_no);
+		if(type == 0) return mapper.bookmarkOn(post_no, member_no);
+		else return mapper.bookmarkOff(post_no, member_no);
 		
+	}
+
+	@Override
+	public void replyInsert(ReplyVO vo) {
+		mapper.replyInsert(vo);
 	}
 	
 	

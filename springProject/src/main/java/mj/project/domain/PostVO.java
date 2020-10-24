@@ -16,11 +16,16 @@ public class PostVO {
 	
 	private List<TagVO> tagList;
 	
+	// like_btn : 내가 좋아요를 눌렀는지 (true/false)
+	// like_cnt : 게시글의 총 좋아요 수 
 	private String like_btn;
 	private int like_cnt;
 	
+	// 내가 북마크를 눌렀는지 (true/false) 
 	private String bookmark_btn;
 	
+	// 총 댓글 수
 	private int reply_cnt;
+	// 댓글 리스트
 	private List<ReplyVO> replyList;
 }
