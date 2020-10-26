@@ -63,7 +63,18 @@ public class SubController {
 		service.replyInsert(vo);
 		
 		return new ResponseEntity<ReplyVO>(vo, HttpStatus.OK);
-		
+	}
+	
+	@PostMapping(value = "/replyLike/{reply_no}", produces = "application/json; charset=utf8")
+	public ResponseEntity<String> replyLikeOn(@PathVariable("reply_no") String reply_no, @SessionAttribute("userInfo") MemberVO member) {
+		log.info("replyLike On");
+		return service.rplikeOnOff(0, reply_no, member.getMember_no()) == 1? new ResponseEntity<>("success", HttpStatus.OK) : new ResponseEntity<>("error", HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
+	@DeleteMapping(value = "/replyLike/{reply_no}", produces="application/json; charset=utf-8")
+	public ResponseEntity<String> replyLikeOff(@PathVariable("reply_no") String reply_no,  @SessionAttribute("userInfo") MemberVO member) {
+		log.info("replyLike Off");
+		return service.rplikeOnOff(1, reply_no, member.getMember_no()) == 1? new ResponseEntity<>("success", HttpStatus.OK) : new ResponseEntity<>("error", HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
 }

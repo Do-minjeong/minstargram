@@ -38,6 +38,15 @@
 		INSERT INTO replys(reply_no, post_no, member_no, r_contents)
 		VALUES (#{reply_no}, #{post_no}, #{member_no}, #{r_contents})
 	</insert>
-
-
+	
+	<insert id="rpLikeOn">
+		INSERT INTO reply_likes(r_likes_no, reply_no, member_no)
+		VALUES (r_likes_no_seq.NEXTVAL, #{reply_no}, #{member_no} )
+	</insert>
+	
+	<delete id="rpLikeOff">
+		DELETE FROM reply_likes
+		WHERE reply_no = #{reply_no} AND member_no = #{member_no}
+	</delete>
+	
   </mapper>

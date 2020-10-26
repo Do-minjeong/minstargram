@@ -3,6 +3,7 @@
 <html>
 <head>
 <link href="/resources/css/header.css" rel="stylesheet">
+<%@ include file="../../includes/header.jsp"%>
 </head>
 <body>
 <div class="header-container">
@@ -27,19 +28,63 @@
 		</div>
 		<div class="iconbox displayCenter">
 			<div class="icon">
-				<a href=""><img alt="home" src="https://www.flaticon.com/svg/static/icons/svg/1946/1946488.svg"></a>
+				<button class="btnNone navIcon" >
+					<img alt="home" src="https://www.flaticon.com/svg/static/icons/svg/1946/1946488.svg">
+				</button>
 			</div>
 			<div class="icon">
-				<a href=""><img alt="directmsg" src="https://www.flaticon.com/svg/static/icons/svg/1946/1946547.svg"></a>
+				<button class="btnNone navIcon" >
+					<img alt="directmsg" src="https://www.flaticon.com/svg/static/icons/svg/1946/1946547.svg">
+				</button>
 			</div>
 			<div class="icon">
-				<a href=""><img alt="directmsg" src="https://www.flaticon.com/svg/static/icons/svg/1946/1946481.svg"></a>
+				<button class="btnNone navIcon" >
+					<img alt="compass" src="https://www.flaticon.com/svg/static/icons/svg/2948/2948031.svg">
+				</button>
 			</div>
 			<div class="icon">
-				<a href=""><img alt="directmsg" src="https://www.flaticon.com/svg/static/icons/svg/1946/1946406.svg"></a>
+				<button class="btnNone navIcon" >
+					<img alt="heart" src="https://www.flaticon.com/svg/static/icons/svg/1946/1946406.svg">
+				</button>
 			</div>
 			<div class="icon">
-				<a href=""><img alt="directmsg" src="https://www.flaticon.com/svg/static/icons/svg/848/848006.svg"></a>
+				<button class="navIcon btnNone dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<img alt="profile" src="https://www.flaticon.com/svg/static/icons/svg/848/848006.svg">
+				</button>
+				<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+				<div class="dd-menu">
+					<div class="rhombus"></div>
+						<button class="dropdown-item">
+							<div class="profile-menu">
+								<div class="menu-img">
+									<img alt="프로필로 이동" src="https://www.flaticon.com/svg/static/icons/svg/848/848043.svg">
+								</div>
+								<span>프로필</span>
+							</div>
+						</button>
+						<button class="dropdown-item">
+							<div class="profile-menu">
+								<div class="menu-img">
+									<img alt="북마크로 이동" src="https://www.flaticon.com/svg/static/icons/svg/1174/1174410.svg">
+								</div>
+								<span>저장됨</span>
+							</div>
+						</button>
+						<button class="dropdown-item">
+							<div class="profile-menu">
+								<div class="menu-img">
+									<img alt="설정으로 이동" src="https://www.flaticon.com/svg/static/icons/svg/3524/3524636.svg">
+								</div>
+								<span>설정</span>
+							</div>
+						</button>
+						<button class="dropdown-item">
+							<div class="profile-menu">
+								<span>로그아웃</span>
+							</div>
+						</button>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>

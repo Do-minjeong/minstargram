@@ -5,7 +5,6 @@
 <meta charset="UTF-8">
 <title>Minstargram</title>
 <link href="/resources/css/main.css" rel="stylesheet">
-<%@ include file="../includes/header.jsp"%>
 <%@ include file="includes/header.jsp"%>
 <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
 		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
@@ -216,10 +215,10 @@
 								<button class="article-icon btnNone messagebtn" id="messagebtn${post.post_no}"><img alt="메시지" src="https://www.flaticon.com/svg/static/icons/svg/1946/1946547.svg"></button>
 								<button class="article-icon bookmark btnNone bookmarkbtn" id="bookmarkbtn${post.post_no}">
 									<c:if test="${post.bookmark_btn}">
-										<img alt="북마크" class="on_bookmark" src="https://www.flaticon.com/svg/static/icons/svg/1946/1946379.svg">							
+										<img alt="북마크" class="on_bookmark" src="https://www.flaticon.com/svg/static/icons/svg/1174/1174447.svg">							
 									</c:if>
 									<c:if test="${!post.bookmark_btn}">
-										<img alt="북마크" class="off_bookmark" src="https://www.flaticon.com/svg/static/icons/svg/1946/1946422.svg">
+										<img alt="북마크" class="off_bookmark" src="https://www.flaticon.com/svg/static/icons/svg/1174/1174410.svg">
 									</c:if>
 								</button>
 							</div>
@@ -242,8 +241,13 @@
 													<span class="article-id reply-id"><a href="">${reply.userid}</a></span>
 													<span class="id-contents">${reply.r_contents}</span>
 												</div>
-												<button class="btnNone replyLikeBtn" id="rlikebtn${reply.reply_no}">
-													<img alt="reply_like" src="https://www.flaticon.com/svg/static/icons/svg/2107/2107952.svg">
+												<button class="btnNone replyLikeBtn" id="rpLikebtn${reply.reply_no}">
+													<c:if test="${!reply.r_like_btn}">
+														<img alt="reply_like" class="off_rpLike" src="https://www.flaticon.com/svg/static/icons/svg/865/865991.svg">
+													</c:if>
+													<c:if test="${reply.r_like_btn }">
+														<img alt="reply_like" class="on_rpLike" src="https://www.flaticon.com/svg/static/icons/svg/865/865974.svg">												
+													</c:if>
 												</button>
 											</div>								
 										</c:forEach>

@@ -35,6 +35,12 @@ public class SubServiceImpl implements SubService{
 	public void replyInsert(ReplyVO vo) {
 		mapper.replyInsert(vo);
 	}
+
+	@Override
+	public int rplikeOnOff(int type, String reply_no, int member_no) {
+		if(type == 0) return mapper.rpLikeOn(reply_no, member_no);
+		else return mapper.rpLikeOff(reply_no, member_no);
+	}
 	
 	
 

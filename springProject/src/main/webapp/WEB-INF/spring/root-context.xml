@@ -39,6 +39,5 @@
 	<context:component-scan base-package="mj.project.service" />
 	
 	<aop:aspectj-autoproxy></aop:aspectj-autoproxy>
-	<bean id="commonFunction" class="mj.project.common.CommonFunction"></bean>
 	
 </beans>

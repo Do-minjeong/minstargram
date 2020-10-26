@@ -36,11 +36,11 @@ $(".carousel-control-prev , .carousel-control-next").on("click", function(){
 });	
 
 
-
-$(".likebtn , .bookmarkbtn").on("click", function(){
+// 게시글 좋아요 on,off/ 북마크 on,off / 댓글 좋아요 on,off
+$(".likebtn , .bookmarkbtn , .replyLikeBtn").on("click", function(){
 	var btn_id = $(this).attr("id");
 	var btn_name = btn_id.substring(0, btn_id.indexOf("btn"));
-	var post_no = btn_id.substring(btn_id.indexOf("btn")+3, btn_id.length);
+	var no = btn_id.substring(btn_id.indexOf("btn")+3, btn_id.length);
 
 	var img = $("#"+btn_id).children();
 	var img_class = img.attr("class");
@@ -51,34 +51,36 @@ $(".likebtn , .bookmarkbtn").on("click", function(){
 	// 취소
 	if(img_class.indexOf("on")==0){
 		type = "DELETE";
+		rClass = "on_"+btn_name;
+		aClass = "off_"+btn_name;		
 		if(btn_name == 'like'){
 			url = '/like/';
 			callback = likeCallback;
 			imgSrc = "https://www.flaticon.com/svg/static/icons/svg/1946/1946406.svg";
-			rClass = "on_"+btn_name;
-			aClass = "off_"+btn_name;
 		} else if(btn_name == 'bookmark'){
 			url = '/bookmark/';
-			imgSrc = "https://www.flaticon.com/svg/static/icons/svg/1946/1946422.svg";
-			rClass = "on_"+btn_name;
-			aClass = "off_"+btn_name;
+			imgSrc = "https://www.flaticon.com/svg/static/icons/svg/1174/1174410.svg";
+		} else if(btn_name == "rpLike" ){
+			url = "/replyLike/";
+			imgSrc = "https://www.flaticon.com/svg/static/icons/svg/865/865991.svg";
 		}
 	} else if(img_class.indexOf("off")==0) { // 좋아요 추가
 		type = "POST";
+		rClass = "off_"+btn_name;
+		aClass = "on_"+btn_name;
 		if(btn_name == 'like'){
 			url = '/like/';
 			callback = likeCallback;
 			imgSrc = "https://www.flaticon.com/svg/static/icons/svg/1946/1946346.svg";
-			rClass = "off_"+btn_name;
-			aClass = "on_"+btn_name;
 		} else if(btn_name == 'bookmark'){
 			url = '/bookmark/';
-			imgSrc = "https://www.flaticon.com/svg/static/icons/svg/1946/1946379.svg";
-			rClass = "off_"+btn_name;
-			aClass = "on_"+btn_name;
+			imgSrc = "https://www.flaticon.com/svg/static/icons/svg/1174/1174447.svg";
+		} else if(btn_name == "rpLike"){
+			url = "/replyLike/";
+			imgSrc = "https://www.flaticon.com/svg/static/icons/svg/865/865974.svg";
 		}
 	}
-	subAjaxFunc(type, url, post_no, null, "text", btn_name, callback);
+	subAjaxFunc(type, url, no, null, "text", btn_name, callback);
 	img.attr("src", imgSrc);
 	img.removeClass(rClass);
 	img.addClass(aClass);
@@ -118,10 +120,10 @@ var replyCallback = function(post_no, data){
 	$("#replybox"+post_no).append(str);	
 }
 
-function subAjaxFunc(type, url, post_no, params, dataType, title, callback){
+function subAjaxFunc(type, url, no, params, dataType, title, callback){
 	$.ajax({
 		type : type,
-		url : url+post_no,
+		url : url+no,
 		data: JSON.stringify(params),
 		dataType: dataType,
 		contentType : "application/json; charset=utf-8",
@@ -132,7 +134,7 @@ function subAjaxFunc(type, url, post_no, params, dataType, title, callback){
 			console.log(title + " Success");
 			console.log(data);
 			if(callback)
-				callback(post_no, data);
+				callback(no, data);
 		},
 		error : function(status, error){
 			console.log("status: "+status+"  error: "+error);

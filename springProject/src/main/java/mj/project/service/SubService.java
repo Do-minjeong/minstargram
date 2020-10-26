@@ -10,4 +10,6 @@ public interface SubService {
 
 	public void replyInsert(ReplyVO vo);
 
+	public int rplikeOnOff(int type, String reply_no, int member_no);
+
 }
