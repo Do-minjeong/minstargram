@@ -33,6 +33,7 @@ import lombok.extern.log4j.Log4j;
 import mj.project.domain.AttachFileVO;
 import mj.project.domain.MemberVO;
 import mj.project.domain.PostVO;
+import mj.project.domain.ProfileVO;
 import mj.project.service.MainService;
 
 @Controller
@@ -125,6 +126,12 @@ public class MainController implements ServletContextAware{
 		String str = sdf.format(date);
 		
 		return str.replace("-", File.separator);
+	}
+	
+	@GetMapping("/profile")
+	public void goProfile(String member_no, @SessionAttribute("userInfo") MemberVO member, Model model) {
+		ProfileVO vo = service.readProfile(member_no, member.getMember_no());
+		model.addAttribute("profile", vo);
 	}
 	
 }

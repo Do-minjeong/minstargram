@@ -40,6 +40,7 @@
   	<result property="like_cnt" column="like_cnt" />
   	<result property="bookmark_btn" column="bookmark_btn" />
   	<result property="reply_cnt" column="reply_cnt" />
+  	<result property="multi_tf" column="multi_tf" />
   	<collection property="attachList" resultMap="attachMap"></collection>
   	<collection property="replyList" resultMap="replyMap"></collection>
   </resultMap>
@@ -69,7 +70,7 @@
         THEN '1주 전'
         ELSE p.reg_date || ''
        END reg_date
-       , m.userid as p_write_id, profile_photo, photo_no, file_name, file_url
+       , m.userid as p_write_id, m.member_no, profile_photo, photo_no, file_name, file_url
        , 'http://localhost' || REPLACE(SUBSTR(file_url, INSTR(file_url,'\resources')),'\','/') || '/' || file_name as total_url
        , CASE
           WHEN mpl.post_no IS NULL    THEN 'false'
@@ -120,5 +121,56 @@
               	 ) r ON(r.post_no = p.post_no )
     ORDER BY post_no DESC
   </select>
+  
+  <resultMap type="mj.project.domain.ProfileVO" id="profileMap">
+  	<result property="member_no" column="member_no"/>
+  	<result property="userid" column="userid" />
+  	<result property="name" column="name" />
+  	<result property="introduce" column="introduce" />
+  	<result property="post_cnt" column="post_cnt"/>
+  	<collection property="post_List" resultMap="postMap"></collection>
+  </resultMap>
+  
+  
+  <select id="readProfile" resultMap="profileMap">
+  SELECT p.*, m.introduce, COUNT(*)OVER() as post_cnt, m.userid, m.name
+  FROM (
+    SELECT *
+    FROM ( 
+    		SELECT ph.post_no, member_no
+             , CASE
+                WHEN COUNT(file_name)OVER(PARTITION BY ph.post_no)>1 
+                THEN 'true'
+                ELSE 'false'
+               END multi_tf
+             , RANK()OVER(PARTITION BY ph.post_no ORDER BY photo_no) as rn
+             , 'http://localhost' || REPLACE(SUBSTR(file_url, INSTR(file_url,'\resources')),'\','/') || '/' || file_name as total_url
+        	FROM posts p JOIN photos ph ON(p.post_no = ph.post_no)
+        )
+    WHERE rn = 1
+       ) p join (select * from members where member_no = #{member_no} )m on(p.member_no = m.member_no)
+  </select>
+  <resultMap type="mj.project.domain.RelationVO" id="relationMap">
+  	<result property="follow_cnt" column="follow_cnt" />
+  	<result property="follower_cnt" column="follower_cnt" />
+  	<result property="relationship" column="relationship" />
+  </resultMap>
+  
+  <select id="readFollow" resultMap="relationMap">
+  	select count(decode(fr.member_no,#{member_no},1)) as follow_cnt, count(decode(tg_member_no, #{member_no},1)) as follower_cnt
+    , CASE
+           WHEN  COUNT(DECODE(fr.member_no,#{member_no2},1)) = 0 and COUNT(DECODE(tg_member_no,#{member_no2},1)) = 0
+           THEN 0
+           WHEN COUNT(DECODE(fr.member_no,#{member_no2},1)) = 1 and COUNT(DECODE(tg_member_no,#{member_no2},1)) = 0
+           THEN 1
+           WHEN COUNT(DECODE(tg_member_no,#{member_no2},1)) = 1 AND COUNT(DECODE(fr.member_no,#{member_no2},1)) = 0
+           THEN 2
+           WHEN COUNT(DECODE(fr.member_no,#{member_no2},1)) = 1 AND COUNT(DECODE(tg_member_no,#{member_no2},1)) = 1
+           THEN 3
+           END relationship
+   from  follow_relationship fr
+   where member_no = #{member_no} or tg_member_no = #{member_no}
+  </select>
+  
 
   </mapper>

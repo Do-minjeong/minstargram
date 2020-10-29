@@ -244,3 +244,115 @@ textarea{
 	align-items: center;
 	margin: 20px 0 7px 0;
 }
+
+
+/* profile.jsp */
+.mainbox{
+	max-width : 955px;
+	border: solid 2px black;
+	margin: 0 auto;
+	padding: 30px 20px;
+	margin-bottom: 80px;
+}
+.profilebox1{
+	display: flex;
+	justify-content: flex-start;
+	margin-bottom: 35px;
+}
+.profile-left{
+	width: 30%;
+}
+.profile-right{
+	width: 60%;
+	margin-left: 40px;
+}
+.profile-canvas{
+	width: 150px;
+	height: 150px;
+}
+.profile-wh{
+	width: 135px;
+	height: 135px;
+}
+.cntbox{
+	margin: 10px 15px 15px 0 ;
+}
+.cntbox span{
+	margin-right: 5px;
+}
+.cnt{
+	font-weight: 750;
+}
+.pr-1{
+	display: flex;
+	align-items: center;
+}
+.pr-1 span{
+	font-size: 26px;
+	margin-right: 15px;
+}
+.pr-2{
+	display: flex;
+}
+.pr-3{
+	font-weight: 800;
+}
+.menubar{
+	border-top: 1px solid rgba(var(--b38,219,219,219),1);
+	margin-bottom: 15px; 
+}
+.menubar img{
+	width: 17px;
+	margin-right: 7px;
+}
+.menu{
+    margin-right: 20px;
+    padding: 10px 5px 5px 5px;
+    color: gray;
+}
+.menu:first-child{
+	border-top: solid 1px black;
+}
+.menu:first-child a{
+	color: black;
+	font-weight: 700;
+}
+.menu a{
+	text-decoration: none;
+	color: gray;
+	font-size: 14px;
+}
+.photo-row{
+	margin-bottom: 30px;
+}
+.photo3{
+	width: 30%;
+	min-width: 250px;
+	height: 260px;
+	display: flex;
+	align-items: center;
+	margin: 0 10px;
+}
+.photo3 img{
+	width: 100%;
+}
+.btn{
+	color: white;
+	font-weight: 650;
+	padding: 5px 20px;
+	font-size: 15px;
+	margin-right: 10px;
+}
+.btnGray{
+	background: #6c757d;
+}
+.btnBlue{
+	background: #0095f6;
+}
+.profile-more{
+	width: 40px;
+    padding: 0 10px;
+}
+.profile-more img{
+	width: 100%;
+}

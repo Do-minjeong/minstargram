@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
 import mj.project.domain.PostVO;
+import mj.project.domain.ProfileVO;
 import mj.project.domain.TagVO;
 import mj.project.mapper.MainMapper;
 
@@ -93,6 +94,15 @@ public class MainServiceImpl implements MainService{
 			hashStart = hashEnd+14;
 		}
 		return sb.toString();
+	}
+
+	@Override
+	public ProfileVO readProfile(String member_no, int member_no2) {
+		log.info("readProfile 진입");
+		ProfileVO profile = mapper.readProfile(member_no);
+		profile.setRelationVO(mapper.readFollow(member_no, member_no2));
+		log.info(profile);
+		return profile;
 	}
 
 }

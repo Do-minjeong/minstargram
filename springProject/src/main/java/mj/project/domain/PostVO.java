@@ -28,4 +28,7 @@ public class PostVO {
 	private int reply_cnt;
 	// 댓글 리스트
 	private List<ReplyVO> replyList;
+	
+	// 한 게시물에 사진이 한장인지 아닌지 여부
+	private String multi_tf;
 }
