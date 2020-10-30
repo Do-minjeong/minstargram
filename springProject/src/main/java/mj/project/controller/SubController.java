@@ -1,5 +1,7 @@
 package mj.project.controller;
 
+import java.lang.reflect.Member;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -76,5 +78,17 @@ public class SubController {
 		log.info("replyLike Off");
 		return service.rplikeOnOff(1, reply_no, member.getMember_no()) == 1? new ResponseEntity<>("success", HttpStatus.OK) : new ResponseEntity<>("error", HttpStatus.INTERNAL_SERVER_ERROR);
 	}
+	
+	@PostMapping(value = "/onFollow/{tg_no}", produces="applicaion/json; charset=utf-8")
+	public ResponseEntity<String> followOn(@PathVariable("tg_no") String tg_no, @SessionAttribute("userInfo") MemberVO member){
+		log.info("follow On");
+		return service.followOnOff(0, tg_no, member.getMember_no()) == 1? new ResponseEntity<>("success", HttpStatus.OK) : new ResponseEntity<>("error", HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	@DeleteMapping(value="/offFollow/{tg_no}", produces="application/json; charset=utf-8")
+	public ResponseEntity<String> followOff(@PathVariable("tg_no") String tg_no, @SessionAttribute("userInfo") MemberVO member){
+		log.info("follow Off");
+		return service.followOnOff(1, tg_no, member.getMember_no()) == 1? new ResponseEntity<>("success", HttpStatus.OK) : new ResponseEntity<>("error", HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
 
 }

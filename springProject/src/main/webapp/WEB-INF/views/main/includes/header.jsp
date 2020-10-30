@@ -54,7 +54,7 @@
 				<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 				<div class="dd-menu">
 					<div class="rhombus"></div>
-						<button class="dropdown-item">
+						<button class="dropdown-item" onclick="location.href='/main/profile?member_no=${userInfo.member_no}'">
 							<div class="profile-menu">
 								<div class="menu-img">
 									<img alt="프로필로 이동" src="https://www.flaticon.com/svg/static/icons/svg/848/848043.svg">
@@ -78,7 +78,7 @@
 								<span>설정</span>
 							</div>
 						</button>
-						<button class="dropdown-item">
+						<button class="dropdown-item logoutbtn" >
 							<div class="profile-menu">
 								<span>로그아웃</span>
 							</div>
@@ -89,6 +89,25 @@
 		</div>
 	</div>
 </div>
+<c:if test="${ userInfo.login_type_no eq 1 }">
+	<script type="text/javascript">
+		console.log("custom");
+		$(".logoutbtn").attr("id","customLogout");
+	</script> 
+</c:if>
+<c:if test="${ userInfo.login_type_no eq 2 }">
+	<script type="text/javascript">
+		console.log("s_userInfo")
+		$(".logoutbtn").attr("action","socialLogout");
+	</script>
+</c:if>
+<script type="text/javascript">
+	$(".logoutbtn").on("click",function(e){
+		e.preventDefault();
+		var url = $(this).attr("id");
+		location.href = '/'+url;
+	})
+</script>
 </body>
 </html>
 

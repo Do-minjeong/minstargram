@@ -41,6 +41,7 @@
   	<result property="bookmark_btn" column="bookmark_btn" />
   	<result property="reply_cnt" column="reply_cnt" />
   	<result property="multi_tf" column="multi_tf" />
+  	<result property="o_total_url" column="o_total_url" />
   	<collection property="attachList" resultMap="attachMap"></collection>
   	<collection property="replyList" resultMap="replyMap"></collection>
   </resultMap>
@@ -128,12 +129,13 @@
   	<result property="name" column="name" />
   	<result property="introduce" column="introduce" />
   	<result property="post_cnt" column="post_cnt"/>
+  	<result property="profile_photo" column="profile_photo"/>
   	<collection property="post_List" resultMap="postMap"></collection>
   </resultMap>
   
   
   <select id="readProfile" resultMap="profileMap">
-  SELECT p.*, m.introduce, COUNT(*)OVER() as post_cnt, m.userid, m.name
+  SELECT p.*, m.introduce, COUNT(*)OVER() as post_cnt, m.userid, m.name, m.profile_photo
   FROM (
     SELECT *
     FROM ( 
@@ -144,11 +146,12 @@
                 ELSE 'false'
                END multi_tf
              , RANK()OVER(PARTITION BY ph.post_no ORDER BY photo_no) as rn
-             , 'http://localhost' || REPLACE(SUBSTR(file_url, INSTR(file_url,'\resources')),'\','/') || '/' || file_name as total_url
+             , 'http://localhost' || REPLACE(SUBSTR(file_url, INSTR(file_url,'\resources')),'\','/') || '/' || file_name as o_total_url
         	FROM posts p JOIN photos ph ON(p.post_no = ph.post_no)
         )
     WHERE rn = 1
        ) p join (select * from members where member_no = #{member_no} )m on(p.member_no = m.member_no)
+    ORDER BY post_no DESC
   </select>
   <resultMap type="mj.project.domain.RelationVO" id="relationMap">
   	<result property="follow_cnt" column="follow_cnt" />

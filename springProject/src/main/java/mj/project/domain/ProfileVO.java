@@ -8,6 +8,7 @@ import lombok.Data;
 public class ProfileVO {
 	
 	private int member_no;
+	private String profile_photo;
 	private String userid;
 	private String name;
 	private String introduce;

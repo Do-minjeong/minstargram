@@ -3,9 +3,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <html>
 <head>
-<title>Home</title>
 <%@ include file="includes/header.jsp"%>
-<link rel="stylesheet" href="/resources/css/home.css?As">
+<link rel="stylesheet"  href="/resources/css/home.css?Adfs">
+<title>Login</title>
 </head>
 <body style="background: rgba(var(--b3f,250,250,250),1);">
 <div class="container">

@@ -31,7 +31,7 @@ import mj.project.service.MemberService;
 @Controller
 @Log4j
 public class CommonController {
-
+	
 	@Setter(onMethod_= @Autowired)
 	private MemberService service;
 
@@ -46,7 +46,7 @@ public class CommonController {
 		System.out.println("home 진입");
 		String username = "";
 		if(auth == null && session.getAttribute("userInfo") == null) {
-			return "redirect:customLogin";
+			return "redirect:/customLogin";
 		} else if(auth != null && session.getAttribute("userInfo")==null) {
 			UserDetails ud = (UserDetails) auth.getPrincipal();
 			username = ud.getUsername();

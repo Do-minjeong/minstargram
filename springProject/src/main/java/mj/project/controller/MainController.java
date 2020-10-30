@@ -41,7 +41,7 @@ import mj.project.service.MainService;
 @RequestMapping("/main/")
 @SessionAttributes("userInfo")
 public class MainController implements ServletContextAware{
-	
+
 	@Setter(onMethod_ = @Autowired)
 	private MainService service;
 	
@@ -54,8 +54,7 @@ public class MainController implements ServletContextAware{
 	
 	@GetMapping("/mainHome")
 	public String mainHome(HttpSession session, Authentication auth, Model model) throws Exception {
-		log.info("/main/mainHome controller 접속");
-		if(session.getAttribute("userInfo") == null) return "redirect:/customLogin?logout";
+		log.info("/main/mainHome controller 접속!!");
 		// 모든 게시글 가져오기
 		MemberVO member = (MemberVO) session.getAttribute("userInfo");
 		log.info("Login USER : "+member);

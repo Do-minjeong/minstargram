@@ -14,6 +14,7 @@ public class MemberVO {
 	private String password;
 	private String auth;
 	
+	private String profile_photo;
 	private String social_id;
 	
 	private List<AuthVO> authList;

@@ -18,8 +18,12 @@ public interface SubMapper {
 
 	public void replyInsert(ReplyVO vo);
 
-	public int rpLikeOn(@Param("reply_no")String reply_no, @Param("member_no") int member_no);
+	public int rpLikeOn(@Param("reply_no") String reply_no, @Param("member_no") int member_no);
 
-	public int rpLikeOff(@Param("reply_no")String reply_no, @Param("member_no") int member_no);
+	public int rpLikeOff(@Param("reply_no") String reply_no, @Param("member_no") int member_no);
+
+	public int followOn(@Param("tg_no") String tg_no, @Param("member_no") int member_no);
+
+	public int followOff(@Param("tg_no") String tg_no, @Param("member_no") int member_no);
 
 }

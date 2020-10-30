@@ -16,6 +16,7 @@ public class PostVO {
 	
 	private List<TagVO> tagList;
 	
+	private String o_total_url;
 	// like_btn : 내가 좋아요를 눌렀는지 (true/false)
 	// like_cnt : 게시글의 총 좋아요 수 
 	private String like_btn;

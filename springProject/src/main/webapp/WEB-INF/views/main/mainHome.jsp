@@ -172,6 +172,16 @@
 		</div>
 	</div>
 	<div class="left-block">
+		<div class="profilebox2">
+			<button type="button" class="btnNone" onclick="location.href='/main/profile?member_no=${userInfo.member_no}'">
+				<div class="canvas lb-canvas displayCenter">
+					<div class="lb-profile-pic">
+						<img alt="" src="${ userInfo.profile_photo }">
+					</div>
+				</div>
+			</button>
+			<div><a class="ANone" href="/main/profile?member_no=${userInfo.member_no}">${ userInfo.userid }</a></div>
+		</div>
 		<div>
 			<button class="write-btn btnNone btn-warning" onclick="location.href='/main/write'">글쓰기</button>
 		</div>

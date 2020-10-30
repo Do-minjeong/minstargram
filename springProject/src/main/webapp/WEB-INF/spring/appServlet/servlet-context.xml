@@ -25,7 +25,17 @@
 	
 	<context:component-scan base-package="mj.project.controller" />
 	<context:component-scan base-package="mj.project.naverLogin" />
+	<beans:bean id="loginInterceptor" class="mj.project.common.LoginInterceptor"/>
 	
-	
-	
+	<interceptors>
+		<interceptor>
+			<mapping path="/**/" />
+			<exclude-mapping path="/signup" />
+			<exclude-mapping path="/customLogin/**" />
+			<exclude-mapping path="/" />
+			<exclude-mapping path="/home" />
+			<beans:ref bean="loginInterceptor" />
+		</interceptor>
+	</interceptors>
+
 </beans:beans>

@@ -14,19 +14,27 @@
 		<div class="profile-left displayCenter">
 			<div class="canvas profile-canvas displayCenter">
 				<div class="profile-pic profile-wh">
-					<img alt="프로필사진" src="https://www.urbanbrush.net/web/wp-content/uploads/edd/2018/12/urbanbrush-20181213142535248709.png">
+					<img alt="프로필사진" src="${ profile.profile_photo }">
 				</div>
 			</div>
 		</div>
 		<div class="profile-right">
 			<div class="pr-1">
+			<input type="hidden" id="pf_member_no" value="${ profile.member_no }">
+			<input type="hidden" name="${ _csrf.parameterName }" value="${_csrf.token}" id="csrf_token" >
 				<span><c:out value="${ profile.userid }" /></span>
-				<c:if test="${ profile.relationVO.relationship eq 0 || profile.relationVO.relationship eq 2 }">
-					<button type="button" class="btn btnBlue on_follow" >팔로우하기</button>				
+				<c:if test="${ profile.userid eq userInfo.userid }">
+					<button type="button" class="btn btnEdit" >프로필편집</button>
 				</c:if>
-				<c:if test="${ profile.relationVO.relationship eq 1 || profile.relationVO.relationship eq 3 }">
-					<button type="button" class="btn btnGray off_follow">팔로우취소</button>				
+				<c:if test="${ profile.userid ne userInfo.userid }">
+					<c:if test="${ profile.relationVO.relationship eq 0 || profile.relationVO.relationship eq 2 }">
+						<button type="button" class="btn btnBlue" id="on_follow" >팔로우하기</button>				
+					</c:if>
+					<c:if test="${ profile.relationVO.relationship eq 1 || profile.relationVO.relationship eq 3 }">
+						<button type="button" class="btn btnGray" id="off_follow">팔로우취소</button>				
+					</c:if>
 				</c:if>
+				
 				<button type="button" class="btn btnNone profile-more"><img alt="더보기" src="https://www.flaticon.com/svg/static/icons/svg/1828/1828805.svg"></button>
 			</div>
 			<div class="pr-2">
@@ -68,30 +76,43 @@
 		</div>
 	</div>
 	<div class="profilebox2">
-		<div class="photo-row displayCenter">
-			<div class="photo3">
-				<img alt="" src="https://lh3.googleusercontent.com/proxy/8cYo-lNfik1GuDnKZ6sVRhWFyYCbC-Y5kBgnvmfDdKQCtOVgfyzagBK9mwY-FqQTDdbPD_fyRLHxnPaYu2LANQ2_adGWqXUYQV0_c_oQebf3WBzPExOUk3y4zInnl2_qNhDNy2tUFxd4p2ayU1VrXbFjbQALE13J9YBQIDbRao0wM2s7v_uNKGOOj0sctdfSMNl2vtCibHls2c3QWfz-VumtsJHl4OMBLXU_diPOUGOUkeS8i-C3Lk7cULokuKbtjZd970NDazfYkvr51Dw5Y5IjI5hVhAKn1NHNJYsrbg-b9nlqUeYKtjXIttrAoUslb_wZB_aEcEaT2rvwkaYedridlEI5h9lutjU4Ia2N2AUljUIwFxk1MailISZE">
-			</div>
-			<div class="photo3">
-				<img alt="" src="https://lh3.googleusercontent.com/proxy/8cYo-lNfik1GuDnKZ6sVRhWFyYCbC-Y5kBgnvmfDdKQCtOVgfyzagBK9mwY-FqQTDdbPD_fyRLHxnPaYu2LANQ2_adGWqXUYQV0_c_oQebf3WBzPExOUk3y4zInnl2_qNhDNy2tUFxd4p2ayU1VrXbFjbQALE13J9YBQIDbRao0wM2s7v_uNKGOOj0sctdfSMNl2vtCibHls2c3QWfz-VumtsJHl4OMBLXU_diPOUGOUkeS8i-C3Lk7cULokuKbtjZd970NDazfYkvr51Dw5Y5IjI5hVhAKn1NHNJYsrbg-b9nlqUeYKtjXIttrAoUslb_wZB_aEcEaT2rvwkaYedridlEI5h9lutjU4Ia2N2AUljUIwFxk1MailISZE">
-			</div>
-			<div class="photo3">
-				<img alt="" src="https://lh3.googleusercontent.com/proxy/8cYo-lNfik1GuDnKZ6sVRhWFyYCbC-Y5kBgnvmfDdKQCtOVgfyzagBK9mwY-FqQTDdbPD_fyRLHxnPaYu2LANQ2_adGWqXUYQV0_c_oQebf3WBzPExOUk3y4zInnl2_qNhDNy2tUFxd4p2ayU1VrXbFjbQALE13J9YBQIDbRao0wM2s7v_uNKGOOj0sctdfSMNl2vtCibHls2c3QWfz-VumtsJHl4OMBLXU_diPOUGOUkeS8i-C3Lk7cULokuKbtjZd970NDazfYkvr51Dw5Y5IjI5hVhAKn1NHNJYsrbg-b9nlqUeYKtjXIttrAoUslb_wZB_aEcEaT2rvwkaYedridlEI5h9lutjU4Ia2N2AUljUIwFxk1MailISZE">
-			</div>
-		</div>
-		<div class="photo-row displayCenter">
-			<div class="photo3">
-				<img alt="" src="https://lh3.googleusercontent.com/proxy/8cYo-lNfik1GuDnKZ6sVRhWFyYCbC-Y5kBgnvmfDdKQCtOVgfyzagBK9mwY-FqQTDdbPD_fyRLHxnPaYu2LANQ2_adGWqXUYQV0_c_oQebf3WBzPExOUk3y4zInnl2_qNhDNy2tUFxd4p2ayU1VrXbFjbQALE13J9YBQIDbRao0wM2s7v_uNKGOOj0sctdfSMNl2vtCibHls2c3QWfz-VumtsJHl4OMBLXU_diPOUGOUkeS8i-C3Lk7cULokuKbtjZd970NDazfYkvr51Dw5Y5IjI5hVhAKn1NHNJYsrbg-b9nlqUeYKtjXIttrAoUslb_wZB_aEcEaT2rvwkaYedridlEI5h9lutjU4Ia2N2AUljUIwFxk1MailISZE">
-			</div>
-			<div class="photo3">
-				<img alt="" src="https://lh3.googleusercontent.com/proxy/8cYo-lNfik1GuDnKZ6sVRhWFyYCbC-Y5kBgnvmfDdKQCtOVgfyzagBK9mwY-FqQTDdbPD_fyRLHxnPaYu2LANQ2_adGWqXUYQV0_c_oQebf3WBzPExOUk3y4zInnl2_qNhDNy2tUFxd4p2ayU1VrXbFjbQALE13J9YBQIDbRao0wM2s7v_uNKGOOj0sctdfSMNl2vtCibHls2c3QWfz-VumtsJHl4OMBLXU_diPOUGOUkeS8i-C3Lk7cULokuKbtjZd970NDazfYkvr51Dw5Y5IjI5hVhAKn1NHNJYsrbg-b9nlqUeYKtjXIttrAoUslb_wZB_aEcEaT2rvwkaYedridlEI5h9lutjU4Ia2N2AUljUIwFxk1MailISZE">
-			</div>
-			<div class="photo3">
-				<img alt="" src="https://lh3.googleusercontent.com/proxy/8cYo-lNfik1GuDnKZ6sVRhWFyYCbC-Y5kBgnvmfDdKQCtOVgfyzagBK9mwY-FqQTDdbPD_fyRLHxnPaYu2LANQ2_adGWqXUYQV0_c_oQebf3WBzPExOUk3y4zInnl2_qNhDNy2tUFxd4p2ayU1VrXbFjbQALE13J9YBQIDbRao0wM2s7v_uNKGOOj0sctdfSMNl2vtCibHls2c3QWfz-VumtsJHl4OMBLXU_diPOUGOUkeS8i-C3Lk7cULokuKbtjZd970NDazfYkvr51Dw5Y5IjI5hVhAKn1NHNJYsrbg-b9nlqUeYKtjXIttrAoUslb_wZB_aEcEaT2rvwkaYedridlEI5h9lutjU4Ia2N2AUljUIwFxk1MailISZE">
-			</div>
-		</div>
+		<c:forEach items="${ profile.post_List }" var="postList" varStatus="status" >
+			<c:if test="${ status.count mod 3 eq 1 }">
+				<div class="photo-row displayCenter">				
+			</c:if>
+				<div class="photo3">
+					<c:if test="${ postList.multi_tf }">
+						<img alt="여러사진" class="ph_m" src="/resources/images/photo_multiple.png">					
+					</c:if>
+					<img class="thumb" src="${postList.o_total_url}">
+				</div>
+			<c:if test="${ status.count mod 3 eq 0 || status.last }">
+				</div>
+			</c:if>
+		</c:forEach>
 	</div>
-
 </div>
+<script type="text/javascript" src="/resources/js/profile.js"></script>
+<script type="text/javascript">
+
+$("#on_follow , #off_follow").on("click", function(){
+	var tg_no = $("#pf_member_no").val();
+	var type = '';
+	var url = '';
+	var callback = '';
+	if($(this).attr("id").indexOf("on")==0){
+		type = "POST";
+		url = "/onFollow/"+tg_no;
+		callback = onFollow;
+	} else if($(this).attr("id").indexOf("off")==0){
+		type = "DELETE";
+		url = "/offFollow/"+tg_no;
+		callback= offFollow;
+	}
+		followAjaxFunc(type, url, null, callback);		
+	
+});
+
+</script>
 </body>
 </html>

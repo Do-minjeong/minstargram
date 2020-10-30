@@ -41,6 +41,12 @@ public class SubServiceImpl implements SubService{
 		if(type == 0) return mapper.rpLikeOn(reply_no, member_no);
 		else return mapper.rpLikeOff(reply_no, member_no);
 	}
+
+	@Override
+	public int followOnOff(int type, String tg_no, int member_no) {
+		if(type == 0) return mapper.followOn(tg_no, member_no);
+		else return mapper.followOff(tg_no, member_no);
+	}
 	
 	
 
