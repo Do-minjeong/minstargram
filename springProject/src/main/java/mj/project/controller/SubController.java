@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
 import mj.project.domain.MemberVO;
+import mj.project.domain.PostVO;
 import mj.project.domain.ReplyVO;
 import mj.project.service.SubService;
 
@@ -89,6 +91,8 @@ public class SubController {
 		log.info("follow Off");
 		return service.followOnOff(1, tg_no, member.getMember_no()) == 1? new ResponseEntity<>("success", HttpStatus.OK) : new ResponseEntity<>("error", HttpStatus.INTERNAL_SERVER_ERROR);
 	}
+	
+
 	
 
 }

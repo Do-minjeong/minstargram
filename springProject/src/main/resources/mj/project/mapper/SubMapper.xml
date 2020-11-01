@@ -53,10 +53,12 @@
 		INSERT INTO follow_relationship(follow_no, member_no, tg_member_no)
 		VALUES (follow_no_seq.NEXTVAL, #{member_no}, #{tg_no})
 	</insert>
-	<delete id="followOff">
+	<delete id="followOff" >
 		DELETE FROM follow_relationship
 		WHERE member_no = #{member_no} AND tg_member_no = #{tg_no}
 	</delete>
+	
+	
 	
 	
   </mapper>

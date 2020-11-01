@@ -12,5 +12,7 @@ public interface MainService {
 	public List<PostVO> readPosts(int member_no);
 
 	public ProfileVO readProfile(String member_no, int member_no2);
+
+	public PostVO getPost(String post_no);
 	
 }

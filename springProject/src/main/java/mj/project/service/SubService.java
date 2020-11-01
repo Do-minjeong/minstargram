@@ -1,5 +1,6 @@
 package mj.project.service;
 
+import mj.project.domain.PostVO;
 import mj.project.domain.ReplyVO;
 
 public interface SubService {
@@ -13,5 +14,7 @@ public interface SubService {
 	public int rplikeOnOff(int type, String reply_no, int member_no);
 
 	public int followOnOff(int type, String tg_no, int member_no);
+
+
 
 }

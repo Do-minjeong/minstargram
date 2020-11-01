@@ -102,7 +102,6 @@ $(".comment-form button[type=submit]").on("click", function(e){
 				 };
 	var post_no = tt_id.substring(tt_id.indexOf("cmt")+3, tt_id.length);
 	
-	$("#"+tt_id).val('');
 	subAjaxFunc("POST", "/reply/", post_no, params, "json", "reply post", replyCallback);
 	
 	

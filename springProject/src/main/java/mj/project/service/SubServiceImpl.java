@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.Setter;
+import mj.project.domain.PostVO;
 import mj.project.domain.ReplyVO;
 import mj.project.mapper.SubMapper;
 
@@ -47,7 +48,8 @@ public class SubServiceImpl implements SubService{
 		if(type == 0) return mapper.followOn(tg_no, member_no);
 		else return mapper.followOff(tg_no, member_no);
 	}
-	
+
+
 	
 
 }

@@ -15,12 +15,18 @@ import java.util.UUID;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -53,10 +59,10 @@ public class MainController implements ServletContextAware{
 	}
 	
 	@GetMapping("/mainHome")
-	public String mainHome(HttpSession session, Authentication auth, Model model) throws Exception {
+	public String mainHome(@SessionAttribute("userInfo") MemberVO member , Authentication auth, Model model) throws Exception {
 		log.info("/main/mainHome controller 접속!!");
 		// 모든 게시글 가져오기
-		MemberVO member = (MemberVO) session.getAttribute("userInfo");
+		//MemberVO member = (MemberVO) session.getAttribute("userInfo");
 		log.info("Login USER : "+member);
 		List<PostVO> mainPosts = service.readPosts(member.getMember_no());
 		model.addAttribute("posts", mainPosts);
@@ -131,6 +137,19 @@ public class MainController implements ServletContextAware{
 	public void goProfile(String member_no, @SessionAttribute("userInfo") MemberVO member, Model model) {
 		ProfileVO vo = service.readProfile(member_no, member.getMember_no());
 		model.addAttribute("profile", vo);
+	}
+	
+	@PostMapping(value = "/getPost", produces = "application/json; charset=utf8")
+	public ResponseEntity<PostVO> getPost(@RequestBody String params) throws ParseException {
+		log.info("getPost메소드 진입");
+		
+		JSONParser jsonParser = new JSONParser();
+		JSONObject jsonObj = (JSONObject) jsonParser.parse(params);
+		String post_no = String.valueOf(jsonObj.get("post_no"));
+		
+		PostVO postvo = service.getPost(post_no);
+		System.out.println(postvo);
+		return new ResponseEntity<PostVO>(postvo, HttpStatus.OK);
 	}
 	
 }

@@ -105,4 +105,10 @@ public class MainServiceImpl implements MainService{
 		return profile;
 	}
 
+	@Override
+	public PostVO getPost(String post_no) {
+		
+		return mapper.getPost(post_no);
+	}
+
 }

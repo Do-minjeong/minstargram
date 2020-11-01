@@ -175,5 +175,69 @@
    where member_no = #{member_no} or tg_member_no = #{member_no}
   </select>
   
+  <select id="getPost" resultMap="postMap">
+  	SELECT p.post_no, p.contents,
+       CASE 
+        WHEN (sysdate - p.reg_date) BETWEEN 0 AND 1/24
+        THEN trunc((sysdate - p.reg_date)*60*24,0)||'분 전'
+        WHEN (sysdate - p.reg_date) BETWEEN 1/24 AND 1
+        THEN TRUNC((sysdate - p.reg_date)*24) || '시간 전'
+        WHEN (sysdate - p.reg_date) BETWEEN 1 AND 6
+        THEN TRUNC((sysdate - p.reg_date)) || '일 전'
+        WHEN (sysdate - p.reg_date) BETWEEN 6 AND 7
+        THEN '1주 전'
+        ELSE p.reg_date || ''
+       END reg_date
+       , m.userid as p_write_id, m.member_no, profile_photo, photo_no, file_name, file_url
+       , 'http://localhost' || REPLACE(SUBSTR(file_url, INSTR(file_url,'\resources')),'\','/') || '/' || file_name as total_url
+       , CASE
+          WHEN mpl.post_no IS NULL    THEN 'false'
+      	  ELSE 'true'
+         END like_btn
+       , NVL(like_cnt,0) as like_cnt
+       , CASE
+      	  WHEN pb.post_no IS NULL  THEN 'false'
+          ELSE 'true'
+         END bookmark_btn
+       , r.reply_no
+       , r_write_id
+       , r.r_contents
+       , NVL(reply_cnt,0) as reply_cnt
+       , r_like_id
+       , r_like_no
+       , r_like_btn
+       , r_like_cnt
+	FROM posts p JOIN photos ph ON (p.post_no = ph.post_no)
+             	 JOIN members m ON (p.member_no = m.member_no)
+              	 LEFT JOIN (SELECT * FROM post_likes WHERE member_no = 4) mpl ON(mpl.post_no = p.post_no)
+              	 LEFT JOIN (SELECT post_no, COUNT(*)OVER(PARTITION BY POST_NO) as like_cnt FROM post_likes) pl ON(p.post_no = pl.post_no)
+              	 LEFT JOIN (SELECT * FROM post_bookmarks WHERE member_no = 4) pb ON(pb.post_no = p.post_no)
+              	 LEFT JOIN (
+                    SELECT *
+                    FROM ( SELECT *
+                           FROM (
+                            SELECT post_no, r.reply_no, r_contents, r_m.userid as r_write_id
+                                   , rl.userid as r_like_id, rl.member_no as r_like_no
+                                   ,case
+                                       when i_r.r_likes_no is null
+                                       then 'false'
+                                       else 'true'
+                                       end r_like_btn
+                                   , count(rl.r_likes_no)over(partition by rl.reply_no) as r_like_cnt, reply_cnt
+                        	FROM (SELECT *
+                                  FROM (
+                                    select r.*, ROW_NUMBER()OVER(PARTITION BY post_no ORDER BY r.reply_no DESC) as rn, COUNT(r.reply_no)OVER(PARTITION BY post_no) as reply_cnt
+                                    from replys r
+                                     )
+                                  ORDER BY post_no)r 
+                                          JOIN members r_m ON(r.member_no = r_m.member_no)
+                                          LEFT JOIN (SELECT r_likes_no, rl_m.member_no, userid, reply_no FROM reply_likes rl JOIN members rl_m on(rl.member_no = rl_m.member_no)) rl ON(r.reply_no = rl.reply_no)
+                                          LEFT JOIN (SELECT * FROM reply_likes WHERE member_no = 4) i_r ON(r.reply_no = i_r.reply_no)
+                           )
+                        )
+              	 ) r ON(r.post_no = p.post_no )
+    WHERE p.post_no = #{post_no}
+  </select>
+  
 
   </mapper>

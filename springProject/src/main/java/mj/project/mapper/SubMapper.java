@@ -26,4 +26,5 @@ public interface SubMapper {
 
 	public int followOff(@Param("tg_no") String tg_no, @Param("member_no") int member_no);
 
+
 }

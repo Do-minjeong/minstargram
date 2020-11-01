@@ -18,5 +18,7 @@ public interface MainMapper {
 
 	public RelationVO readFollow(@Param("member_no") String member_no , @Param("member_no2") int member_no2);
 
+	public PostVO getPost(String post_no);
+
 		
 }

@@ -123,7 +123,7 @@
 							</div>
 							<div class="article-likes article-section"><button class="likes_info btnNone">좋아요 <span id="likeval${post.post_no}">${post.like_cnt}</span>개</button></div>
 							<div class="article-contents article-section">
-								<span class="article-id"><a href="">${post.userid}</a></span>
+								<span class="article-id"><a href="/main/profile?member_no=${post.member_no}">${post.userid}</a></span>
 								<span class="id-contents">
 									${post.contents} 
 								</span>
@@ -172,7 +172,7 @@
 		</div>
 	</div>
 	<div class="left-block">
-		<div class="profilebox2">
+		<div class="profilebox3">
 			<button type="button" class="btnNone" onclick="location.href='/main/profile?member_no=${userInfo.member_no}'">
 				<div class="canvas lb-canvas displayCenter">
 					<div class="lb-profile-pic">

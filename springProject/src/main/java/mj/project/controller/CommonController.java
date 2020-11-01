@@ -61,7 +61,6 @@ public class CommonController {
 	public void signup(HttpSession session, Model model) { 
 		// 네이버 아이디로 인증 url을 생성하기 위해 naverLoginBO 클래스의 getAuthorizationUrl 메소드 호출
 		String naverAuthUrl = naverLoginBO.getAuthorizationUrl(session);
-
 		log.info("회원가입 네이버: "+naverAuthUrl);
 
 		// 네이버
