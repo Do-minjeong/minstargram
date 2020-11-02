@@ -31,13 +31,24 @@
 		WHERE post_no = #{post_no} AND member_no = #{member_no}
 	</delete>
 
-	<insert id="replyInsert" >
+	<update id="replyInsert" >
 		<selectKey keyProperty="reply_no" resultType="int" order="BEFORE">
 			SELECT reply_no_seq.NEXTVAL	FROM dual
 		</selectKey>
+		{CALL
+		DECLARE
+		BEGIN
+		
 		INSERT INTO replys(reply_no, post_no, member_no, r_contents)
-		VALUES (#{reply_no}, #{post_no}, #{member_no}, #{r_contents})
-	</insert>
+		VALUES (#{reply_no}, #{post_no}, #{member_no}, #{r_contents});
+		
+		<foreach collection="tagList" item="t_list">
+			INSERT INTO post_tags(p_tag_no, post_no, tag_no)
+			VALUES(p_tag_no_seq.NEXTVAL, #{post_no}, #{t_list.tag_no});
+		</foreach>
+		END
+		}
+	</update>
 	
 	<insert id="rpLikeOn">
 		INSERT INTO reply_likes(r_likes_no, reply_no, member_no)

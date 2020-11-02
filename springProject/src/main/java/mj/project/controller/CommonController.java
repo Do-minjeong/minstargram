@@ -166,25 +166,17 @@ public class CommonController {
 		model.addAttribute("msg", "Access Denied");
 	}
 
-	@GetMapping("/customLogout")
-	public void getLogout() {
-		log.info("custom logout");
-	}
+	/*
+	 * @GetMapping("/customLogout") public void getLogout() {
+	 * log.info("custom logout"); }
+	 */
 
-	@PostMapping("/customLogout")
+	@RequestMapping(value = "/customLogout", method = {RequestMethod.GET, RequestMethod.POST})
 	public String customLogout(HttpSession session) {
-		log.info("post custom logout");
-		System.out.println("post custom logout");
-		sessionLogout(session);
-		return "redirect:customLogin?logout";
-	}
-	
-	@PostMapping("/socialLogout")
-	public String sessionLogout(HttpSession session) {
+		log.info("post logout");
 		log.info(">> session logout: "+session.getAttribute("userInfo"));
 		session.invalidate();
 		return "redirect:customLogin?logout";
 	}
-
-
+	
 }

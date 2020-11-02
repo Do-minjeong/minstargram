@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
+import mj.project.common.CommonFunction;
 import mj.project.domain.PostVO;
 import mj.project.domain.ProfileVO;
 import mj.project.domain.TagVO;
@@ -23,44 +24,23 @@ public class MainServiceImpl implements MainService{
 	@Setter(onMethod_ = @Autowired)
 	private MainMapper mapper;
 	
+	@Setter(onMethod_ = @Autowired)
+	private CommonFunction cf;
+	
 	@Override
 	@Transactional
 	public void postWrite(PostVO vo) {
-		List<TagVO> tagList = tagSplit(vo.getContents());
+		List<TagVO> tagList = cf.tagSplit(vo.getContents(), mapper);
 		vo.setTagList(tagList);
+		vo.setContents(cf.addTagContents(vo.getContents()));
 		mapper.postWrite(vo);
 	}
 	
-	private List<TagVO> tagSplit(String contents) {
-		log.info("contents : "+contents);
-		int hashStart = 0, hashEnd = 0;
-		int hashSpace = 0, hashEnter = 0;
-		int maxLength = contents.length();
-		String hashTag = "";
-		List<TagVO> tag_list = new ArrayList<TagVO>();
-		
-		while(true) {
-			hashStart = contents.indexOf("#", hashStart);
-			if(hashStart == -1) break;
-			
-			hashSpace = contents.indexOf(" ", hashStart)==-1? maxLength: contents.indexOf(" ", hashStart);
-			hashEnter = contents.indexOf("<br/>", hashStart)==-1? maxLength : contents.indexOf("<br/>", hashStart);
-			hashEnd = Math.min(hashSpace, hashEnter);
-			
-			hashTag = contents.substring(hashStart, hashEnd);
-			System.out.println(">>"+hashTag);
-			TagVO tagvo = new TagVO(hashTag);
-			
-			tag_list.add(tagvo);
-			hashStart = hashEnd;
-		}
-		
-		return tag_list;
-	}
 	
 	@Override
 	public List<PostVO> readPosts(int member_no) {
 		List<PostVO> post_list = mapper.readPosts(member_no);
+		
 		Iterator<PostVO> post_ir = post_list.iterator();
 		List<PostVO> post_list2 = new ArrayList<PostVO>();
 		
@@ -74,8 +54,7 @@ public class MainServiceImpl implements MainService{
 		}
 		return post_list2;
 	}
-
-	private String addTagContents(String contents) {
+	public String addTagContents(String contents) {
 		StringBuffer sb = new StringBuffer(contents);
 		int hashStart = 0, hashEnd = 0;
 		int hashSpace = 0, hashEnter = 0;
@@ -89,7 +68,7 @@ public class MainServiceImpl implements MainService{
 			hashEnd = Math.min(hashSpace, hashEnter);
 			
 			hashTag = sb.substring(hashStart, hashEnd);
-			newString = "<a href=''>"+hashTag+"</a>";
+			newString = "<a href='/main/search?tag="+hashTag+"'>"+hashTag+"</a>";
 			sb = sb.replace(hashStart, hashEnd, newString);
 			hashStart = hashEnd+14;
 		}
@@ -106,9 +85,19 @@ public class MainServiceImpl implements MainService{
 	}
 
 	@Override
-	public PostVO getPost(String post_no) {
+	public PostVO getPost(String post_no, int member_no) {
 		
-		return mapper.getPost(post_no);
+		return mapper.getPost(post_no, member_no);
+	}
+
+	@Override
+	public List<PostVO> memberPosts(String member_no) {
+		return mapper.memberPosts(member_no);
+	}
+
+	@Override
+	public List<PostVO> bookmarkPosts(String member_no) {
+		return mapper.bookmarkPosts(member_no);
 	}
 
 }

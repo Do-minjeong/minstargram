@@ -69,23 +69,23 @@
 			</div>
 		</div>
 		<div class="menubar displayCenter">
-			<div class="menu">
-				<a href=""> <img
+			<div class="menu menu_active">
+				<button class="btnNone menubtn" id="m1"><img
 					src="https://www.flaticon.com/svg/static/icons/svg/459/459879.svg">
 					<span>게시물</span>
-				</a>
+				</button>
 			</div>
 			<div class="menu">
-				<a href=""> <img
+				<button class="btnNone menubtn" id="m2"><img
 					src="https://www.flaticon.com/svg/static/icons/svg/1174/1174410.svg">
 					<span>저장됨</span>
-				</a>
+				</button>
 			</div>
 			<div class="menu">
-				<a href=""> <img
+				<button class="btnNone menubtn" id="m3"> <img
 					src="https://www.flaticon.com/svg/static/icons/svg/1946/1946481.svg">
 					<span>태그됨</span>
-				</a>
+				</button>
 			</div>
 		</div>
 		<div class="profilebox2">
@@ -261,7 +261,7 @@
 							<div class="modal-rp">
 								<form action="" class="md-comment-form comment-form displayCenter">
 									<textarea id="cmt${post.post_no}" name="r_contents" wrap="virtual" cols="38" class="btnNone" placeholder="댓글 달기.."></textarea>
-									<button type="submit" class="btnNone" disabled>게시</button>
+									<button type="submit" id="md-cf" class="btnNone" disabled>게시</button>
 								</form>
 							</div>
 						</div>
@@ -273,9 +273,10 @@
 	</div>
 
 	<script type="text/javascript" src="/resources/js/profile.js"></script>
+
 	<script type="text/javascript">
+		var tg_no = $("#pf_member_no").val();
 		$("#on_follow , #off_follow").on("click", function() {
-			var tg_no = $("#pf_member_no").val();
 			var url = '';
 			if ($(this).attr("id").indexOf("on") == 0) {
 				url = "/onFollow/" + tg_no;
@@ -291,20 +292,17 @@
 			}
 		});
 
-		$(".photo3").on(
-				"click",
-				function() {
+		$(document).on("click", ".photo3", function() {
 					var photo_id = $(this).attr("id");
-					var post_no = photo_id.substring(
-							photo_id.indexOf("post") + 4, photo_id.length);
+					var post_no = photo_id.substring( photo_id.indexOf("post") + 4, photo_id.length);
 					console.log("post_no : " + post_no);
 					var params = {
 						post_no : post_no
 					}
 					// ajax로 해당 post 정보가져와서 모달에 뿌리기
-					profileAjaxFunc("POST", "/main/getPost", params, "json",
-							modalOpen);
+					profileAjaxFunc("POST", "/main/getPost", params, "json", modalOpen);
 				});
 	</script>
+<script type="text/javascript" src="/resources/js/mainHome.js"></script>
 </body>
 </html>

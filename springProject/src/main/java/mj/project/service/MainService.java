@@ -13,6 +13,10 @@ public interface MainService {
 
 	public ProfileVO readProfile(String member_no, int member_no2);
 
-	public PostVO getPost(String post_no);
+	public PostVO getPost(String post_no, int member_no);
+
+	public List<PostVO> memberPosts(String member_no);
+
+	public List<PostVO> bookmarkPosts(String member_no);
 	
 }

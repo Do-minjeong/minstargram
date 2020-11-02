@@ -15,7 +15,7 @@
 		</div>
 		<div class="userInfo"></div>
 		<div>
-			<form action="/" method="POST" id="logoutForm">
+			<form action="/customLogout" method="POST" id="logoutForm">
 				<input type="hidden" name="${ _csrf.parameterName }" value="${ _csrf.token }" >
 				<input type="submit" class="btn btn-lg btn-success" value="Logout"/>
 			</form>
@@ -26,18 +26,6 @@
 <script type="text/javascript">
 	console.log("hello");
 </script>
-<c:if test="${ userInfo.login_type_no eq 1 }">
-	<script type="text/javascript">
-		console.log("custom");
-		$("#logoutForm").attr("action","/customLogout");
-	</script> 
-</c:if>
-<c:if test="${ userInfo.login_type_no eq 2 }">
-	<script type="text/javascript">
-		console.log("s_userInfo")
-		$("#logoutForm").attr("action","/socialLogout");
-	</script>
-</c:if>
 <script type="text/javascript">
 var ap = '${userInfo.username}';
 	$(".userInfo").append("<span>"+ap+" 님</span>");

@@ -41,6 +41,7 @@
   		 	 
   		 	 INSERT INTO auths(auth_no, auth, member_no)
   			 VALUES( auth_no_seq.NEXTVAL , #{auth} , #{member_no});
+  			 
   		 END
   		}
   	</update>

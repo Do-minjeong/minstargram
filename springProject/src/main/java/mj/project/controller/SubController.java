@@ -63,6 +63,7 @@ public class SubController {
 		vo.setPost_no(post_no);
 		vo.setMember_no(member.getMember_no());
 		vo.setUserid(member.getUserid());
+		vo.setRp_profile_photo(member.getProfile_photo());
 		
 		service.replyInsert(vo);
 		

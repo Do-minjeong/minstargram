@@ -1,5 +1,5 @@
 // 댓글 입력창에 한글자라도 입력이 되어있어야 버튼 활성화
-$(".comment-form textarea").keyup(function(key){
+$(document).on("keyup", ".comment-form textarea", function(key){
 	var val = this.value;
 	var btn = $(".comment-form button");
 	if(val.length==0){
@@ -35,9 +35,10 @@ $(".carousel-control-prev , .carousel-control-next").on("click", function(){
 	}, 650);
 });	
 
-
+console.log("mainhome js");
 // 게시글 좋아요 on,off/ 북마크 on,off / 댓글 좋아요 on,off
-$(".likebtn , .bookmarkbtn , .replyLikeBtn").on("click", function(){
+//$(".likebtn , .bookmarkbtn , .replyLikeBtn").on("click", function(){
+$(document).on('click', '.likebtn , .bookmarkbtn , .replyLikeBtn', function(){
 	var btn_id = $(this).attr("id");
 	var btn_name = btn_id.substring(0, btn_id.indexOf("btn"));
 	var no = btn_id.substring(btn_id.indexOf("btn")+3, btn_id.length);
@@ -94,15 +95,21 @@ var likeCallback = function(post_no, data){
 
 
 // 댓글달기
-$(".comment-form button[type=submit]").on("click", function(e){
+$(document).on("click", ".comment-form button[type=submit]", function(e){
 	e.preventDefault();
 	var tt_id = $(this).prev().attr("id");
+	var lc_id = $(this).attr("id");
+	var callback = '';
+
+	if(lc_id.indexOf("md")==0)	callback = modalReplyCallback;
+	else if (lc_id.indexOf("mh"==0)) callback = replyCallback;
+	
 	var params = {
 					r_contents: $("#"+tt_id).val()
 				 };
 	var post_no = tt_id.substring(tt_id.indexOf("cmt")+3, tt_id.length);
 	
-	subAjaxFunc("POST", "/reply/", post_no, params, "json", "reply post", replyCallback);
+	subAjaxFunc("POST", "/reply/", post_no, params, "json", "reply post", callback);
 	
 	
 });
@@ -117,6 +124,34 @@ var replyCallback = function(post_no, data){
 			 + '<img alt="reply_like" src="https://www.flaticon.com/svg/static/icons/svg/2107/2107952.svg">'
 			 + '</button></div>';
 	$("#replybox"+post_no).append(str);	
+}
+
+var modalReplyCallback = function(post_no, data){
+	console.log('modal reply Callback method');
+	var str = "<div class='md-writer'>"
+				+	"<div class='modal-userInfo'>"
+				+		"<div class='md-canvas canvas displayCenter'>"
+				+		"	<div class='md-profile-pic profile-pic'>"
+				+			"	<img src='"+data.rp_profile_photo+"'>"
+				+	"		</div>"
+				+	"	</div>"
+			+	"	</div>"
+			+	"	<div class='writer-contents-box'>"
+			+		"	<div class='md-box1'>"
+			+			"	<div >"
+			+				"	<span class='md-article-id article-id'><a"
+			+			"			href='/main/profile?member_no="+data.member_no+"'>"+data.userid+"</a></span>"
+			+			"		<span class='font14'>"+data.r_contents+"</span>"
+			+		"		</div>"
+			+		"		<button class='btnNone md-replyLikeBtn' id='rpLikebtn"+data.reply_no+"'>"
+			+		"			<img alt='reply_like' class='off_rpLike' src='https://www.flaticon.com/svg/static/icons/svg/865/865991.svg'>	"											
+			+			"	</button>"
+			+		"	</div>"
+			+		"	<div class='md-regdate'><span>0분전</span></div>"
+			+		"</div>"
+		+	"	</div>";
+	
+	$(".md-rpbox").prepend(str);
 }
 
 function subAjaxFunc(type, url, no, params, dataType, title, callback){

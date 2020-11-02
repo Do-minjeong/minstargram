@@ -34,6 +34,8 @@ import org.springframework.web.context.ServletContextAware;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.fasterxml.jackson.core.JsonParser;
+
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
 import mj.project.domain.AttachFileVO;
@@ -139,19 +141,40 @@ public class MainController implements ServletContextAware{
 		model.addAttribute("profile", vo);
 	}
 	
-	@PostMapping(value = "/getPost", produces = "application/json; charset=utf8")
-	public ResponseEntity<PostVO> getPost(@RequestBody String params) throws ParseException {
+	@PostMapping(value = "/getPost", produces = "application/json; charset=utf-8")
+	public ResponseEntity<PostVO> getPost(@RequestBody String params, @SessionAttribute("userInfo") MemberVO member) throws ParseException {
 		log.info("getPost메소드 진입");
 		
 		JSONParser jsonParser = new JSONParser();
 		JSONObject jsonObj = (JSONObject) jsonParser.parse(params);
 		String post_no = String.valueOf(jsonObj.get("post_no"));
 		
-		PostVO postvo = service.getPost(post_no);
-		System.out.println(postvo);
+		PostVO postvo = service.getPost(post_no, member.getMember_no());
 		return new ResponseEntity<PostVO>(postvo, HttpStatus.OK);
 	}
 	
+	@PostMapping(value="/memberPosts", produces = "application/json; charset=utf-8")
+	public ResponseEntity<List<PostVO>> memberPosts(@RequestBody String params) throws ParseException{
+		log.info(" member Posts ");
+		JSONParser jsonParser = new JSONParser();
+		JSONObject jsonObj = (JSONObject) jsonParser.parse(params);
+		String member_no = String.valueOf(jsonObj.get("tg_no"));
+		
+		List<PostVO> postList = service.memberPosts(member_no);
+		
+		return new ResponseEntity<List<PostVO>>(postList, HttpStatus.OK);
+	}
+	
+	@PostMapping(value = "/bookmarkPosts", produces = "application/json; charset=utf-8")
+	public ResponseEntity<List<PostVO>> bookmarkPosts(@RequestBody String params) throws ParseException{
+		log.info("bookmarks Posts ");
+		JSONParser jsonParser = new JSONParser();
+		JSONObject jsonObj = (JSONObject) jsonParser.parse(params);
+		String member_no = String.valueOf(jsonObj.get("tg_no"));
+		
+		List<PostVO> postList = service.bookmarkPosts(member_no);
+		return new ResponseEntity<List<PostVO>>(postList, HttpStatus.OK);
+	}
 }
 
 

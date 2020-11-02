@@ -140,7 +140,7 @@
 													<span class="article-id reply-id"><a href="">${reply.userid}</a></span>
 													<span class="id-contents">${reply.r_contents}</span>
 												</div>
-												<button class="btnNone replyLikeBtn" id="rpLikebtn${reply.reply_no}">
+												<button class="btnNone rb-replyLikeBtn replyLikeBtn" id="rpLikebtn${reply.reply_no}">
 													<c:if test="${!reply.r_like_btn}">
 														<img alt="reply_like" class="off_rpLike" src="https://www.flaticon.com/svg/static/icons/svg/865/865991.svg">
 													</c:if>
@@ -158,9 +158,9 @@
 							</div>
 							<div class="comment article-section">
 								<div class="comment-input">
-									<form action="" class="comment-form displayCenter">
+									<form action="/" class="comment-form displayCenter">
 										<textarea id="cmt${post.post_no}" name="r_contents" wrap="virtual" cols="38" class="btnNone" placeholder="댓글 달기.."></textarea>
-										<button type="submit" class="btnNone" disabled>게시</button>
+										<button type="submit" class="btnNone" id="mh-cf" disabled>게시</button>
 									</form>
 								</div>
 							</div>
@@ -172,6 +172,9 @@
 		</div>
 	</div>
 	<div class="left-block">
+		<div class="login_info">
+			<div class="circle" ></div><span>로그인 정보</span>
+		</div>
 		<div class="profilebox3">
 			<button type="button" class="btnNone" onclick="location.href='/main/profile?member_no=${userInfo.member_no}'">
 				<div class="canvas lb-canvas displayCenter">

@@ -1,12 +1,17 @@
 package mj.project.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.Setter;
+import mj.project.common.CommonFunction;
 import mj.project.domain.PostVO;
 import mj.project.domain.ReplyVO;
+import mj.project.domain.TagVO;
+import mj.project.mapper.MainMapper;
 import mj.project.mapper.SubMapper;
 
 @Service
@@ -14,6 +19,12 @@ public class SubServiceImpl implements SubService{
 
 	@Setter(onMethod_ = @Autowired)
 	private SubMapper mapper;
+	
+	@Setter(onMethod_ = @Autowired)
+	private MainMapper m_mapper;
+	
+	@Setter(onMethod_ = @Autowired)
+	private CommonFunction cf;
 	
 	@Override
 	public Integer likeOnOff(int type, String post_no, int member_no) {
@@ -34,6 +45,9 @@ public class SubServiceImpl implements SubService{
 
 	@Override
 	public void replyInsert(ReplyVO vo) {
+		List<TagVO> tagList = cf.tagSplit(vo.getR_contents(), m_mapper);
+		vo.setTagList(tagList);
+		vo.setR_contents(cf.addTagContents(vo.getR_contents()));
 		mapper.replyInsert(vo);
 	}
 

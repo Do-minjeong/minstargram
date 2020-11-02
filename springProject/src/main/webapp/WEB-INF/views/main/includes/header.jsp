@@ -13,7 +13,7 @@
 				<h1 class="titleText">MIN <span class="star">★</span> GRAM</h1>
 			</button>
 		</div>
-		<div>
+<%-- 		<div>
 			<c:if test="${userInfo.login_type_no eq 1 }">
 				LOGIN:			
 			</c:if>
@@ -21,7 +21,7 @@
 				SOCIAL LOGIN:
 			</c:if>
 			${ userInfo.username }
-		</div>
+		</div> --%>
 		<div class="searchbox displayCenter">
 			<img alt="searchImg" src="https://www.flaticon.com/svg/static/icons/svg/25/25313.svg" >
 			<span>검색</span>
@@ -78,7 +78,7 @@
 								<span>설정</span>
 							</div>
 						</button>
-						<button class="dropdown-item logoutbtn" >
+						<button class="dropdown-item logoutbtn" onclick="location.href='/customLogout'">
 							<div class="profile-menu">
 								<span>로그아웃</span>
 							</div>
@@ -89,25 +89,7 @@
 		</div>
 	</div>
 </div>
-<c:if test="${ userInfo.login_type_no eq 1 }">
-	<script type="text/javascript">
-		console.log("custom");
-		$(".logoutbtn").attr("id","customLogout");
-	</script> 
-</c:if>
-<c:if test="${ userInfo.login_type_no eq 2 }">
-	<script type="text/javascript">
-		console.log("s_userInfo")
-		$(".logoutbtn").attr("action","socialLogout");
-	</script>
-</c:if>
-<script type="text/javascript">
-	$(".logoutbtn").on("click",function(e){
-		e.preventDefault();
-		var url = $(this).attr("id");
-		location.href = '/'+url;
-	})
-</script>
+
 </body>
 </html>
 

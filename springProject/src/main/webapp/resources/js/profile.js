@@ -117,13 +117,13 @@ var modalOpen = function(data){
 	+					"</div>"
 	+			"	</div>	"	
 	if(data.replyList.length){
+		str += "<div class='md-rpbox'>	";
 		$.each(data.replyList, function(idx, item){
-			str += 		"	<div class='md-writer'>"
+			str += 		"<div class='md-writer'>"
 				+				"	<div class='modal-userInfo'>"
 				+				"		<div class='md-canvas canvas displayCenter'>"
 				+						"	<div class='md-profile-pic profile-pic'>"
-				+								"<img"
-				+								"	src='https://travelblog.expedia.co.kr/wp-content/uploads/2016/06/03.jpg'>"
+				+								"<img src='"+item.rp_profile_photo+"'>"
 				+					"		</div>"
 				+					"	</div>"
 				+				"	</div>"
@@ -131,10 +131,10 @@ var modalOpen = function(data){
 				+				"		<div class='md-box1'>"
 				+						"	<div >"
 				+							"	<span class='md-article-id article-id'><a"
-				+								"	href='/main/profile?member_no=${post.member_no}'>"+item.userid+"</a></span>"
+				+								"	href='/main/profile?member_no="+item.member_no+"'>"+item.userid+"</a></span>"
 				+							"<span class='font14'>"+item.r_contents+"</span>"
 				+					"		</div>"
-				+					"		<button class='btnNone md-replyLikeBtn' id='rpLikebtn"+item.reply_no+"'>";
+				+					"		<button class='btnNone md-replyLikeBtn replyLikeBtn' id='rpLikebtn"+item.reply_no+"'>";
 				if(item.r_like_btn == 'true'){
 					str += "	<img alt='reply_like' class='on_rpLike' src='https://www.flaticon.com/svg/static/icons/svg/865/865974.svg'>";
 				}
@@ -143,25 +143,28 @@ var modalOpen = function(data){
 				}
 				str	+=						"	</button>"
 				+						"</div>"
-				+					"	<div class='md-regdate'><span>1분전</span></div>"
+				+					"	<div class='md-regdate'><span>"+item.r_reg_date+"</span>";
+				if(item.r_like_cnt>0) str += "<span>좋아요 "+item.r_like_cnt+"개</span>";
+				str += 	"</div>"
 				+					"</div>"
-				+				"</div>"
+				+				"</div>";
 		})
+		str += "</div>";
 	}
 	str	+=		"</div></div>	<div class='modal-ft'>"
 		+				"<div class='article-iconbox article-section'>"
-		+				"	<button class='article-icon btnNone likebtn' id='likebtn${post.post_no}'>";
+		+				"	<button class='article-icon btnNone likebtn' id='likebtn"+data.post_no+"'>";
 	if(data.like_btn == 'true' )
 		str += "	<img alt='좋아요' class='on_like' src='https://www.flaticon.com/svg/static/icons/svg/1946/1946346.svg'>	";
 	else 
 		str += "<img alt='좋아요' class='off_like' src='https://www.flaticon.com/svg/static/icons/svg/1946/1946406.svg'>";
 
 	str +=				"	</button>"
-		+					"<button class='article-icon btnNone commentbtn' id='commentbtn${post.post_no}'>"
+		+					"<button class='article-icon btnNone commentbtn' id='commentbtn"+data.post_no+"'>"
 		+					"	<img alt='댓글' src='https://www.flaticon.com/svg/static/icons/svg/1946/1946412.svg'>"
 		+				"	</button>"
-		+				"	<button class='article-icon btnNone messagebtn' id='messagebtn${post.post_no}'><img alt='메시지' src='https://www.flaticon.com/svg/static/icons/svg/1946/1946547.svg'></button>"
-		+					"<button class='article-icon bookmark btnNone bookmarkbtn' id='bookmarkbtn${post.post_no}'>";
+		+				"	<button class='article-icon btnNone messagebtn' id='messagebtn"+data.post_no+"'><img alt='메시지' src='https://www.flaticon.com/svg/static/icons/svg/1946/1946547.svg'></button>"
+		+					"<button class='article-icon bookmark btnNone bookmarkbtn' id='bookmarkbtn"+data.post_no+"'>";
 	if(data.bookmark_btn == 'true')
 		str += "	<img alt='북마크' class='on_bookmark' src='https://www.flaticon.com/svg/static/icons/svg/1174/1174447.svg'>	";
 	else 
@@ -179,7 +182,7 @@ var modalOpen = function(data){
 		+			"<div class='modal-rp'>"
 		+			"	<form action='' class='md-comment-form comment-form displayCenter'>"
 		+			"		<textarea id='cmt"+data.post_no+"' name='r_contents' wrap='virtual' cols='38' class='btnNone' placeholder='댓글 달기..'></textarea>"
-		+			"		<button type='submit' class='btnNone' disabled>게시</button>"
+		+			"		<button type='submit' id='md-cf' class='btnNone' disabled>게시</button>"
 		+			"	</form>"
 		+		"	</div>"
 		+		"</div>"
@@ -218,4 +221,52 @@ var modalConfirm = function (callback){
 		callback(2);
 		$("#confirmModal").modal('hide');
 	});
+	
 };
+
+var postsMenu = function(data){
+	var str = '';
+	console.log("length: "+data.length);
+	$.each(data, function(idx, item){
+		console.log("idx%3 : "+idx%3);
+		if(idx%3 == 0) str += "<div class='photo-row displayCenter'>";
+		str += "<div class='photo3' id='post"+item.post_no+"'>";
+		if(item.mutl_tf == 'true') str += "<img alt='여러사진' class='ph_m' src='/resources/images/photo_multiple.png' >";
+		str += "<img class='thumb' src='"+item.o_total_url+"'>"
+				+ "</div>";
+		if(idx%3 == 2 || idx == data.length) str += "</div>";
+	});
+	
+	$(".profilebox2").empty();
+	$(".profilebox2").append(str);
+	
+}
+
+$(".menubtn").on("click", function(){
+	
+	var og_active = $(".menu_active");
+	var new_active = $(this).attr("id");
+	
+	og_active.removeClass("menu_active");
+	$("#"+new_active).parent().addClass("menu_active");
+	
+	var  url = '';
+	
+	if(new_active == "m1") url = "/main/memberPosts";
+	else if (new_active == "m2") url = "/main/bookmarkPosts";
+	else if (new_active == "m3"){
+		
+	}
+	
+	profileAjaxFunc("POST", url, {tg_no :tg_no} , "json", postsMenu);
+});
+
+$(".menubtn2").on("click", function(){
+	var og_active = $(".menu_active");
+	
+	og_active.removeClass("menu_active");
+	$(this).parent().addClass("menu_active");
+})
+
+
+
