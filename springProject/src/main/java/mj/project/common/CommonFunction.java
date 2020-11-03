@@ -56,8 +56,9 @@ public class CommonFunction {
 			hashTag = sb.substring(hashStart, hashEnd);
 			newString = "<a href='/main/search?tag="+hashTag+"'>"+hashTag+"</a>";
 			sb = sb.replace(hashStart, hashEnd, newString);
-			hashStart = hashEnd+14;
+			hashStart = hashEnd+newString.length()-3;
 		}
+		System.out.println(">>"+sb);
 		return sb.toString();
 	}
 

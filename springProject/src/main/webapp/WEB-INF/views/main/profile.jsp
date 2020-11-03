@@ -30,11 +30,11 @@
 					</c:if>
 					<c:if test="${ profile.userid ne userInfo.userid }">
 						<c:if
-							test="${ profile.relationVO.relationship eq 0 || profile.relationVO.relationship eq 2 }">
+							test="${ profile.relationVO.relationship eq 0 || profile.relationVO.relationship eq 1 }">
 							<button type="button" class="btn btnBlue" id="on_follow">팔로우하기</button>
 						</c:if>
 						<c:if
-							test="${ profile.relationVO.relationship eq 1 || profile.relationVO.relationship eq 3 }">
+							test="${ profile.relationVO.relationship eq 2 || profile.relationVO.relationship eq 3 }">
 							<button type="button" class="btn btnGray" id="off_follow">팔로우취소</button>
 						</c:if>
 					</c:if>
@@ -61,7 +61,7 @@
 				<div class="pr-4">
 					<span><c:out value="${ profile.introduce }" /></span>
 				</div>
-				<c:if test="${ profile.relationVO.relationship eq 2 }">
+				<c:if test="${ profile.relationVO.relationship eq 1 }">
 					<div class="pr-5">
 						<span>나를 팔로우하는 사용자입니다.</span>
 					</div>
@@ -89,26 +89,28 @@
 			</div>
 		</div>
 		<div class="profilebox2">
-			<c:forEach items="${ profile.post_List }" var="postList"
-				varStatus="status">
-				<c:if test="${ status.count mod 3 eq 1 }">
-					<div class="photo-row displayCenter">
-				</c:if>
-				<div class="photo3" id="post${ postList.post_no }">
-					<c:if test="${ postList.multi_tf }">
-						<img alt="여러사진" class="ph_m"
-							src="/resources/images/photo_multiple.png">
+			<c:if test="${ profile.post_cnt > 0 }">
+				<c:forEach items="${ profile.post_List }" var="postList"
+					varStatus="status">
+					<c:if test="${ status.count mod 3 eq 1 }">
+						<div class="photo-row displayCenter">
 					</c:if>
-					<img class="thumb" src="${postList.o_total_url}">
-				</div>
+					<div class="photo3" id="post${ postList.post_no }">
+						<c:if test="${ postList.multi_tf }">
+							<img alt="여러사진" class="ph_m"
+								src="/resources/images/photo_multiple.png">
+						</c:if>
+						<img class="thumb" src="${postList.o_total_url}">
+					</div>
 				<c:if test="${ status.count mod 3 eq 0 || status.last }">
-		</div>
+					</div>
+				</c:if>
+			</c:forEach>
 		</c:if>
-		</c:forEach>
 	</div>
 	</div>
 
-
+<!-- follow취소 여부 물어보는 모달 -->
  <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog">
     <div class="modal-dialog">
       <!-- Modal content-->

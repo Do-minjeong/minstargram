@@ -180,25 +180,25 @@
 
 	<select id="readProfile" resultMap="profileMap">
 		SELECT post_no, p.member_no, multi_tf, o_total_url, m.introduce,
-		COUNT(*)OVER() as post_cnt, m.userid, m.name, m.profile_photo
+			   COUNT(post_no)OVER() as post_cnt, m.userid, m.name, m.profile_photo
 		FROM (
-		SELECT *
-		FROM (
-		SELECT ph.post_no, member_no
-		, CASE
-		WHEN COUNT(file_name)OVER(PARTITION BY ph.post_no)>1
-		THEN 'true'
-		ELSE 'false'
-		END multi_tf
-		, RANK()OVER(PARTITION BY ph.post_no ORDER BY photo_no) as rn
-		, 'http://localhost' || REPLACE(SUBSTR(file_url,
-		INSTR(file_url,'\resources')),'\','/') || '/' || file_name as
-		o_total_url
-		FROM posts p JOIN photos ph ON(p.post_no = ph.post_no)
-		)
-		WHERE rn = 1
-		) p join (select * from members where member_no = #{member_no} )m
-		on(p.member_no = m.member_no)
+			SELECT *
+			FROM (
+				SELECT ph.post_no, member_no
+				, CASE
+				WHEN COUNT(file_name)OVER(PARTITION BY ph.post_no)>1
+				THEN 'true'
+				ELSE 'false'
+				END multi_tf
+				, RANK()OVER(PARTITION BY ph.post_no ORDER BY photo_no) as rn
+				, 'http://localhost' || REPLACE(SUBSTR(file_url,
+				INSTR(file_url,'\resources')),'\','/') || '/' || file_name as
+				o_total_url
+				FROM posts p JOIN photos ph ON(p.post_no = ph.post_no)
+				)
+				WHERE rn = 1
+			) p RIGHT JOIN (select * from members where member_no = #{member_no} )m
+			ON(p.member_no = m.member_no)
 		ORDER BY post_no DESC
 	</select>
 	<resultMap type="mj.project.domain.RelationVO"
@@ -208,25 +208,25 @@
 		<result property="relationship" column="relationship" />
 	</resultMap>
 
-	<select id="readFollow" resultMap="relationMap">
-		select count(decode(fr.member_no,#{member_no},1)) as follow_cnt,
-		count(decode(tg_member_no, #{member_no},1)) as follower_cnt
+	<select id="readFollow" resultType="mj.project.domain.RelationVO">
+		SELECT COUNT(DECODE(fr.member_no,#{member_no2},1)) as follow_cnt,
+		COUNT(DECODE(tg_member_no, #{member_no2},1)) as follower_cnt
 		, CASE
-		WHEN COUNT(DECODE(fr.member_no,#{member_no2},1)) = 0 and
-		COUNT(DECODE(tg_member_no,#{member_no2},1)) = 0
+		WHEN COUNT(DECODE(fr.member_no,#{member_no},1)) = 0 AND -- 관계없음
+		COUNT(DECODE(tg_member_no,#{member_no},1)) = 0
 		THEN 0
-		WHEN COUNT(DECODE(fr.member_no,#{member_no2},1)) = 1 and
-		COUNT(DECODE(tg_member_no,#{member_no2},1)) = 0
+		WHEN COUNT(DECODE(fr.member_no,#{member_no},1)) = 1 AND -- 나를 팔로우하는 관계
+		COUNT(DECODE(tg_member_no,#{member_no},1)) = 0
 		THEN 1
-		WHEN COUNT(DECODE(tg_member_no,#{member_no2},1)) = 1 AND
-		COUNT(DECODE(fr.member_no,#{member_no2},1)) = 0
+		WHEN COUNT(DECODE(tg_member_no,#{member_no},1)) = 1 AND -- 내가 팔로우하는 관계
+		COUNT(DECODE(fr.member_no,#{member_no},1)) = 0
 		THEN 2
-		WHEN COUNT(DECODE(fr.member_no,#{member_no2},1)) = 1 AND
-		COUNT(DECODE(tg_member_no,#{member_no2},1)) = 1
+		WHEN COUNT(DECODE(fr.member_no,#{member_no},1)) = 1 AND -- 맞팔로우
+		COUNT(DECODE(tg_member_no,#{member_no},1)) = 1
 		THEN 3
 		END relationship
-		from follow_relationship fr
-		where member_no = #{member_no} or tg_member_no = #{member_no}
+		FROM follow_relationship fr
+		WHERE member_no = #{member_no2} OR tg_member_no = #{member_no2}
 	</select>
 
 	<select id="getPost" resultMap="postMap">

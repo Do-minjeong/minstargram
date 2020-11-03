@@ -14,6 +14,7 @@ import lombok.extern.log4j.Log4j;
 import mj.project.common.CommonFunction;
 import mj.project.domain.PostVO;
 import mj.project.domain.ProfileVO;
+import mj.project.domain.RelationVO;
 import mj.project.domain.TagVO;
 import mj.project.mapper.MainMapper;
 
@@ -40,7 +41,7 @@ public class MainServiceImpl implements MainService{
 	@Override
 	public List<PostVO> readPosts(int member_no) {
 		List<PostVO> post_list = mapper.readPosts(member_no);
-		
+		/*
 		Iterator<PostVO> post_ir = post_list.iterator();
 		List<PostVO> post_list2 = new ArrayList<PostVO>();
 		
@@ -48,38 +49,18 @@ public class MainServiceImpl implements MainService{
 		
 		while (post_ir.hasNext()) {
 			PostVO postVO = (PostVO) post_ir.next();
-			contents = addTagContents(postVO.getContents());
+			contents = cf.addTagContents(postVO.getContents());
 			postVO.setContents(contents);
 			post_list2.add(postVO);
-		}
-		return post_list2;
-	}
-	public String addTagContents(String contents) {
-		StringBuffer sb = new StringBuffer(contents);
-		int hashStart = 0, hashEnd = 0;
-		int hashSpace = 0, hashEnter = 0;
-		String hashTag = "";
-		String newString = "";
-		while(true) {
-			hashStart = sb.indexOf("#", hashStart);
-			if(hashStart == -1) break;
-			hashSpace = sb.indexOf(" ", hashStart)==-1? sb.length(): sb.indexOf(" ", hashStart);
-			hashEnter = sb.indexOf("<br/>", hashStart)==-1? sb.length() : sb.indexOf("<br/>", hashStart);
-			hashEnd = Math.min(hashSpace, hashEnter);
-			
-			hashTag = sb.substring(hashStart, hashEnd);
-			newString = "<a href='/main/search?tag="+hashTag+"'>"+hashTag+"</a>";
-			sb = sb.replace(hashStart, hashEnd, newString);
-			hashStart = hashEnd+14;
-		}
-		return sb.toString();
+		}*/
+		return post_list;
 	}
 
 	@Override
 	public ProfileVO readProfile(String member_no, int member_no2) {
 		log.info("readProfile 진입");
 		ProfileVO profile = mapper.readProfile(member_no);
-		profile.setRelationVO(mapper.readFollow(member_no, member_no2));
+		profile.setRelationVO( mapper.readFollow(member_no, member_no2));
 		log.info(profile);
 		return profile;
 	}

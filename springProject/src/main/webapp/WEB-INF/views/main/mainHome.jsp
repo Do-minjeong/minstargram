@@ -24,7 +24,7 @@
 									<img alt="" src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSw1gQ3kuXFIpGaAuXc_QyaPBaSpbQQXhs1FA&usqp=CAU">
 								</div>
 							</div>
-							<div class="live-id">domjjang</div>
+							<div class="live-id">hello12</div>
 						</button>
 					</li>
 					<li>
@@ -34,7 +34,7 @@
 									<img alt="" src="https://pgnqdrjultom1827145.cdn.ntruss.com/img/ac/d9/acd9e51301a4b61d17e6ce3fe8660dd0166a7aaf0fde2da09196e5ce019ce311_v1.jpg">
 								</div>
 							</div>
-							<div class="live-id">minjeong97</div>
+							<div class="live-id">minjeong11</div>
 						</button>
 					</li>
 				</ul>
@@ -121,7 +121,7 @@
 									</c:if>
 								</button>
 							</div>
-							<div class="article-likes article-section"><button class="likes_info btnNone">좋아요 <span id="likeval${post.post_no}">${post.like_cnt}</span>개</button></div>
+							<div class="article-likes article-section"><button class="likes_info btnNone" id="likes_info${post.post_no}">좋아요 <span >${post.like_cnt}</span>개</button></div>
 							<div class="article-contents article-section">
 								<span class="article-id"><a href="/main/profile?member_no=${post.member_no}">${post.userid}</a></span>
 								<span class="id-contents">
@@ -190,6 +190,35 @@
 		</div>
 	</div>
 </div>
+
+ <div class="modal fade" id="info_Modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+      <!-- Modal content-->
+      <div class="modal-content ">
+      	<div class="modal-header ">
+      		<div>좋아요</div>
+			<button type="button" class="close" data-dismiss="modal">×</button>
+		</div>
+        <div class="modal-body">
+          <div class="lk_info">
+          	<div class="md-canvas canvas displayCenter">
+				<div class="md-profile-pic profile-pic">
+					<img src="https://travelblog.expedia.co.kr/wp-content/uploads/2016/06/03.jpg">
+				</div>
+			</div>
+			<div class="lk_info_pf">
+				<a class="ANone" href="/main/profile=?4">minjeong11</a>
+				<span>이름이름이름</span></div>
+          </div>
+        </div>
+        <div class="modal-footer cf-md-ft">
+          <button type="button" class="btn btn-warning" data-dismiss="modal" id="confirm-ok">예</button>
+          <button type="button" class="btn btn-warning" data-dismiss="modal" id="confirm-cancle">아니오</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
 
 <script type="text/javascript" src="/resources/js/mainHome.js"></script>
 </body>

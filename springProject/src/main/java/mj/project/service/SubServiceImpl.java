@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.Setter;
 import mj.project.common.CommonFunction;
+import mj.project.domain.InfoVO;
 import mj.project.domain.PostVO;
 import mj.project.domain.ReplyVO;
 import mj.project.domain.TagVO;
@@ -61,6 +62,12 @@ public class SubServiceImpl implements SubService{
 	public int followOnOff(int type, String tg_no, int member_no) {
 		if(type == 0) return mapper.followOn(tg_no, member_no);
 		else return mapper.followOff(tg_no, member_no);
+	}
+
+	@Override
+	public List<InfoVO> likesInfo(String post_no, int member_no) {
+		
+		return mapper.likesInfo(post_no, member_no);
 	}
 
 

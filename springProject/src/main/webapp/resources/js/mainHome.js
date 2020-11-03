@@ -110,7 +110,7 @@ $(document).on("click", ".comment-form button[type=submit]", function(e){
 	var post_no = tt_id.substring(tt_id.indexOf("cmt")+3, tt_id.length);
 	
 	subAjaxFunc("POST", "/reply/", post_no, params, "json", "reply post", callback);
-	
+	$(".comment-form textarea").val("");
 	
 });
 
@@ -177,6 +177,21 @@ function subAjaxFunc(type, url, no, params, dataType, title, callback){
 	});
 	
 };
+
+$(document).on("click", ".likes_info", function(){
+	var this_id = $(this).attr("id");
+	var post_no = this_id.substring(this_id.indexOf("info")+4, this_id.length);
+	
+	
+	subAjaxFunc("GET", "/likes_info/", post_no, null, "json", "likes_info", likesInfoCallback);
+	
+});
+
+var likesInfoCallback = function(data){
+	console.log("like info callback");
+	$("#info_Modal").modal("show");
+};
+
 
 
 /*

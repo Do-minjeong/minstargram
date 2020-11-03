@@ -69,7 +69,44 @@
 		WHERE member_no = #{member_no} AND tg_member_no = #{tg_no}
 	</delete>
 	
+	<resultMap type="mj.project.domain.InfoVO" id="infoMap">
+		<result property="member_no" column="member_no" />
+		<result property="userid" column="userid" />
+		<result property="name" column="name" />
+		<result property="profile_photo" column="profile_photo" />
+		<result property="relationship" column="relationship" />
+	</resultMap>
 	
+	<select id="likesInfo" resultMap="infoMap">
+		SELECT like_member_no as member_no
+		      , CASE
+		        WHEN member_no IS NULL AND tg_member_no IS NULL -- 관계없음
+		        THEN 0
+		        WHEN member_no IS NOT NULL AND tg_member_no IS NULL  -- 나를 팔로우
+		        THEN 1
+		        WHEN member_no IS NULL AND tg_member_no IS NOT NULL  -- 내가 팔로우
+		        THEN 2
+		        WHEN member_no IS NOT NULL AND tg_member_no IS NOT NULL  -- 맞팔로우
+		        THEN 3
+		      END relationship
+		      , userid
+		      , profile_photo
+		      , name
+		FROM (SELECT post_no, m.member_no as like_member_no, userid, name, profile_photo
+		      FROM post_likes pl JOIN members m ON(pl.member_no = m.member_no)
+		      WHERE post_no = #{post_no}
+		      ORDER BY p_likes_no DESC ) a 
+		LEFT JOIN 
+		      (SELECT DISTINCT member_no
+		       FROM follow_relationship fr
+		       WHERE member_no = #{member_no} OR tg_member_no = #{member_no} ) b
+		ON ( a.like_member_no = b.member_no )
+		LEFT JOIN
+		      (SELECT DISTINCT tg_member_no
+		       FROM follow_relationship fr
+		       WHERE member_no = #{member_no} OR tg_member_no = #{member_no} ) c
+		ON ( a.like_member_no = c.tg_member_no )
+	</select>
 	
 	
   </mapper>

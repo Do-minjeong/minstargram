@@ -1,7 +1,10 @@
 package mj.project.mapper;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 
+import mj.project.domain.InfoVO;
 import mj.project.domain.ReplyVO;
 
 public interface SubMapper {
@@ -25,6 +28,8 @@ public interface SubMapper {
 	public int followOn(@Param("tg_no") String tg_no, @Param("member_no") int member_no);
 
 	public int followOff(@Param("tg_no") String tg_no, @Param("member_no") int member_no);
+
+	public List<InfoVO> likesInfo(@Param("post_no") String post_no, @Param("member_no") int member_no);
 
 
 }

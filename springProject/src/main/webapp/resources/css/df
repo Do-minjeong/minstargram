@@ -1,0 +1,23 @@
+SELECT COUNT(DECODE(fr.member_no,21,1)) as follow_cnt,
+		COUNT(DECODE(tg_member_no, 21,1)) as follower_cnt
+		, CASE
+		WHEN COUNT(DECODE(fr.member_no,4,1)) = 0 AND
+		COUNT(DECODE(tg_member_no,4,1)) = 0
+		THEN 0
+		WHEN COUNT(DECODE(fr.member_no,4,1)) = 1 AND
+		COUNT(DECODE(tg_member_no,4,1)) = 0
+		THEN 1
+		WHEN COUNT(DECODE(tg_member_no,4,1)) = 1 AND
+		COUNT(DECODE(fr.member_no,4,1)) = 0
+		THEN 2
+		WHEN COUNT(DECODE(fr.member_no,4,1)) = 1 AND
+		COUNT(DECODE(tg_member_no,4,1)) = 1
+		THEN 3
+		END relationship
+		FROM follow_relationship fr
+		WHERE member_no = 21 OR tg_member_no = 21
+		
+		
+		
+		
+		ProfileVO(member_no=4, profile_photo=https://pgnqdrjultom1827145.cdn.ntruss.com/img/ac/d9/acd9e51301a4b61d17e6ce3fe8660dd0166a7aaf0fde2da09196e5ce019ce311_v1.jpg, userid=minjeong11, name=minjeong11, introduce=hello i am minjeong, post_cnt=3, relationVO=RelationVO(relationship=2, follow_cnt=2, follower_cnt=2), post_List=[PostVO(post_no=48, attachList=[], contents=null, member_no=4, reg_date=null, userid=null, profile_photo=https://pgnqdrjultom1827145.cdn.ntruss.com/img/ac/d9/acd9e51301a4b61d17e6ce3fe8660dd0166a7aaf0fde2da09196e5ce019ce311_v1.jpg, tagList=null, o_total_url=http://localhost/resources/uploadImage/2020/11/03/5ec3806a-5f28-4fd7-80b8-65974812a84e_wallpaper_pc2.jpg, like_btn=null, like_cnt=0, bookmark_btn=null, reply_cnt=0, replyList=[], multi_tf=true), PostVO(post_no=45, attachList=[], contents=null, member_no=4, reg_date=null, userid=null, profile_photo=https://pgnqdrjultom1827145.cdn.ntruss.com/img/ac/d9/acd9e51301a4b61d17e6ce3fe8660dd0166a7aaf0fde2da09196e5ce019ce311_v1.jpg, tagList=null, o_total_url=http://localhost/resources/uploadImage/2020/11/03/e4f89423-89f5-4d1d-af29-9581d2dcdf47_779DCEB9-C009-4D75-B1A3-F69BAB0CC6A1.jpeg, like_btn=null, like_cnt=0, bookmark_btn=null, reply_cnt=0, replyList=[], multi_tf=false), PostVO(post_no=44, attachList=[], contents=null, member_no=4, reg_date=null, userid=null, profile_photo=https://pgnqdrjultom1827145.cdn.ntruss.com/img/ac/d9/acd9e51301a4b61d17e6ce3fe8660dd0166a7aaf0fde2da09196e5ce019ce311_v1.jpg, tagList=null, o_total_url=http://localhost/resources/uploadImage/2020/11/03/8ab1035e-444d-4ea3-940b-0b844891b4cb_39DD1EF5-5BAD-4CEE-B586-79A90675328D.jpeg, like_btn=null, like_cnt=0, bookmark_btn=null, reply_cnt=0, replyList=[], multi_tf=false)])

@@ -1,6 +1,7 @@
 package mj.project.controller;
 
 import java.lang.reflect.Member;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
+import mj.project.domain.InfoVO;
 import mj.project.domain.MemberVO;
 import mj.project.domain.PostVO;
 import mj.project.domain.ReplyVO;
@@ -91,6 +93,12 @@ public class SubController {
 	public ResponseEntity<String> followOff(@PathVariable("tg_no") String tg_no, @SessionAttribute("userInfo") MemberVO member){
 		log.info("follow Off");
 		return service.followOnOff(1, tg_no, member.getMember_no()) == 1? new ResponseEntity<>("success", HttpStatus.OK) : new ResponseEntity<>("error", HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
+	@GetMapping(value = "/likes_info/{post_no}", produces="application/json; charset=utf-8")
+	public ResponseEntity<List<InfoVO>> likesInfos(@PathVariable("post_no")String post_no, @SessionAttribute("userInfo") MemberVO member){
+		log.info("likes Info 조회");
+		return new ResponseEntity<>(service.likesInfo(post_no, member.getMember_no()), HttpStatus.OK);
 	}
 	
 
