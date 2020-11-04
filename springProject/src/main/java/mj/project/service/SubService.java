@@ -19,6 +19,6 @@ public interface SubService {
 
 	public List<InfoVO> likesInfo(String post_no, int member_no);
 
-
+	public List<InfoVO> followersInfo(String member_no, int member_no2);
 
 }

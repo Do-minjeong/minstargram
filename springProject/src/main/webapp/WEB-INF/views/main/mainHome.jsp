@@ -100,7 +100,7 @@
 						</div>
 						<div class="article-body">
 							<div class="article-iconbox article-section">
-								<button class="article-icon btnNone likebtn" id="likebtn${post.post_no}">
+								<button class="article-icon btnNone likebtn likebtn${post.post_no}" id="likebtn${post.post_no}">
 									<c:if test="${post.like_btn}">
 										<img alt="좋아요" class="on_like" src="https://www.flaticon.com/svg/static/icons/svg/1946/1946346.svg">	
 									</c:if>
@@ -108,11 +108,11 @@
 										<img alt="좋아요" class="off_like" src="https://www.flaticon.com/svg/static/icons/svg/1946/1946406.svg">
 									</c:if>
 								</button>
-								<button class="article-icon btnNone commentbtn" id="commentbtn${post.post_no}">
+								<button class="article-icon btnNone commentbtn" id="post${post.post_no}">
 									<img alt="댓글" src="https://www.flaticon.com/svg/static/icons/svg/1946/1946412.svg">
 								</button>
 								<button class="article-icon btnNone messagebtn" id="messagebtn${post.post_no}"><img alt="메시지" src="https://www.flaticon.com/svg/static/icons/svg/1946/1946547.svg"></button>
-								<button class="article-icon bookmark btnNone bookmarkbtn" id="bookmarkbtn${post.post_no}">
+								<button class="article-icon bookmark btnNone bookmarkbtn bookmarkbtn${post.post_no}" id="bookmarkbtn${post.post_no}">
 									<c:if test="${post.bookmark_btn}">
 										<img alt="북마크" class="on_bookmark" src="https://www.flaticon.com/svg/static/icons/svg/1174/1174447.svg">							
 									</c:if>
@@ -140,7 +140,7 @@
 													<span class="article-id reply-id"><a href="">${reply.userid}</a></span>
 													<span class="id-contents">${reply.r_contents}</span>
 												</div>
-												<button class="btnNone rb-replyLikeBtn replyLikeBtn" id="rpLikebtn${reply.reply_no}">
+												<button class="btnNone rb-replyLikeBtn replyLikeBtn rpLikebtn${reply.reply_no} " id="rpLikebtn${reply.reply_no}">
 													<c:if test="${!reply.r_like_btn}">
 														<img alt="reply_like" class="off_rpLike" src="https://www.flaticon.com/svg/static/icons/svg/865/865991.svg">
 													</c:if>
@@ -190,35 +190,7 @@
 		</div>
 	</div>
 </div>
-
- <div class="modal fade" id="info_Modal" tabindex="-1" role="dialog">
-    <div class="modal-dialog">
-      <!-- Modal content-->
-      <div class="modal-content ">
-      	<div class="modal-header ">
-      		<div>좋아요</div>
-			<button type="button" class="close" data-dismiss="modal">×</button>
-		</div>
-        <div class="modal-body">
-          <div class="lk_info">
-          	<div class="md-canvas canvas displayCenter">
-				<div class="md-profile-pic profile-pic">
-					<img src="https://travelblog.expedia.co.kr/wp-content/uploads/2016/06/03.jpg">
-				</div>
-			</div>
-			<div class="lk_info_pf">
-				<a class="ANone" href="/main/profile=?4">minjeong11</a>
-				<span>이름이름이름</span></div>
-          </div>
-        </div>
-        <div class="modal-footer cf-md-ft">
-          <button type="button" class="btn btn-warning" data-dismiss="modal" id="confirm-ok">예</button>
-          <button type="button" class="btn btn-warning" data-dismiss="modal" id="confirm-cancle">아니오</button>
-        </div>
-      </div>
-      
-    </div>
-  </div>
+<%@ include file="includes/modal.jsp"%>
 
 <script type="text/javascript" src="/resources/js/mainHome.js"></script>
 </body>

@@ -108,5 +108,10 @@
 		ON ( a.like_member_no = c.tg_member_no )
 	</select>
 	
+	<select id="followersInfo" resultMap="infoMap">
+		
+	</select>
+	
+	
 	
   </mapper>

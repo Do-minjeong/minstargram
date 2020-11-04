@@ -285,6 +285,10 @@ textarea{
 	margin: 20px 0 7px 0;
 }
 /* mainHome likeInfo 모달 */
+.info_md_header{
+	font-size: 18px;
+	margin: 0 auto;
+}
 .lk_info{
 	display: flex;
     align-items: center;
@@ -294,13 +298,43 @@ textarea{
     flex-direction: column;
     font-size: 14px;
     margin-left: 10px;
-    font-weight: 550;
 }
 .lk_info_pf span{
 	color: gray;
 }
+.lk_info_pf a{
+	font-weight: 550;
+}
 .lk_info_pf span, .lk_info_pf a{
 	font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji" !important;
+}
+.lk_info_body{
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 13px;
+}
+.lk_info_fw button{
+	font-size: 14px;
+}
+.info_dialog{
+	width: 400px !important;
+    max-height: 400px;
+}
+#info_Modal{
+	top: 20%;
+	z-index: 3000 !important;
+}
+.info_body{
+	overflow: auto;
+    max-height: 350px;
+}
+.info_hd{
+	padding: 10px 16px !important;
+}
+.info_hd button{
+	padding: 0 !important;
+	margin: 0 !important;
 }
 /* profile.jsp */
 .mainbox{
@@ -404,22 +438,22 @@ textarea{
     right: 15px;
 }
 .btn{
-	color: white;
-	font-weight: 650;
-	padding: 3px 10px;
-	font-size: 13px;
+	color: white !important;
+	font-weight: 650 !important;
+	padding: 3px 10px !important;
+	font-size: 13px !important;
 	margin-right: 10px;
 }
 .btnGray{
-	background: #6c757d;
+	background: #6c757d !important;
 }
 .btnBlue{
-	background: #0095f6;
+	background: #0095f6 !important;
 }
 .btnEdit{
 	background: transparent;
 	border: solid 1px gray;
-	color: black;
+	color: black !important;
 }
 .profile-more{
 	width: 40px;
@@ -444,6 +478,7 @@ textarea{
 	display: flex;
 }
 .md-modal-dialog{
+	top: 10% !important;
 	max-width: 935px !important;
 }
 .modal-pf{
@@ -568,6 +603,7 @@ textarea{
 }
 #confirmModal{
 	top: 200px !important;
+	z-index: 4000 !important;
 }
 .cf-md-ft{
 	display: flex;
@@ -577,4 +613,7 @@ textarea{
 	width: 100px;
     height: 30px;
     font-size: 15px;
+}
+#myModal{
+	z-index: 2000 !important;
 }
