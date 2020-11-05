@@ -75,6 +75,11 @@ public class SubServiceImpl implements SubService{
 		return mapper.followersInfo(member_no, member_no2);
 	}
 
+	@Override
+	public List<InfoVO> followingsInfo(String member_no, int member_no2) {
+		return mapper.followingsInfo(member_no, member_no2);
+	}
+
 
 
 }

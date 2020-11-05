@@ -37,6 +37,7 @@ $(".signupLabel input").focusout(function(){
 				refreshIconTog = false;
 			}
 		}else if(name == 'name'){
+			
 			check = 1;
 		}else if(name == 'userid'){
 			check = idCheck(value);
@@ -44,7 +45,7 @@ $(".signupLabel input").focusout(function(){
 			check = passwordCheck(value);
 		}
 	}else if(value.length == 0 && name != 'userid')	check = 5;
-	//console.log("name: "+name+"  check : "+check);
+	console.log("name: "+value+"  check : "+check);
 	displayIcon(check, this);
 	
 	var successNum = $(".inputSuccess").length;

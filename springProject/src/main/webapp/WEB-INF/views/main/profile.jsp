@@ -49,7 +49,7 @@
 						<span>팔로워</span><span class="cnt">${ profile.relationVO.follower_cnt }</span>
 					</button>
 					<button class="btnNone cntbox followCnt" id="followings" >
-						<span>팔로잉</span><span class="cnt">${ profile.relationVO.follow_cnt }</span>
+						<span>팔로잉</span><span class="cnt">${ profile.relationVO.following_cnt }</span>
 					</button>
 				</div>
 				<div class="pr-3">

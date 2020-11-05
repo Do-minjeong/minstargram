@@ -104,8 +104,12 @@ public class SubController {
 	@GetMapping(value="/followers_info/{member_no}", produces="application/json; charset=utf-8")
 	public ResponseEntity<List<InfoVO>> followersInfo(@PathVariable("member_no")String member_no, @SessionAttribute("userInfo") MemberVO member){
 		log.info("followers Info 조회");
-		
 		return new ResponseEntity<>(service.followersInfo(member_no, member.getMember_no()), HttpStatus.OK);
+	}
+	@GetMapping(value="/followings_info/{member_no}", produces="application/json; charset=utf-8")
+	public ResponseEntity<List<InfoVO>> followingsInfo(@PathVariable("member_no")String member_no, @SessionAttribute("userInfo") MemberVO member){
+		log.info("followings Info 조회");
+		return new ResponseEntity<>(service.followingsInfo(member_no, member.getMember_no()), HttpStatus.OK);
 	}
 
 	

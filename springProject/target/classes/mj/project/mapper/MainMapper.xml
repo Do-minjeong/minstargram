@@ -179,7 +179,7 @@
 
 
 	<select id="readProfile" resultMap="profileMap">
-		SELECT post_no, p.member_no, multi_tf, o_total_url, m.introduce,
+		SELECT post_no, m.member_no, multi_tf, o_total_url, m.introduce,
 			   COUNT(post_no)OVER() as post_cnt, m.userid, m.name, m.profile_photo
 		FROM (
 			SELECT *
@@ -201,32 +201,37 @@
 			ON(p.member_no = m.member_no)
 		ORDER BY post_no DESC
 	</select>
-	<resultMap type="mj.project.domain.RelationVO"
+	
+	<!-- <resultMap type="mj.project.domain.RelationVO"
 		id="relationMap">
 		<result property="follow_cnt" column="follow_cnt" />
 		<result property="follower_cnt" column="follower_cnt" />
 		<result property="relationship" column="relationship" />
-	</resultMap>
+	</resultMap> -->
 
 	<select id="readFollow" resultType="mj.project.domain.RelationVO">
-		SELECT COUNT(DECODE(fr.member_no,#{member_no2},1)) as follow_cnt,
-		COUNT(DECODE(tg_member_no, #{member_no2},1)) as follower_cnt
-		, CASE
-		WHEN COUNT(DECODE(fr.member_no,#{member_no},1)) = 0 AND -- 관계없음
-		COUNT(DECODE(tg_member_no,#{member_no},1)) = 0
-		THEN 0
-		WHEN COUNT(DECODE(fr.member_no,#{member_no},1)) = 1 AND -- 나를 팔로우하는 관계
-		COUNT(DECODE(tg_member_no,#{member_no},1)) = 0
-		THEN 1
-		WHEN COUNT(DECODE(tg_member_no,#{member_no},1)) = 1 AND -- 내가 팔로우하는 관계
-		COUNT(DECODE(fr.member_no,#{member_no},1)) = 0
-		THEN 2
-		WHEN COUNT(DECODE(fr.member_no,#{member_no},1)) = 1 AND -- 맞팔로우
-		COUNT(DECODE(tg_member_no,#{member_no},1)) = 1
-		THEN 3
-		END relationship
-		FROM follow_relationship fr
-		WHERE member_no = #{member_no2} OR tg_member_no = #{member_no2}
+		SELECT following_cnt, follower_cnt, relationship
+		FROM (SELECT 1 AS no, COUNT(DECODE(fr.member_no, #{member_no}, 1)) as following_cnt
+					, COUNT(DECODE(tg_member_no, #{member_no}, 1)) as follower_cnt
+		      FROM follow_relationship fr) a
+		JOIN ( SELECT 1 AS no
+					, CASE
+		                WHEN COUNT(DECODE(fr.member_no, #{member_no}, 1)) = 0 AND -- 관계없음
+		                COUNT(DECODE(tg_member_no, #{member_no}, 1)) = 0
+		                THEN 0
+		                WHEN COUNT(DECODE(fr.member_no, #{member_no}, 1)) = 1 AND -- 나를 팔로우하는 관계
+		                COUNT(DECODE(tg_member_no, #{member_no}, 1)) = 0
+		                THEN 1
+		                WHEN COUNT(DECODE(tg_member_no, #{member_no}, 1)) = 1 AND -- 내가 팔로우하는 관계
+		                COUNT(DECODE(fr.member_no, #{member_no}, 1)) = 0
+		                THEN 2
+		                WHEN COUNT(DECODE(fr.member_no,  #{member_no}, 1)) = 1 AND -- 맞팔로우
+		                COUNT(DECODE(tg_member_no, #{member_no}, 1)) = 1
+		                THEN 3
+		              END relationship
+				FROM follow_relationship fr
+		        WHERE member_no = #{member_no2} OR tg_member_no = #{member_no2} ) b
+		ON (a.no = b.no)
 	</select>
 
 	<select id="getPost" resultMap="postMap">

@@ -9,11 +9,12 @@
 </head>
 <body style="background: rgba(var(--b3f,250,250,250),1);">
 <div class="container">
-	<c:if test="${ not empty error || not empty logout }">
+	<c:if test="${ not empty error || not empty logout || not empty signup }">
 		<div class="box box2">
-			<div class="signup displayCenter font20" style="color: red;">
-				<c:out value="${ error }" />
-				<c:out value="${ logout }" />
+			<div class="signup displayCenter font20" >
+				<span style="color: red;"><c:out value="${ error }" />
+				<c:out value="${ logout }" /> </span>
+				<span style="color: blue;"><c:out value="${ signup }" /></span>
 			</div>
 		</div>
 	</c:if>

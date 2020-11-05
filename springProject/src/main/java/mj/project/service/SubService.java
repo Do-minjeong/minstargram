@@ -21,4 +21,6 @@ public interface SubService {
 
 	public List<InfoVO> followersInfo(String member_no, int member_no2);
 
+	public List<InfoVO> followingsInfo(String member_no, int member_no2);
+
 }

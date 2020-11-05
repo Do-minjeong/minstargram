@@ -76,10 +76,10 @@
 		<result property="profile_photo" column="profile_photo" />
 		<result property="relationship" column="relationship" />
 	</resultMap>
-	
-	<select id="likesInfo" resultMap="infoMap">
-		SELECT like_member_no as member_no
-		      , CASE
+	<sql id="relationshipColumn">
+		CASE
+		      	WHEN member_no = #{member_no2}  -- 본인의 경우 -1
+        		THEN -1
 		        WHEN member_no IS NULL AND tg_member_no IS NULL -- 관계없음
 		        THEN 0
 		        WHEN member_no IS NOT NULL AND tg_member_no IS NULL  -- 나를 팔로우
@@ -89,29 +89,53 @@
 		        WHEN member_no IS NOT NULL AND tg_member_no IS NOT NULL  -- 맞팔로우
 		        THEN 3
 		      END relationship
-		      , userid
-		      , profile_photo
-		      , name
-		FROM (SELECT post_no, m.member_no as like_member_no, userid, name, profile_photo
-		      FROM post_likes pl JOIN members m ON(pl.member_no = m.member_no)
-		      WHERE post_no = #{post_no}
-		      ORDER BY p_likes_no DESC ) a 
+	</sql>
+	<sql id="relationshipJoin">
 		LEFT JOIN 
 		      (SELECT DISTINCT member_no
 		       FROM follow_relationship fr
-		       WHERE member_no = #{member_no} OR tg_member_no = #{member_no} ) b
-		ON ( a.like_member_no = b.member_no )
+		       WHERE member_no = #{member_no2} OR tg_member_no = #{member_no2} ) b
+		ON ( a.a_member_no = b.member_no )
 		LEFT JOIN
 		      (SELECT DISTINCT tg_member_no
 		       FROM follow_relationship fr
-		       WHERE member_no = #{member_no} OR tg_member_no = #{member_no} ) c
-		ON ( a.like_member_no = c.tg_member_no )
+		       WHERE member_no = #{member_no2} OR tg_member_no = #{member_no2} ) c
+		ON ( a.a_member_no = c.tg_member_no )
+	</sql>
+	
+	<select id="likesInfo" resultMap="infoMap">
+		SELECT a_member_no as member_no
+		      , <include refid="relationshipColumn" />
+		      , userid
+		      , profile_photo
+		      , name
+		FROM (SELECT post_no, m.member_no as a_member_no, userid, name, profile_photo
+		      FROM post_likes pl JOIN members m ON(pl.member_no = m.member_no)
+		      WHERE post_no = #{post_no}
+		      ORDER BY p_likes_no DESC ) a 
+		<include refid="relationshipJoin" />
 	</select>
 	
 	<select id="followersInfo" resultMap="infoMap">
-		
+		SELECT a_member_no as member_no, userid, name, profile_photo
+		      , <include refid="relationshipColumn" />
+		FROM (
+		        SELECT fr.member_no as a_member_no, userid, name, profile_photo
+		        FROM follow_relationship fr JOIN members m ON(fr.member_no = m.member_no)
+		        WHERE fr.tg_member_no = #{member_no}  -- 프로필의 타겟 member_no
+		        ) a 
+		<include refid="relationshipJoin" />
 	</select>
 	
-	
+	<select id="followingsInfo" resultMap="infoMap">
+		SELECT a_member_no as member_no, userid, name, profile_photo
+		      , <include refid="relationshipColumn" />
+		FROM (
+		         SELECT fr.tg_member_no as a_member_no, userid, name, profile_photo
+		         FROM follow_relationship fr JOIN members m ON(fr.tg_member_no = m.member_no)
+		         WHERE fr.member_no = #{member_no}
+		      ) a 
+		<include refid="relationshipJoin" />
+	</select>
 	
   </mapper>

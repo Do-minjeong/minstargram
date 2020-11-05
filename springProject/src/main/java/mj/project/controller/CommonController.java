@@ -1,6 +1,9 @@
 package mj.project.controller;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.request;
+
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -69,21 +72,20 @@ public class CommonController {
 	}
 
 	@PostMapping("/signup")
-	public String signup(MemberVO member) {
+	public String signup(MemberVO member, HttpServletRequest request) throws UnsupportedEncodingException {
 		log.info("========================");
 		log.info("회원가입: "+member);
 		if(member.getName() == null) member.setName("");
 		member.setLogin_type_no(1);
 		// 회원가입 성공
 		if(service.signup(member)) {
-			return "successSignup";
+			return "redirect:/customLogin?signup";
 		}
-
-		return "home";
+		return "redirect:/signup";
 	}
 
 	@RequestMapping(value="/customLogin", method= {RequestMethod.GET, RequestMethod.POST})
-	public String loginInput(String error, String logout, Authentication auth, HttpSession session, Model model) {
+	public String loginInput(String error, String logout, String signup, Authentication auth, HttpSession session, Model model) {
 		String username = "";
 		System.out.println("loginInput 메소드 > login auth: "+ auth);
 		System.out.println("loginInput 메소드 > login session: "+session.getAttribute("userInfo"));
@@ -94,6 +96,8 @@ public class CommonController {
 			if(error != null) model.addAttribute("error", "Login Error Check Your Account");
 
 			if(logout != null) model.addAttribute("logout", "Logout!!");
+			
+			if(signup != null) model.addAttribute("signup", "★Congratulations on sign up★");
 
 			// 네이버 아이디로 인증 url을 생성하기 위해 naverLoginBO 클래스의 getAuthorizationUrl 메소드 호출
 			String naverAuthUrl = naverLoginBO.getAuthorizationUrl(session);

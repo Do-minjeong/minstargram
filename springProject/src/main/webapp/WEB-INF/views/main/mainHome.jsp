@@ -7,7 +7,7 @@
 <link href="/resources/css/main.css" rel="stylesheet">
 <%@ include file="includes/header.jsp"%>
 </head>
-<body>
+<body >
 <input type="hidden" name="${ _csrf.parameterName }" value="${_csrf.token}" id="csrf_token" >
 <script type="text/javascript">
 	$("img[alt='home']").attr("src","https://www.flaticon.com/svg/static/icons/svg/1946/1946436.svg")

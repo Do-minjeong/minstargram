@@ -29,15 +29,15 @@ public class MemberServiceImpl implements MemberService{
 		if(typeNo == 1 && member.getUserid().startsWith("minstarAdmin")) member.setAuth("ROLE_ADMIN");
 		else member.setAuth("ROLE_USER");
 		
-		int insertResult = mapper.insert(member);
+		mapper.insert(member);
 		
 		if(typeNo == 1) member.setPassword(pwencoder.encode(member.getPassword()));
 		
-		insertResult += mapper.insertDetailInfo(member);
+		mapper.insertDetailInfo(member);
 		
 		log.info(">> service signup : "+member.getUsername());
 		
-		return insertResult == 2? true: false;
+		return true ;
 	}
 
 	@Override

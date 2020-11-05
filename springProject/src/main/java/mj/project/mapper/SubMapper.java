@@ -29,9 +29,11 @@ public interface SubMapper {
 
 	public int followOff(@Param("tg_no") String tg_no, @Param("member_no") int member_no);
 
-	public List<InfoVO> likesInfo(@Param("post_no") String post_no, @Param("member_no") int member_no);
+	public List<InfoVO> likesInfo(@Param("post_no") String post_no, @Param("member_no2") int member_no);
 
 	public List<InfoVO> followersInfo(@Param("member_no") String member_no, @Param("member_no2") int member_no2);
+
+	public List<InfoVO> followingsInfo(@Param("member_no") String member_no, @Param("member_no2") int member_no2);
 
 
 }

@@ -22,7 +22,7 @@
 			</c:if>
 			${ userInfo.username }
 		</div> --%>
-		<div class="searchbox displayCenter">
+		<div class="searchbox displayCenter" id="off_search">
 			<img alt="searchImg" src="https://www.flaticon.com/svg/static/icons/svg/25/25313.svg" >
 			<span>검색</span>
 		</div>
@@ -90,6 +90,41 @@
 	</div>
 </div>
 
+<script type="text/javascript">
+
+var str = '';
+
+$(".searchbox").on("click",function(){
+var id = $(this).attr("id");
+	if(id.indexOf("off")==0){
+		str = "<form action='/main/search' method='get' class='searchForm' >"
+			+ "<img alt='searchImg' src='https://www.flaticon.com/svg/static/icons/svg/25/25313.svg' >"
+			+ "<input type='text' class='btnNone' name='searchWord' placeholder='검색'>"
+			+ "<img alt='searchImg' class='searchCancel' src='https://www.flaticon.com/svg/static/icons/svg/166/166954.svg' >"
+			+ "</form>";
+		$(".searchbox").empty();
+		$(".searchbox").append(str);
+		$("#"+id).attr("id","on_search");
+	}
+});
+$(".searchbox").focusout(function(){
+var id = $(this).attr("id");
+	if(id.indexOf("on")==0){
+		var searchWord = $("input[name=searchWord]").val();
+		if(searchWord.length == 0){
+			str = "<img alt='searchImg' src='https://www.flaticon.com/svg/static/icons/svg/25/25313.svg' >"
+				+ "<span>검색</span>";
+			searchboxChange(str);
+			$("#"+id).attr("id","off_search");
+		}
+	}
+})
+
+function searchboxChange(str){
+	$(".searchbox").empty();
+	$(".searchbox").append(str);
+}
+</script>
 </body>
 </html>
 

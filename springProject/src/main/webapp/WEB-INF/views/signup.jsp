@@ -21,7 +21,7 @@
 		<div class="orLine displayCenter">
 				<div class="line"></div><div class="or">또는</div><div class="line"></div>
 		</div>
-		<form action="/signup" method="post" class="signupForm">
+		<form action="/signup" method="post" class="signupForm" >
 			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 			<input type="hidden" name="login_type_no" value="1">
 			<div class="input-group signupInput">

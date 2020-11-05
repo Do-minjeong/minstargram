@@ -96,7 +96,7 @@ $(document).on('click', '.likebtn , .bookmarkbtn , .replyLikeBtn', function(){
 
 var likeCallback = function(post_no, data){
 	console.log("like callback");
-	$("#likeval"+post_no).text(data);
+	$("#likes_info"+post_no+" span").text(data);
 }
 
 // 댓글달기
@@ -176,8 +176,17 @@ function subAjaxFunc(type, url, no, params, dataType, title, callback){
 		success : function(data){
 			console.log(title + " Success");
 			console.log(data);
-			if(callback)
-				callback(no, data);
+			if(callback){
+				if(title.indexOf("info") != -1)
+					if(title.indexOf("likes") == 0)
+						callback("좋아요", data);
+					else if(title.indexOf("followers")==0)
+						callback("팔로워", data);
+					else if(title.indexOf("followings") == 0 )
+						callback("팔로잉", data);
+				else
+					callback(no, data);
+			}
 		},
 		error : function(status, error){
 			console.log("status: "+status+"  error: "+error);
@@ -195,7 +204,7 @@ $(document).on("click", ".likes_info", function(){
 	
 });
 
-var infoModalCallback = function(no, data){
+var infoModalCallback = function(title, data){
 	console.log("like info callback");
 	var str = '';
 	
@@ -213,16 +222,17 @@ var infoModalCallback = function(no, data){
 			+	"	</div>"
 			+	 " </div>"
 			+   "<div class='lk_info_fw'>";
-			
-		if(item.relationship < 2)
-			str += "<button type='button' class='btn btnBlue followbtn' id='on_follow"+item.member_no+"'>팔로우하기</button>";
-		else 
-			str += "<button type='button' class='btn btnGray followbtn' id='off_follow"+item.member_no+"'>팔로우취소</button>";
+		if(item.relationship > 0){
+			if(item.relationship < 2)
+				str += "<button type='button' class='btn btnBlue followbtn' id='on_follow"+item.member_no+"'>팔로우하기</button>";
+			else 
+				str += "<button type='button' class='btn btnGray followbtn' id='off_follow"+item.member_no+"'>팔로우취소</button>";
+		}
 		str += "<input type='hidden' id='pf_member_no' class='fw_member_no' value='"+item.member_no+"'> "
 			+ 	"</div> </div>";
 	});
 	
-	infoModalShow("좋아요", str);
+	infoModalShow(title, str);
 };
 
 
@@ -517,7 +527,7 @@ var postsMenu = function(no, data){
 
 /* Only profile */
 $(".menubtn").on("click", function(){
-	
+	var tg_no = $("#pf_member_no").val();
 	var og_active = $(".menu_active");
 	var new_active = $(this).attr("id");
 	
@@ -545,14 +555,11 @@ $(".menubtn2").on("click", function(){
 
 $(".followCnt").on("click", function(){
 	var id = $(this).attr("id");
-	var url = "/"+id+"_info";
+	var url = "/"+id+"_info/";
 	var member_no = $("#pf_member_no").val();
 	
 	subAjaxFunc("GET", url, member_no, null, "json", id+"_info", infoModalCallback);
 })
-
-
-
 
 
 
